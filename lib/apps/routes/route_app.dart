@@ -16,6 +16,8 @@ import '../features/splash_screen/presentation/binding/splash_screen_binding.dar
 import '../features/splash_screen/presentation/view/splash_screen_view.dart';
 import '../features/task/presentation/binding/task_binding.dart';
 import '../features/task/presentation/view/task_view.dart';
+import '../features/onboard/presentation/binding/onboard_binding.dart';
+import '../features/onboard/presentation/view/onboard_view.dart';
 import 'route_names.dart';
 
 class RouteApp {
@@ -69,5 +71,10 @@ class RouteApp {
       page: () => const SettingsView(),
       binding: SettingsBinding(),
     ),
-  ];
+      GetPage(
+      name: RouteNames.ONBOARD,
+      page: () => const OnboardView(),
+      binding: OnboardBinding(),
+      
+    ),];
 }

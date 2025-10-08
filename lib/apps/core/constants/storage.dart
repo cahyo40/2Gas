@@ -5,4 +5,5 @@ class StorageConst {
   static String name = "name";
   static String emaill = "email";
   static String photo = "photoURL";
+  static String onborad = 'isOnboardingDone';
 }

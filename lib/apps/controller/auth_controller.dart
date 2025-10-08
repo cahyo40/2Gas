@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -89,17 +90,46 @@ class AuthController extends GetxController {
   String get email => StorageService.box.read(StorageConst.emaill);
   String get photoUrl => StorageService.box.read(StorageConst.photo);
 
+  // @override
+  // void onInit() {
+  //   ever(user, (_) {
+  //     // <-- reaktif terhadap perubahan user
+  //     if (user.value != null) {
+  //       Get.offAllNamed(RouteNames.BOTTOM_NAVIGATION_BAR);
+  //     } else {
+  //       Get.offAllNamed(RouteNames.LOGIN);
+  //     }
+  //   });
+  //   authChange.listen((users) => user.value = users);
+  //   super.onInit();
+  // }
+
   @override
   void onInit() {
-    ever(user, (_) {
-      // <-- reaktif terhadap perubahan user
-      if (user.value != null) {
-        Get.offAllNamed(RouteNames.BOTTOM_NAVIGATION_BAR);
+    final isOnboardingDone =
+        StorageService.box.read('isOnboardingDone') ?? false;
+
+    ever(user, (_) => _handleRouting());
+
+    authChange.listen((u) => user.value = u);
+
+    // ⏳ wait until the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!isOnboardingDone) {
+        Get.offAllNamed(RouteNames.ONBOARD);
       } else {
-        Get.offAllNamed(RouteNames.LOGIN);
+        _handleRouting();
       }
     });
-    authChange.listen((users) => user.value = users);
+
     super.onInit();
+  }
+
+  void _handleRouting() {
+    if (user.value != null) {
+      Get.offAllNamed(RouteNames.BOTTOM_NAVIGATION_BAR);
+    } else {
+      Get.offAllNamed(RouteNames.LOGIN);
+    }
   }
 }

@@ -145,6 +145,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in with Google →'**
   String get login_btn;
+
+  /// No description provided for @onboarding_page1_title.
+  ///
+  /// In en, this message translates to:
+  /// **'All your tasks, in one place.'**
+  String get onboarding_page1_title;
+
+  /// No description provided for @onboarding_page1_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage to-do lists, projects, and ideas without the fuss. Focus on what matters.'**
+  String get onboarding_page1_subtitle;
+
+  /// No description provided for @onboarding_page1_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboarding_page1_button;
+
+  /// No description provided for @onboarding_page2_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Collaborate, no drama.'**
+  String get onboarding_page2_title;
+
+  /// No description provided for @onboarding_page2_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create, share, and track tasks with your team — transparent and efficient.'**
+  String get onboarding_page2_subtitle;
+
+  /// No description provided for @onboarding_page2_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboarding_page2_button;
+
+  /// No description provided for @onboarding_page3_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Productive without stress.'**
+  String get onboarding_page3_title;
+
+  /// No description provided for @onboarding_page3_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track progress, celebrate achievements, and enjoy organized results.'**
+  String get onboarding_page3_subtitle;
+
+  /// No description provided for @onboarding_page3_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Now'**
+  String get onboarding_page3_button;
 }
 
 class _AppLocalizationsDelegate

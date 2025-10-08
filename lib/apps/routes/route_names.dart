@@ -7,5 +7,6 @@ abstract class RouteNames {
   static const String SEARCH = '/search';
   static const String NOTIFICATIONS = '/notifications';
   static const String SETTINGS = '/settings';
+  static const String ONBOARD = '/onboard';
 
 }

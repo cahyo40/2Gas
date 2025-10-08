@@ -7,5 +7,14 @@
     "nav_settings": "Settings",
     "login_headline": "Hey there! 👋 Ready to organize your day?",
     "login_support": "One tap and you’re in—no fuss.",
-    "login_btn": "Sign in with Google →"
+    "login_btn": "Sign in with Google →",
+    "onboarding_page1_title": "All your tasks, in one place.",
+    "onboarding_page1_subtitle": "Manage to-do lists, projects, and ideas without the fuss. Focus on what matters.",
+    "onboarding_page1_button": "Next",
+    "onboarding_page2_title": "Collaborate, no drama.",
+    "onboarding_page2_subtitle": "Create, share, and track tasks with your team — transparent and efficient.",
+    "onboarding_page2_button": "Next",
+    "onboarding_page3_title": "Productive without stress.",
+    "onboarding_page3_subtitle": "Track progress, celebrate achievements, and enjoy organized results.",
+    "onboarding_page3_button": "Start Now"
 }

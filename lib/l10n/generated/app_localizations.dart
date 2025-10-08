@@ -128,24 +128,6 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get nav_settings;
 
-  /// No description provided for @login_headline.
-  ///
-  /// In en, this message translates to:
-  /// **'Hey there! 👋 Ready to organize your day?'**
-  String get login_headline;
-
-  /// No description provided for @login_support.
-  ///
-  /// In en, this message translates to:
-  /// **'One tap and you’re in—no fuss.'**
-  String get login_support;
-
-  /// No description provided for @login_btn.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with Google →'**
-  String get login_btn;
-
   /// No description provided for @onboarding_page1_title.
   ///
   /// In en, this message translates to:
@@ -199,6 +181,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start Now'**
   String get onboarding_page3_button;
+
+  /// No description provided for @login_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to 2Gas'**
+  String get login_title;
+
+  /// No description provided for @login_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your tasks more easily and efficiently.'**
+  String get login_subtitle;
+
+  /// No description provided for @login_button_google.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get login_button_google;
 }
 
 class _AppLocalizationsDelegate

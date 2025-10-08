@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         }
         return const Locale('en');
       },
-      initialRoute: RouteNames.LOGIN,
+      initialRoute: RouteNames.ONBOARD,
       themeMode: tc.themeMode,
       // themeMode: ThemeMode.system,
       theme: YoTheme.lightTheme(context, YoColorScheme.codingDark),

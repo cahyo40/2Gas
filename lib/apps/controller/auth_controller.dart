@@ -89,17 +89,43 @@ class AuthController extends GetxController {
   String get email => StorageService.box.read(StorageConst.emaill);
   String get photoUrl => StorageService.box.read(StorageConst.photo);
 
+  // @override
+  // void onInit() {
+  //   ever(user, (_) {
+  //     // <-- reaktif terhadap perubahan user
+  //     if (user.value != null) {
+  //       Get.offAllNamed(RouteNames.BOTTOM_NAVIGATION_BAR);
+  //     } else {
+  //       Get.offAllNamed(RouteNames.LOGIN);
+  //     }
+  //   });
+  //   authChange.listen((users) => user.value = users);
+  //   super.onInit();
+  // }
+
   @override
   void onInit() {
-    ever(user, (_) {
-      // <-- reaktif terhadap perubahan user
-      if (user.value != null) {
-        Get.offAllNamed(RouteNames.BOTTOM_NAVIGATION_BAR);
-      } else {
-        Get.offAllNamed(RouteNames.LOGIN);
-      }
-    });
+    final isOnboardingDone =
+        StorageService.box.read(StorageConst.onborad) ?? false;
+
+    ever(user, (_) => _handleRouting());
+
     authChange.listen((users) => user.value = users);
+
+    if (!isOnboardingDone) {
+      Get.offAllNamed(RouteNames.ONBOARD);
+    } else {
+      _handleRouting();
+    }
+
     super.onInit();
+  }
+
+  void _handleRouting() {
+    if (user.value != null) {
+      Get.offAllNamed(RouteNames.BOTTOM_NAVIGATION_BAR);
+    } else {
+      Get.offAllNamed(RouteNames.LOGIN);
+    }
   }
 }

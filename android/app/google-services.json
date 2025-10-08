@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "950037215961",
+    "project_id": "gas-7f0d1",
+    "storage_bucket": "gas-7f0d1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950037215961:android:395e51cab62dbf114adcc8",
+        "android_client_info": {
+          "package_name": "com.yodev.twogas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950037215961-10pu3kg7kp2uu4ug5vipg9rf5mqniu72.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yodev.twogas",
+            "certificate_hash": "ca38fc255788ceec136785242c73392a4ce1954b"
+          }
+        },
+        {
+          "client_id": "950037215961-9meong6b99i0hds8s7l9qkguqhv456nv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxWu-PhMq1M03LaFJ2u-KPgiCWjyQ3BDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950037215961-9meong6b99i0hds8s7l9qkguqhv456nv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "950037215961-a0v1sme43tmvafek4k93fuvc6g5nie1o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.yodev.twogas"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

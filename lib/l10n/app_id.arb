@@ -1,0 +1,11 @@
+{
+    "@@locale": "id",
+    "nav_home": "Beranda",
+    "nav_task": "Tugas",
+    "nav_search": "Cari",
+    "nav_notif": "Notifikasi",
+    "nav_settings": "Pengaturan",
+    "login_headline": "Hai! 👋 Siap bikin harimu lebih tertata?",
+    "login_support": "Satu klik, langsung jalan. Gak pake ribet.",
+    "login_btn": "Masuk pakai Google →"
+}

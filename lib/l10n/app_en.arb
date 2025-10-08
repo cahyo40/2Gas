@@ -1,0 +1,11 @@
+{
+    "@@locale": "en",
+    "nav_home": "Home",
+    "nav_task": "Tasks",
+    "nav_search": "Search",
+    "nav_notif": "Notifications",
+    "nav_settings": "Settings",
+    "login_headline": "Hey there! 👋 Ready to organize your day?",
+    "login_support": "One tap and you’re in—no fuss.",
+    "login_btn": "Sign in with Google →"
+}

@@ -24,15 +24,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get nav_settings => 'Pengaturan';
 
   @override
-  String get login_headline => 'Hai! 👋 Siap bikin harimu lebih tertata?';
-
-  @override
-  String get login_support => 'Satu klik, langsung jalan. Gak pake ribet.';
-
-  @override
-  String get login_btn => 'Masuk pakai Google →';
-
-  @override
   String get onboarding_page1_title => 'Semua tugasmu, dalam satu tempat.';
 
   @override
@@ -61,4 +52,13 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get onboarding_page3_button => 'Mulai Sekarang';
+
+  @override
+  String get login_title => 'Masuk ke 2Gas';
+
+  @override
+  String get login_subtitle => 'Kelola tugasmu dengan lebih mudah dan terarah.';
+
+  @override
+  String get login_button_google => 'Lanjut dengan Google';
 }

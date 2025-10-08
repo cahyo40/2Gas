@@ -24,15 +24,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get nav_settings => 'Settings';
 
   @override
-  String get login_headline => 'Hey there! 👋 Ready to organize your day?';
-
-  @override
-  String get login_support => 'One tap and you’re in—no fuss.';
-
-  @override
-  String get login_btn => 'Sign in with Google →';
-
-  @override
   String get onboarding_page1_title => 'All your tasks, in one place.';
 
   @override
@@ -61,4 +52,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboarding_page3_button => 'Start Now';
+
+  @override
+  String get login_title => 'Sign in to 2Gas';
+
+  @override
+  String get login_subtitle => 'Manage your tasks more easily and efficiently.';
+
+  @override
+  String get login_button_google => 'Continue with Google';
 }

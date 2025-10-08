@@ -5,9 +5,6 @@
     "nav_search": "Cari",
     "nav_notif": "Notifikasi",
     "nav_settings": "Pengaturan",
-    "login_headline": "Hai! 👋 Siap bikin harimu lebih tertata?",
-    "login_support": "Satu klik, langsung jalan. Gak pake ribet.",
-    "login_btn": "Masuk pakai Google →",
     "onboarding_page1_title": "Semua tugasmu, dalam satu tempat.",
     "onboarding_page1_subtitle": "Kelola to-do list, proyek, dan ide tanpa ribet. Fokus pada yang penting.",
     "onboarding_page1_button": "Lanjut",
@@ -16,5 +13,8 @@
     "onboarding_page2_button": "Lanjut",
     "onboarding_page3_title": "Produktif tanpa stres.",
     "onboarding_page3_subtitle": "Pantau progres, rayakan pencapaian, dan nikmati hasil kerja yang tertata.",
-    "onboarding_page3_button": "Mulai Sekarang"
+    "onboarding_page3_button": "Mulai Sekarang",
+    "login_title": "Masuk ke 2Gas",
+    "login_subtitle": "Kelola tugasmu dengan lebih mudah dan terarah.",
+    "login_button_google": "Lanjut dengan Google"
 }

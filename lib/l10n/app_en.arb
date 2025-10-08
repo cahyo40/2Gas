@@ -5,9 +5,6 @@
     "nav_search": "Search",
     "nav_notif": "Notifications",
     "nav_settings": "Settings",
-    "login_headline": "Hey there! 👋 Ready to organize your day?",
-    "login_support": "One tap and you’re in—no fuss.",
-    "login_btn": "Sign in with Google →",
     "onboarding_page1_title": "All your tasks, in one place.",
     "onboarding_page1_subtitle": "Manage to-do lists, projects, and ideas without the fuss. Focus on what matters.",
     "onboarding_page1_button": "Next",
@@ -16,5 +13,8 @@
     "onboarding_page2_button": "Next",
     "onboarding_page3_title": "Productive without stress.",
     "onboarding_page3_subtitle": "Track progress, celebrate achievements, and enjoy organized results.",
-    "onboarding_page3_button": "Start Now"
+    "onboarding_page3_button": "Start Now",
+    "login_title": "Sign in to 2Gas",
+    "login_subtitle": "Manage your tasks more easily and efficiently.",
+    "login_button_google": "Continue with Google"
 }

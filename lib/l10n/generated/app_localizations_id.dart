@@ -31,4 +31,34 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get login_btn => 'Masuk pakai Google →';
+
+  @override
+  String get onboarding_page1_title => 'Semua tugasmu, dalam satu tempat.';
+
+  @override
+  String get onboarding_page1_subtitle =>
+      'Kelola to-do list, proyek, dan ide tanpa ribet. Fokus pada yang penting.';
+
+  @override
+  String get onboarding_page1_button => 'Lanjut';
+
+  @override
+  String get onboarding_page2_title => 'Kerja bareng, tanpa drama.';
+
+  @override
+  String get onboarding_page2_subtitle =>
+      'Buat, bagi, dan pantau tugas bersama tim — semua transparan dan efisien.';
+
+  @override
+  String get onboarding_page2_button => 'Lanjut';
+
+  @override
+  String get onboarding_page3_title => 'Produktif tanpa stres.';
+
+  @override
+  String get onboarding_page3_subtitle =>
+      'Pantau progres, rayakan pencapaian, dan nikmati hasil kerja yang tertata.';
+
+  @override
+  String get onboarding_page3_button => 'Mulai Sekarang';
 }

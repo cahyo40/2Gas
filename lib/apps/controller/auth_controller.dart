@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -106,17 +107,20 @@ class AuthController extends GetxController {
   @override
   void onInit() {
     final isOnboardingDone =
-        StorageService.box.read(StorageConst.onborad) ?? false;
+        StorageService.box.read('isOnboardingDone') ?? false;
 
     ever(user, (_) => _handleRouting());
 
-    authChange.listen((users) => user.value = users);
+    authChange.listen((u) => user.value = u);
 
-    if (!isOnboardingDone) {
-      Get.offAllNamed(RouteNames.ONBOARD);
-    } else {
-      _handleRouting();
-    }
+    // ⏳ wait until the first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!isOnboardingDone) {
+        Get.offAllNamed(RouteNames.ONBOARD);
+      } else {
+        _handleRouting();
+      }
+    });
 
     super.onInit();
   }

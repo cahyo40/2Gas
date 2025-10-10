@@ -16,5 +16,9 @@
     "onboarding_page3_button": "Mulai Sekarang",
     "login_title": "Masuk ke 2Gas",
     "login_subtitle": "Kelola tugasmu dengan lebih mudah dan terarah.",
-    "login_button_google": "Lanjut dengan Google"
+    "login_button_google": "Lanjut dengan Google",
+    "good_morning": "Selamat pagi",
+    "good_afternoon": "Selamat siang",
+    "good_evening": "Selamat sore",
+    "good_night": "Selamat malam"
 }

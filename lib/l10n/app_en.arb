@@ -16,5 +16,9 @@
     "onboarding_page3_button": "Start Now",
     "login_title": "Sign in to 2Gas",
     "login_subtitle": "Manage your tasks more easily and efficiently.",
-    "login_button_google": "Continue with Google"
+    "login_button_google": "Continue with Google",
+    "good_morning": "Good morning",
+    "good_afternoon": "Good afternoon",
+    "good_evening": "Good evening",
+    "good_night": "Good night"
 }

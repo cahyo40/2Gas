@@ -4,6 +4,7 @@ import 'package:twogass/apps/features/home/presentation/view/screen/home_header_
 import 'package:twogass/apps/features/home/presentation/view/screen/home_organitations_screen.dart';
 import 'package:twogass/apps/features/home/presentation/view/screen/home_schedule_screen.dart';
 import 'package:twogass/apps/features/home/presentation/view/screen/home_task_summary_screen.dart';
+import 'package:yo_ui/yo_ui.dart';
 
 import '../controller/home_controller.dart';
 
@@ -14,7 +15,9 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
+          physics: AlwaysScrollableScrollPhysics(),
+          padding: YoPadding.all20,
           children: [
             HomeHeaderScreen(),
             HomeScheduleScreen(),

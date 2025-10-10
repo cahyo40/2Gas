@@ -61,4 +61,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get login_button_google => 'Continue with Google';
+
+  @override
+  String get good_morning => 'Good morning';
+
+  @override
+  String get good_afternoon => 'Good afternoon';
+
+  @override
+  String get good_evening => 'Good evening';
+
+  @override
+  String get good_night => 'Good night';
 }

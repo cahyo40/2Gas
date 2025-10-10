@@ -61,4 +61,16 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get login_button_google => 'Lanjut dengan Google';
+
+  @override
+  String get good_morning => 'Selamat pagi';
+
+  @override
+  String get good_afternoon => 'Selamat siang';
+
+  @override
+  String get good_evening => 'Selamat sore';
+
+  @override
+  String get good_night => 'Selamat malam';
 }

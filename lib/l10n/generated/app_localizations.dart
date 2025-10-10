@@ -199,6 +199,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue with Google'**
   String get login_button_google;
+
+  /// No description provided for @good_morning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get good_morning;
+
+  /// No description provided for @good_afternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get good_afternoon;
+
+  /// No description provided for @good_evening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get good_evening;
+
+  /// No description provided for @good_night.
+  ///
+  /// In en, this message translates to:
+  /// **'Good night'**
+  String get good_night;
 }
 
 class _AppLocalizationsDelegate

@@ -18,6 +18,8 @@ import '../features/task/presentation/binding/task_binding.dart';
 import '../features/task/presentation/view/task_view.dart';
 import '../features/onboard/presentation/binding/onboard_binding.dart';
 import '../features/onboard/presentation/view/onboard_view.dart';
+import '../features/organization/presentation/binding/organization_binding.dart';
+import '../features/organization/presentation/view/organization_view.dart';
 import 'route_names.dart';
 
 class RouteApp {
@@ -75,6 +77,11 @@ class RouteApp {
       name: RouteNames.ONBOARD,
       page: () => const OnboardView(),
       binding: OnboardBinding(),
+      
+    ),    GetPage(
+      name: RouteNames.ORGANIZATION,
+      page: () => const OrganizationView(),
+      binding: OrganizationBinding(),
       
     ),];
 }

@@ -8,5 +8,6 @@ abstract class RouteNames {
   static const String NOTIFICATIONS = '/notifications';
   static const String SETTINGS = '/settings';
   static const String ONBOARD = '/onboard';
+  static const String ORGANIZATION = '/organization';
 
 }

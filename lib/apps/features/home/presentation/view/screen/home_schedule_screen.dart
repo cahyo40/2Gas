@@ -11,14 +11,12 @@ class HomeScheduleScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      physics: AlwaysScrollableScrollPhysics(),
+    return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            YoText.titleMedium("Jadwal hari ini (3)"),
+            YoText.titleLarge("Jadwal hari ini (3)"),
             TextButton(
               onPressed: () {},
               child: YoText.bodyMedium(
@@ -28,9 +26,7 @@ class HomeScheduleScreen extends GetView<HomeController> {
             ),
           ],
         ),
-        ListView(
-          shrinkWrap: true,
-          physics: AlwaysScrollableScrollPhysics(),
+        Column(
           children: [
             CardScheduleWidget(
               model: ScheduleModel(

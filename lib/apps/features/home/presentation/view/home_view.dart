@@ -20,8 +20,11 @@ class HomeView extends GetView<HomeController> {
           padding: YoPadding.all20,
           children: [
             HomeHeaderScreen(),
+            SizedBox(height: YoSpacing.md),
             HomeScheduleScreen(),
+            SizedBox(height: YoSpacing.md),
             HomeTaskSummaryScreen(),
+            SizedBox(height: YoSpacing.md),
             HomeOrganitationsScreen(),
           ],
         ),

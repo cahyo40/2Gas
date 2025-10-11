@@ -26,31 +26,36 @@ class CardScheduleWidget extends StatelessWidget {
         child: Column(
           spacing: YoSpacing.sm,
           children: [
-            _cardScheduleItem(
-              context: context,
-              icon: FontAwesome.calendar_day_solid,
-              content: model.title,
+            Row(
+              spacing: 4,
+              children: [
+                Expanded(
+                  child: _cardScheduleItem(
+                    context: context,
+                    icon: Iconsax.calendar_outline,
+                    content: model.title,
+                  ),
+                ),
+                if (showDate == true)
+                  YoText.bodySmall(
+                    YoDateFormatter.isToday(model.date)
+                        ? YoDateFormatter.formatTime(model.date)
+                        : YoDateFormatter.formatDateTime(model.date),
+                    fontSize: 12,
+                  ),
+              ],
             ),
             if (model.type == "private")
               _cardScheduleItem(
                 context: context,
-                icon: FontAwesome.user_solid,
+                icon: Iconsax.user_outline,
                 content: "Pribadi",
               )
             else
               _cardScheduleItem(
                 context: context,
-                icon: FontAwesome.people_group_solid,
+                icon: Iconsax.profile_2user_outline,
                 content: "Id Organisasi",
-              ),
-
-            if (showDate == true)
-              _cardScheduleItem(
-                context: context,
-                icon: FontAwesome.clock_solid,
-                content: YoDateFormatter.isToday(model.date)
-                    ? YoDateFormatter.formatTime(model.date)
-                    : YoDateFormatter.formatDateTime(model.date),
               ),
           ],
         ),
@@ -68,7 +73,7 @@ class CardScheduleWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: YoSpacing.md,
-          backgroundColor: context.primaryColor.withValues(alpha: .25),
+          backgroundColor: context.primaryColor.withValues(alpha: .15),
           child: Icon(icon, color: context.textColor, size: YoSpacing.md),
         ),
         YoText.bodySmall(content, color: context.textColor),

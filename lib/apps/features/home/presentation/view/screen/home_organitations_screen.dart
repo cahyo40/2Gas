@@ -26,7 +26,19 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
       spacing: YoSpacing.md,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YoText.titleLarge('My Organization'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            YoText.titleLarge('My Organization'),
+            TextButton(
+              onPressed: () {},
+              child: YoText.bodyMedium(
+                "Tambah Organisasi",
+                color: context.primaryColor,
+              ),
+            ),
+          ],
+        ),
         YoCard(
           onTap: () {},
           backgroundColor: context.backgroundColor,

@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:twogass/apps/controller/auth_controller.dart';
+import 'package:twogass/apps/features/login/data/models/login_model.dart';
+import 'package:twogass/apps/features/login/domain/usecase/login_usecase.dart';
+import 'package:yo_ui/yo_ui_base.dart';
 
 class LoginController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -6,10 +10,22 @@ class LoginController extends GetxController {
 
   final version = "0.0.0".obs;
 
-  // getVersion() async {
-  //   final pack = await PackageInfo.fromPlatform();
-  //   version.value = pack.version;
-  // }
+  LoginUsecase loginUsecase = LoginUsecase(Get.find());
+  final auth = Get.find<AuthController>();
+  login() async {
+    try {
+      await auth.signInWithGoogle();
+      final initData = {
+        'uid': auth.uid,
+        'name': auth.name,
+        'email': auth.name,
+        'photoUrl': auth.photoUrl,
+      };
+      final data = LoginModel.fromMap(initData);
+      YoLogger.info(data.toMap().toString());
+      await loginUsecase.call(data);
+    } catch (_) {}
+  }
 
   @override
   void onInit() async {

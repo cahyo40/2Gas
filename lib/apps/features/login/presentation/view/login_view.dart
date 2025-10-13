@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/images.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -14,7 +13,7 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     // controller.getVersion();
-    final auth = Get.find<AuthController>();
+
     final tr = AppLocalizations.of(context)!;
     YoLogger.info(controller.version.value);
     return Scaffold(
@@ -39,8 +38,8 @@ class LoginView extends GetView<LoginController> {
               SizedBox(height: YoSpacing.md),
               YoButton.primary(
                 text: tr.login_button_google,
-                onPressed: () async {
-                  await auth.signInWithGoogle();
+                onPressed: () {
+                  controller.login();
                 },
                 icon: CircleAvatar(
                   backgroundColor: Colors.white,

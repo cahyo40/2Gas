@@ -31,7 +31,56 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
           children: [
             YoText.titleLarge('My Organization'),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                YoBottomSheet.show(
+                  context: context,
+                  title: "Add Organization",
+                  isScrollControlled: true,
+                  maxHeight: Get.width * 0.75,
+                  child: Column(
+                    spacing: YoSpacing.md,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      YoCard(
+                        onTap: controller.addOrganization,
+                        backgroundColor: context.backgroundColor,
+                        child: ListTile(
+                          leading: Container(
+                            padding: YoPadding.all8,
+                            decoration: BoxDecoration(
+                              borderRadius: YoSpacing.borderRadiusMd,
+                              color: context.secondaryColor,
+                            ),
+                            child: Icon(
+                              Iconsax.card_add_outline,
+                              color: context.backgroundColor,
+                            ),
+                          ),
+                          title: YoText.titleMedium("Create Organization"),
+                        ),
+                      ),
+                      YoCard(
+                        backgroundColor: context.backgroundColor,
+                        onTap: controller.joinOrganization,
+                        child: ListTile(
+                          leading: Container(
+                            padding: YoPadding.all8,
+                            decoration: BoxDecoration(
+                              borderRadius: YoSpacing.borderRadiusMd,
+                              color: context.secondaryColor,
+                            ),
+                            child: Icon(
+                              Iconsax.user_add_outline,
+                              color: context.backgroundColor,
+                            ),
+                          ),
+                          title: YoText.titleMedium("Join Organization"),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
               child: YoText.bodyMedium(
                 "Tambah Organisasi",
                 color: context.primaryColor,
@@ -40,7 +89,10 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
           ],
         ),
         YoCard(
-          onTap: () {},
+          onTap: () {
+            final orgId = YoIdGenerator.alphanumericId(length: 16);
+            controller.detailOrganization(orgId);
+          },
           backgroundColor: context.backgroundColor,
           shadow: YoShadow.card(context),
           child: Column(

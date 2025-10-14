@@ -13,3 +13,7 @@ extension YoDateHelperExtension on YoDateFormatter {
     return tr.good_night;
   }
 }
+
+extension DateOnly on DateTime {
+  DateTime get dateOnly => DateTime(year, month, day);
+}

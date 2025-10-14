@@ -5,7 +5,8 @@ class ScheduleModel {
   final String uid;
   final String type;
   final String? orgId;
-  final DateTime date;
+  final DateTime start;
+  final DateTime end;
   final DateTime creatdAt;
   final String title;
   final String? description;
@@ -15,7 +16,8 @@ class ScheduleModel {
     required this.uid,
     required this.type,
     this.orgId,
-    required this.date,
+    required this.start,
+    required this.end,
     required this.creatdAt,
     required this.title,
     this.description,
@@ -29,7 +31,8 @@ class ScheduleModel {
     uid: json['uid'] as String,
     type: json['type'] as String,
     orgId: json['orgId'] as String?,
-    date: _dtFromJson(json['date']),
+    start: _dtFromJson(json['start']),
+    end: _dtFromJson(json['end']),
     creatdAt: _dtFromJson(json['creatdAt']),
     title: json['title'] as String,
     description: json['description'] as String?,
@@ -40,7 +43,8 @@ class ScheduleModel {
     'uid': uid,
     'type': type,
     'orgId': orgId,
-    'date': _dtToJson(date),
+    'start': _dtToJson(start),
+    'end': _dtToJson(end),
     'creatdAt': _dtToJson(creatdAt),
     'title': title,
     'description': description,
@@ -51,7 +55,8 @@ class ScheduleModel {
     uid: map['uid'] as String,
     type: map['type'] as String,
     orgId: map['orgId'] as String?,
-    date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+    start: DateTime.fromMillisecondsSinceEpoch(map['start'] as int),
+    end: DateTime.fromMillisecondsSinceEpoch(map['end'] as int),
     creatdAt: DateTime.fromMillisecondsSinceEpoch(map['creatdAt'] as int),
     title: map['title'] as String,
     description: map['description'] as String?,
@@ -62,7 +67,8 @@ class ScheduleModel {
     'uid': uid,
     'type': type,
     'orgId': orgId,
-    'date': date.millisecondsSinceEpoch,
+    'start': start.millisecondsSinceEpoch,
+    'end': end.millisecondsSinceEpoch,
     'creatdAt': creatdAt.millisecondsSinceEpoch,
     'title': title,
     'description': description,
@@ -78,7 +84,8 @@ class ScheduleModel {
     String? uid,
     String? type,
     String? orgId,
-    DateTime? date,
+    DateTime? start,
+    DateTime? end,
     DateTime? creatdAt,
     String? title,
     String? description,
@@ -87,7 +94,8 @@ class ScheduleModel {
     uid: uid ?? this.uid,
     type: type ?? this.type,
     orgId: orgId ?? this.orgId,
-    date: date ?? this.date,
+    start: start ?? this.start,
+    end: end ?? this.end,
     creatdAt: creatdAt ?? this.creatdAt,
     title: title ?? this.title,
     description: description ?? this.description,
@@ -102,14 +110,24 @@ class ScheduleModel {
           uid == other.uid &&
           type == other.type &&
           orgId == other.orgId &&
-          date == other.date &&
+          start == other.start &&
+          end == other.end &&
           creatdAt == other.creatdAt &&
           title == other.title &&
           description == other.description;
 
   @override
-  int get hashCode =>
-      Object.hash(id, uid, type, orgId, date, creatdAt, title, description);
+  int get hashCode => Object.hash(
+    id,
+    uid,
+    type,
+    orgId,
+    start,
+    end,
+    creatdAt,
+    title,
+    description,
+  );
 
   @override
   String toString() =>

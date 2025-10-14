@@ -1,82 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
+import 'package:intl/intl.dart';
 import 'package:twogass/apps/data/model/schedule_model.dart';
-import 'package:yo_ui/yo_ui.dart';
+import 'package:yo_ui/yo_ui_base.dart';
 
 class CardScheduleWidget extends StatelessWidget {
   final ScheduleModel model;
-  final void Function()? onTap;
-  final bool? showDate;
-  const CardScheduleWidget({
-    super.key,
-    required this.model,
-    this.onTap,
-    this.showDate = true,
-  });
+  const CardScheduleWidget({super.key, required this.model});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: YoPadding.onlyBottom8,
-      child: YoCard(
-        backgroundColor: context.backgroundColor,
-        onTap: onTap,
-        shadow: YoShadow.card(context),
-        child: Column(
-          spacing: YoSpacing.sm,
-          children: [
-            Row(
-              spacing: 4,
-              children: [
-                Expanded(
-                  child: _cardScheduleItem(
-                    context: context,
-                    icon: Iconsax.calendar_outline,
-                    content: model.title,
-                  ),
-                ),
-                if (showDate == true)
-                  YoText.bodySmall(
-                    YoDateFormatter.isToday(model.date)
-                        ? YoDateFormatter.formatTime(model.date)
-                        : YoDateFormatter.formatDateTime(model.date),
-                    fontSize: 12,
-                  ),
-              ],
-            ),
-            if (model.type == "private")
-              _cardScheduleItem(
-                context: context,
-                icon: Iconsax.user_outline,
-                content: "Pribadi",
-              )
-            else
-              _cardScheduleItem(
-                context: context,
-                icon: Iconsax.profile_2user_outline,
-                content: "Id Organisasi",
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Row _cardScheduleItem({
-    required IconData icon,
-    required String content,
-    required BuildContext context,
-  }) {
+    final hour = DateFormat('HH:mm');
     return Row(
       spacing: YoSpacing.sm,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CircleAvatar(
-          radius: YoSpacing.md,
-          backgroundColor: context.primaryColor.withValues(alpha: .15),
-          child: Icon(icon, color: context.textColor, size: YoSpacing.md),
+        SizedBox(
+          width: 60,
+          child: Column(
+            spacing: YoSpacing.xs,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              YoText.bodySmall(
+                hour.format(model.start),
+                color: context.textColor,
+              ),
+              Container(
+                width: 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: context.primaryColor,
+                ),
+              ),
+            ],
+          ),
         ),
-        YoText.bodySmall(content, color: context.textColor),
+        // 2. Garis vertikal
+        Container(width: 2, height: 90, color: context.secondaryColor),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.primaryColor.withValues(alpha: .75),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                YoText.titleMedium(model.title, color: context.colorTextBtn),
+                const SizedBox(height: 4),
+                YoText.bodyMedium(
+                  '${hour.format(model.start)} - ${hour.format(model.end)}',
+                  color: context.colorTextBtn,
+                ),
+                if (model.description != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    model.description!,
+                    style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

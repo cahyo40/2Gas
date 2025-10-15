@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/data/model/schedule_model.dart';
+import 'package:twogass/apps/widget/card_activity_widget.dart';
 import 'package:twogass/apps/widget/card_summary_widget.dart';
 import 'package:twogass/apps/widget/today_schedule_widget.dart';
 import 'package:yo_ui/yo_ui_base.dart';
@@ -25,7 +26,10 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
                 width: Get.width * 0.2,
                 decoration: BoxDecoration(
                   borderRadius: YoSpacing.borderRadiusMd,
-                  color: context.primaryColor,
+                  color: Color(
+                    controller.org.value.color ??
+                        context.primaryColor.toARGB32(),
+                  ),
                 ),
               ),
               Expanded(
@@ -33,7 +37,22 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    YoText.titleLarge("Dhuwitku"),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: YoText.titleLarge(
+                            controller.org.value.name.capitalizeFirst!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
+                        ),
+                        YoText.titleMedium(
+                          controller.org.value.inviteCode,
+                          color: context.gray500,
+                        ),
+                      ],
+                    ),
                     YoText.bodyMedium("12 Members"),
                   ],
                 ),
@@ -44,6 +63,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
           YoText.titleMedium("Today's Schedule"),
           SizedBox(height: YoSpacing.sm),
           TodayScheduleWidget(
+            color: controller.org.value.color,
             source: [
               ScheduleModel(
                 id: "id",
@@ -92,6 +112,19 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
           SizedBox(height: YoSpacing.md),
           YoText.titleMedium("Lastest Activity"),
           SizedBox(height: YoSpacing.sm),
+          Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: controller.activity.length > 3
+                  ? 3
+                  : controller.activity.length,
+              itemBuilder: (_, i) {
+                final model = controller.activity[i];
+                return CardActivityWidget(model: model);
+              },
+            ),
+          ),
         ],
       ),
     );

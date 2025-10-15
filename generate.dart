@@ -242,33 +242,19 @@ class ${className}Controller extends GetxController {
 }
 
 void generateModel(String name) {
-  final className = toCamelCase(name);
-  final fileName = toSnakeCase(name);
+  final className = "${toCamelCase(name)}Model";
+  final fileName = "${toSnakeCase(name)}_model";
 
   final content =
       '''
 class $className {
-  final int id;
+  final String id;
   final String name;
 
   $className({
     required this.id,
     required this.name,
   });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-    };
-  }
-
-  factory $className.fromMap(Map<String, dynamic> map) {
-    return $className(
-      id: map['id'] as int,
-      name: map['name'] as String,
-    );
-  }
 }
 ''';
 

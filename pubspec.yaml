@@ -13,16 +13,22 @@ dependencies:
   firebase_core: ^4.1.1
   flutter:
     sdk: flutter
+  flutter_colorpicker: ^1.1.0
   flutter_localizations:
     sdk: flutter
   get: ^4.7.2
   get_storage: ^2.1.1
   google_sign_in: ^7.2.0
   icons_plus: ^5.0.0
+  image_picker: ^1.1.2
   intl: ^0.20.2
   package_info_plus: ^9.0.0
+  path: ^1.9.1
+  path_provider: ^2.1.5
   rename_app: ^1.6.5
+  sembast: ^3.8.5+1
   stylish_bottom_bar: ^1.1.1
+  syncfusion_flutter_calendar: ^31.1.23
   yo_ui:
     git:
       url: https://github.com/cahyo40/youi.git

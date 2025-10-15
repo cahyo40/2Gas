@@ -199,6 +199,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continue with Google'**
   String get login_button_google;
+
+  /// No description provided for @good_morning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get good_morning;
+
+  /// No description provided for @good_afternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get good_afternoon;
+
+  /// No description provided for @good_evening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get good_evening;
+
+  /// No description provided for @good_night.
+  ///
+  /// In en, this message translates to:
+  /// **'Good night'**
+  String get good_night;
+
+  /// No description provided for @taskCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} created task {task} in project {project}'**
+  String taskCreated(Object project, Object task, Object user);
+
+  /// No description provided for @taskUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} updated task {task}'**
+  String taskUpdated(Object task, Object user);
+
+  /// No description provided for @taskDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} deleted task {task}'**
+  String taskDeleted(Object task, Object user);
+
+  /// No description provided for @taskCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} completed task {task}'**
+  String taskCompleted(Object task, Object user);
+
+  /// No description provided for @taskReopened.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} reopened task {task}'**
+  String taskReopened(Object task, Object user);
+
+  /// No description provided for @taskAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} assigned task {task} to {assignee}'**
+  String taskAssigned(Object assignee, Object task, Object user);
+
+  /// No description provided for @taskUnassigned.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} unassigned task {task}'**
+  String taskUnassigned(Object task, Object user);
+
+  /// No description provided for @taskMoved.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} moved task {task} to column {column}'**
+  String taskMoved(Object column, Object task, Object user);
+
+  /// No description provided for @taskCommented.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} commented on task {task}'**
+  String taskCommented(Object task, Object user);
+
+  /// No description provided for @taskAttachmentAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} added attachment to task {task}'**
+  String taskAttachmentAdded(Object task, Object user);
+
+  /// No description provided for @taskAttachmentRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} removed attachment from task {task}'**
+  String taskAttachmentRemoved(Object task, Object user);
+
+  /// No description provided for @taskLabelAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} added label {label} to task {task}'**
+  String taskLabelAdded(Object label, Object task, Object user);
+
+  /// No description provided for @taskLabelRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} removed label {label} from task {task}'**
+  String taskLabelRemoved(Object label, Object task, Object user);
+
+  /// No description provided for @projectCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} created project {project}'**
+  String projectCreated(Object project, Object user);
+
+  /// No description provided for @projectUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} updated project {project}'**
+  String projectUpdated(Object project, Object user);
+
+  /// No description provided for @projectDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} deleted project {project}'**
+  String projectDeleted(Object project, Object user);
+
+  /// No description provided for @projectArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} archived project {project}'**
+  String projectArchived(Object project, Object user);
+
+  /// No description provided for @projectRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} restored project {project}'**
+  String projectRestored(Object project, Object user);
+
+  /// No description provided for @memberInvited.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} invited {target} to {org}'**
+  String memberInvited(Object org, Object target, Object user);
+
+  /// No description provided for @memberJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} joined {org}'**
+  String memberJoined(Object org, Object user);
+
+  /// No description provided for @memberRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} removed {target} from {org}'**
+  String memberRemoved(Object org, Object target, Object user);
+
+  /// No description provided for @memberRoleUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} updated {target}\'s role to {role}'**
+  String memberRoleUpdated(Object role, Object target, Object user);
+
+  /// No description provided for @organizationCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} created new organization {org}'**
+  String organizationCreated(Object org, Object user);
+
+  /// No description provided for @organizationUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} updated organization {org}'**
+  String organizationUpdated(Object org, Object user);
+
+  /// No description provided for @organizationDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} deleted organization {org}'**
+  String organizationDeleted(Object org, Object user);
+
+  /// No description provided for @organizationJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} joined organization {org}'**
+  String organizationJoined(Object org, Object user);
+
+  /// No description provided for @organizationLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} left organization {org}'**
+  String organizationLeft(Object org, Object user);
+
+  /// No description provided for @commentAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} added a comment'**
+  String commentAdded(Object user);
+
+  /// No description provided for @commentEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} edited a comment'**
+  String commentEdited(Object user);
+
+  /// No description provided for @commentDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} deleted a comment'**
+  String commentDeleted(Object user);
+
+  /// No description provided for @attachmentAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} added attachment {file}'**
+  String attachmentAdded(Object file, Object user);
+
+  /// No description provided for @attachmentRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} removed attachment {file}'**
+  String attachmentRemoved(Object file, Object user);
+
+  /// No description provided for @labelCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} created new label {label}'**
+  String labelCreated(Object label, Object user);
+
+  /// No description provided for @labelUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} updated label {label}'**
+  String labelUpdated(Object label, Object user);
+
+  /// No description provided for @labelDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'{user} deleted label {label}'**
+  String labelDeleted(Object label, Object user);
 }
 
 class _AppLocalizationsDelegate

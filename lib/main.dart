@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:twogass/apps/bindings/initial_bindings.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/controller/locale_controller.dart';
 import 'package:twogass/apps/controller/theme_controller.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
     Get.put(AuthController(), permanent: true);
     return GetMaterialApp(
       title: '2Gas',
+      initialBinding: InitialBindings(),
       localizationsDelegates: const [
         AppLocalizations.delegate, // utama
         GlobalMaterialLocalizations.delegate,
@@ -50,7 +52,27 @@ class MyApp extends StatelessWidget {
       initialRoute: RouteNames.ONBOARD,
       themeMode: tc.themeMode,
       // themeMode: ThemeMode.system,
-      theme: YoTheme.lightTheme(context, YoColorScheme.codingDark),
+      theme: YoTheme.lightTheme(context, YoColorScheme.codingDark).copyWith(
+        datePickerTheme: DatePickerThemeData().copyWith(
+          dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return context.backgroundColor;
+            }
+
+            return context.textColor;
+          }),
+        ),
+        timePickerTheme: TimePickerThemeData().copyWith(
+          hourMinuteTextColor: WidgetStateColor.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return context.backgroundColor; // font saat terpilih
+            }
+            return context.textColor; // font saat tidak terpilih
+          }),
+
+          dayPeriodColor: context.accentColor,
+        ),
+      ),
       darkTheme: YoTheme.darkTheme(context, YoColorScheme.codingDark),
       getPages: RouteApp.routes,
     );

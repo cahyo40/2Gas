@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/features/home/presentation/view/screen/home_header_screen.dart';
+import 'package:twogass/apps/features/home/presentation/view/screen/home_organitations_screen.dart';
+import 'package:twogass/apps/features/home/presentation/view/screen/home_schedule_screen.dart';
+import 'package:twogass/apps/features/home/presentation/view/screen/home_task_summary_screen.dart';
+import 'package:yo_ui/yo_ui.dart';
 
 import '../controller/home_controller.dart';
 
@@ -8,16 +13,24 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return RefreshIndicator(
+      onRefresh: () async {
+        await controller.initOrg();
+      },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text('HomeView'.tr),
-          centerTitle: true,
-        ),
-        body: const SafeArea(
-          child: Text(
-            'HomeView is working',
-            style: TextStyle(fontSize: 20),
+        body: SafeArea(
+          child: ListView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: YoPadding.all20,
+            children: [
+              HomeHeaderScreen(),
+              SizedBox(height: YoSpacing.md),
+              HomeScheduleScreen(),
+              SizedBox(height: YoSpacing.md),
+              HomeTaskSummaryScreen(),
+              SizedBox(height: YoSpacing.md),
+              HomeOrganitationsScreen(),
+            ],
           ),
         ),
       ),

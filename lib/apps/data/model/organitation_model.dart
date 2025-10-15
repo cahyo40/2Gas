@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class OrganitationModel {
+class OrganizationModel {
   final String id;
   final String inviteCode;
   final String name;
@@ -10,8 +10,9 @@ class OrganitationModel {
   final DateTime createdAt;
   final String? address;
   final String? email;
+  final int? color;
 
-  const OrganitationModel({
+  const OrganizationModel({
     required this.id,
     required this.inviteCode,
     required this.name,
@@ -21,13 +22,14 @@ class OrganitationModel {
     required this.createdAt,
     this.address,
     this.email,
+    this.color,
   });
 
-  factory OrganitationModel.fromFirestore(DocumentSnapshot doc) =>
-      OrganitationModel.fromJson(doc.data()! as Map<String, dynamic>);
+  factory OrganizationModel.fromFirestore(DocumentSnapshot doc) =>
+      OrganizationModel.fromJson(doc.data()! as Map<String, dynamic>);
 
-  factory OrganitationModel.fromJson(Map<String, dynamic> json) =>
-      OrganitationModel(
+  factory OrganizationModel.fromJson(Map<String, dynamic> json) =>
+      OrganizationModel(
         id: json['id'] as String,
         inviteCode: json['inviteCode'] as String,
         name: json['name'] as String,
@@ -37,6 +39,7 @@ class OrganitationModel {
         createdAt: _dateTimeFromJson(json['createdAt']),
         address: json['address'] as String?,
         email: json['email'] as String?,
+        color: json['color'] as int?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,10 +52,11 @@ class OrganitationModel {
     'createdAt': _dateTimeToJson(createdAt),
     'address': address,
     'email': email,
+    'color': color,
   };
 
-  factory OrganitationModel.fromMap(Map<String, dynamic> map) =>
-      OrganitationModel(
+  factory OrganizationModel.fromMap(Map<String, dynamic> map) =>
+      OrganizationModel(
         id: map['id'] as String,
         inviteCode: map['inviteCode'] as String,
         name: map['name'] as String,
@@ -62,6 +66,7 @@ class OrganitationModel {
         createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
         address: map['address'] as String?,
         email: map['email'] as String?,
+        color: map['color'] as int?,
       );
 
   Map<String, dynamic> toMap() => {
@@ -74,6 +79,7 @@ class OrganitationModel {
     'createdAt': createdAt.millisecondsSinceEpoch,
     'address': address,
     'email': email,
+    'color': color,
   };
 
   static int _dateTimeToJson(DateTime dt) => dt.millisecondsSinceEpoch;
@@ -81,7 +87,7 @@ class OrganitationModel {
       ? DateTime.fromMillisecondsSinceEpoch(json)
       : (json as Timestamp).toDate();
 
-  OrganitationModel copyWith({
+  OrganizationModel copyWith({
     String? id,
     String? inviteCode,
     String? name,
@@ -91,7 +97,8 @@ class OrganitationModel {
     DateTime? createdAt,
     String? address,
     String? email,
-  }) => OrganitationModel(
+    int? color,
+  }) => OrganizationModel(
     id: id ?? this.id,
     inviteCode: inviteCode ?? this.inviteCode,
     name: name ?? this.name,
@@ -101,12 +108,13 @@ class OrganitationModel {
     createdAt: createdAt ?? this.createdAt,
     address: address ?? this.address,
     email: email ?? this.email,
+    color: color ?? this.color,
   );
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is OrganitationModel &&
+      other is OrganizationModel &&
           runtimeType == other.runtimeType &&
           id == other.id &&
           inviteCode == other.inviteCode &&
@@ -116,7 +124,8 @@ class OrganitationModel {
           avatarUrl == other.avatarUrl &&
           createdAt == other.createdAt &&
           address == other.address &&
-          email == other.email;
+          email == other.email &&
+          color == other.color;
 
   @override
   int get hashCode => Object.hash(
@@ -129,6 +138,7 @@ class OrganitationModel {
     createdAt,
     address,
     email,
+    color,
   );
 
   @override

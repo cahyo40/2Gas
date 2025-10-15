@@ -5,7 +5,8 @@ import 'package:yo_ui/yo_ui_base.dart';
 
 class CardScheduleWidget extends StatelessWidget {
   final ScheduleModel model;
-  const CardScheduleWidget({super.key, required this.model});
+  final int? color;
+  const CardScheduleWidget({super.key, required this.model, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CardScheduleWidget extends StatelessWidget {
                 height: 8,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: context.primaryColor,
+                  color: Color(color ?? context.primaryColor.toARGB32()),
                 ),
               ),
             ],
@@ -40,7 +41,9 @@ class CardScheduleWidget extends StatelessWidget {
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: context.primaryColor.withValues(alpha: .75),
+              color: Color(
+                color ?? context.primaryColor.toARGB32(),
+              ).withValues(alpha: .75),
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.all(12),

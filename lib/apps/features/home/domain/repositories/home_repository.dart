@@ -1,3 +1,5 @@
+import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
+
 abstract class HomeRepository {
-  // TODO: define contract
+  Future<List<OrganizationHomeResponseModel>> homeOrganization();
 }

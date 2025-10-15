@@ -5,15 +5,13 @@ import 'package:twogass/apps/features/login/domain/repositories/login_repository
 import 'package:yo_ui/yo_ui_base.dart';
 
 class LoginOfflineDatasource implements LoginRepository {
-  final SembastDatabase _db;
-
-  LoginOfflineDatasource(this._db);
+  LoginOfflineDatasource();
 
   @override
   Future<void> createUser(LoginModel data) async {
     try {
-      final db = await _db.database;
-      await SembastDatabase.user.record(data.uid).put(db, data.toMap());
+      final db = await SembastService.to.db;
+      await SembastService.user.record(data.uid).put(db, data.toMap());
     } catch (e) {
       YoLogger.error("Offline: $e");
     }

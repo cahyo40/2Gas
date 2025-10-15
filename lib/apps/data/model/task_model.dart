@@ -1,12 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum Priority { low, medium, high }
+
+enum TaskStatus { todo, progress, done }
+
 class TaskModel {
   final String id;
   final String projectId;
   final String orgId;
   final String name;
   final String? description;
-  final String priority;
+  final Priority priority;
+  final TaskStatus status;
   final DateTime deadline;
   final DateTime createdAt;
   final String createdBy;
@@ -19,11 +24,26 @@ class TaskModel {
     required this.name,
     this.description,
     required this.priority,
+    required this.status,
     required this.deadline,
     required this.createdAt,
     required this.createdBy,
     required this.assigns,
   });
+
+  factory TaskModel.initial() => TaskModel(
+    id: '',
+    projectId: '',
+    orgId: '',
+    name: '',
+    description: null,
+    priority: Priority.medium,
+    status: TaskStatus.todo,
+    deadline: DateTime.now().add(const Duration(days: 7)),
+    createdAt: DateTime.now(),
+    createdBy: '',
+    assigns: const [],
+  );
 
   factory TaskModel.fromFirestore(DocumentSnapshot doc) =>
       TaskModel.fromJson(doc.data()! as Map<String, dynamic>);
@@ -34,7 +54,8 @@ class TaskModel {
     orgId: json['orgId'] as String,
     name: json['name'] as String,
     description: json['description'] as String?,
-    priority: json['priority'] as String,
+    priority: Priority.values.firstWhere((e) => e.name == json['priority']),
+    status: TaskStatus.values.firstWhere((e) => e.name == json['status']),
     deadline: _dtFromJson(json['deadline']),
     createdAt: _dtFromJson(json['createdAt']),
     createdBy: json['createdBy'] as String,
@@ -49,7 +70,8 @@ class TaskModel {
     'orgId': orgId,
     'name': name,
     'description': description,
-    'priority': priority,
+    'priority': priority.name,
+    'status': status.name,
     'deadline': _dtToJson(deadline),
     'createdAt': _dtToJson(createdAt),
     'createdBy': createdBy,
@@ -62,7 +84,8 @@ class TaskModel {
     orgId: map['orgId'] as String,
     name: map['name'] as String,
     description: map['description'] as String?,
-    priority: map['priority'] as String,
+    priority: Priority.values.firstWhere((e) => e.name == map['priority']),
+    status: TaskStatus.values.firstWhere((e) => e.name == map['status']),
     deadline: DateTime.fromMillisecondsSinceEpoch(map['deadline'] as int),
     createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
     createdBy: map['createdBy'] as String,
@@ -77,7 +100,8 @@ class TaskModel {
     'orgId': orgId,
     'name': name,
     'description': description,
-    'priority': priority,
+    'priority': priority.name,
+    'status': status.name,
     'deadline': deadline.millisecondsSinceEpoch,
     'createdAt': createdAt.millisecondsSinceEpoch,
     'createdBy': createdBy,
@@ -95,7 +119,8 @@ class TaskModel {
     String? orgId,
     String? name,
     String? description,
-    String? priority,
+    Priority? priority,
+    TaskStatus? status,
     DateTime? deadline,
     DateTime? createdAt,
     String? createdBy,
@@ -107,6 +132,7 @@ class TaskModel {
     name: name ?? this.name,
     description: description ?? this.description,
     priority: priority ?? this.priority,
+    status: status ?? this.status,
     deadline: deadline ?? this.deadline,
     createdAt: createdAt ?? this.createdAt,
     createdBy: createdBy ?? this.createdBy,
@@ -124,6 +150,7 @@ class TaskModel {
           name == other.name &&
           description == other.description &&
           priority == other.priority &&
+          status == other.status &&
           deadline == other.deadline &&
           createdAt == other.createdAt &&
           createdBy == other.createdBy &&
@@ -137,6 +164,7 @@ class TaskModel {
     name,
     description,
     priority,
+    status,
     deadline,
     createdAt,
     createdBy,
@@ -144,7 +172,8 @@ class TaskModel {
   );
 
   @override
-  String toString() => 'TaskModel(id: $id, name: $name, projectId: $projectId)';
+  String toString() =>
+      'TaskModel(id: $id, name: $name, status: ${status.name})';
 }
 
 class TaskAssignModel {
@@ -157,9 +186,6 @@ class TaskAssignModel {
     required this.uid,
     required this.taskId,
   });
-
-  factory TaskAssignModel.fromFirestore(DocumentSnapshot doc) =>
-      TaskAssignModel.fromJson(doc.data()! as Map<String, dynamic>);
 
   factory TaskAssignModel.fromJson(Map<String, dynamic> json) =>
       TaskAssignModel(

@@ -4,7 +4,8 @@ import 'package:twogass/apps/widget/card_schedule_widget.dart';
 
 class TodayScheduleWidget extends StatelessWidget {
   final List<ScheduleModel> source;
-  const TodayScheduleWidget({super.key, required this.source});
+  final int? color;
+  const TodayScheduleWidget({super.key, required this.source, this.color });
 
   /// filter hari ini saja
   List<ScheduleModel> get _today {
@@ -30,7 +31,9 @@ class TodayScheduleWidget extends StatelessWidget {
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: list.length > 3 ? 3 : list.length,
-      itemBuilder: (_, i) => CardScheduleWidget(model: list[i]),
+      itemBuilder: (_, i) => CardScheduleWidget(
+        color :color,
+        model: list[i]),
     );
   }
 }

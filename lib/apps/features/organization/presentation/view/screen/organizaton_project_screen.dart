@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/card_project_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -14,6 +15,7 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(controller.colorIcon.value),
         onPressed: () {},
         child: Icon(Iconsax.folder_add_outline, color: context.colorTextBtn),
       ),
@@ -71,7 +73,8 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
               id: "id",
               name: "Project name",
               orgId: "orgId",
-              priority: "priority",
+              priority: Priority.low,
+              status: ProjectStatus.completed,
               deadline: DateTime.now().add(Duration(days: 4, minutes: 40)),
               createdAt: DateTime.now(),
               assign: [],

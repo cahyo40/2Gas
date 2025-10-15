@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/features/organization_create_update/domain/repositories/organization_create_update_repository.dart';
@@ -19,7 +18,6 @@ class OrganizationCreateUpdateController extends GetxController {
   final RxnString error = RxnString();
   final isEdit = false.obs;
   final Rxn orgId = Rxn();
-  final ImagePicker _picker = ImagePicker();
 
   final formKey = GlobalKey<FormState>();
   final title = TextEditingController();
@@ -29,13 +27,6 @@ class OrganizationCreateUpdateController extends GetxController {
   final imagesUrl = "".obs;
   final Rxn<File> imageFile = Rxn<File>();
   final Rx<Color> colors = Get.context!.primaryColor.obs;
-
-  Future<void> onSelectLogo() async {
-    var img = await _picker.pickImage(source: ImageSource.gallery);
-    if (img != null) {
-      imageFile.value = File(img.path);
-    }
-  }
 
   onSubmit() async {
     if (formKey.currentState!.validate()) {

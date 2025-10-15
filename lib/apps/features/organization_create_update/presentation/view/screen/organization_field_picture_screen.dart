@@ -17,9 +17,7 @@ class OrganizationFieldPictureScreen
         YoText.titleMedium("Logo Organization"),
         SizedBox(height: YoSpacing.sm),
         InkWell(
-          onTap: () async {
-            await controller.onSelectLogo();
-          },
+          onTap: () async {},
           child: Container(
             height: Get.width * 0.3,
             width: Get.width * 0.3,

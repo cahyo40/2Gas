@@ -10,5 +10,6 @@ abstract class RouteNames {
   static const String ONBOARD = '/onboard';
   static const String ORGANIZATION = '/organization';
   static const String ORGANIZATION_CREATE_UPDATE = '/organization_create_update';
+  static const String PROJECT_CREATE = '/project_create';
 
 }

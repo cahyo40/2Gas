@@ -5,21 +5,27 @@ class MemberModel {
   final String uid;
   final String orgId;
   final String role;
-  final String isPending;
-  final DateTime joinedAt;
+  final bool isPending;
+  final DateTime? joinedAt;
 
   const MemberModel({
     required this.id,
     required this.uid,
     required this.orgId,
     required this.role,
-    required this.isPending,
-    required this.joinedAt,
+    this.isPending = true,
+    this.joinedAt,
   });
 
-  /* -------------------------------------------------
-   * Firebase (Firestore) helpers
-   * ------------------------------------------------- */
+  factory MemberModel.initial() => MemberModel(
+    id: '',
+    uid: '',
+    orgId: '',
+    role: 'member',
+    isPending: true,
+    joinedAt: null,
+  );
+
   factory MemberModel.fromFirestore(DocumentSnapshot doc) =>
       MemberModel.fromJson(doc.data()! as Map<String, dynamic>);
 
@@ -28,8 +34,8 @@ class MemberModel {
     uid: json['uid'] as String,
     orgId: json['orgId'] as String,
     role: json['role'] as String,
-    isPending: json['isPending'] as String,
-    joinedAt: _dateTimeFromJson(json['joinedAt']),
+    isPending: json['isPending'] as bool,
+    joinedAt: json['joinedAt'] == null ? null : _dtFromJson(json['joinedAt']),
   );
 
   Map<String, dynamic> toJson() => {
@@ -38,19 +44,18 @@ class MemberModel {
     'orgId': orgId,
     'role': role,
     'isPending': isPending,
-    'joinedAt': _dateTimeToJson(joinedAt),
+    'joinedAt': joinedAt == null ? null : _dtToJson(joinedAt!),
   };
 
-  /* -------------------------------------------------
-   * Sembast helpers (Map<String,dynamic> dengan int)
-   * ------------------------------------------------- */
   factory MemberModel.fromMap(Map<String, dynamic> map) => MemberModel(
     id: map['id'] as String,
     uid: map['uid'] as String,
     orgId: map['orgId'] as String,
     role: map['role'] as String,
-    isPending: map['isPending'] as String,
-    joinedAt: DateTime.fromMillisecondsSinceEpoch(map['joinedAt'] as int),
+    isPending: map['isPending'] as bool,
+    joinedAt: map['joinedAt'] == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(map['joinedAt'] as int),
   );
 
   Map<String, dynamic> toMap() => {
@@ -59,26 +64,20 @@ class MemberModel {
     'orgId': orgId,
     'role': role,
     'isPending': isPending,
-    'joinedAt': joinedAt.millisecondsSinceEpoch,
+    'joinedAt': joinedAt?.millisecondsSinceEpoch,
   };
 
-  /* -------------------------------------------------
-   * Util: konversi DateTime <-> int (epoch-milis)
-   * ------------------------------------------------- */
-  static int _dateTimeToJson(DateTime dt) => dt.millisecondsSinceEpoch;
-  static DateTime _dateTimeFromJson(dynamic json) => json is int
+  static int _dtToJson(DateTime dt) => dt.millisecondsSinceEpoch;
+  static DateTime _dtFromJson(dynamic json) => json is int
       ? DateTime.fromMillisecondsSinceEpoch(json)
       : (json as Timestamp).toDate();
 
-  /* -------------------------------------------------
-   * copyWith
-   * ------------------------------------------------- */
   MemberModel copyWith({
     String? id,
     String? uid,
     String? orgId,
     String? role,
-    String? isPending,
+    bool? isPending,
     DateTime? joinedAt,
   }) => MemberModel(
     id: id ?? this.id,
@@ -89,9 +88,6 @@ class MemberModel {
     joinedAt: joinedAt ?? this.joinedAt,
   );
 
-  /* -------------------------------------------------
-   * Equality & hash
-   * ------------------------------------------------- */
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -107,10 +103,7 @@ class MemberModel {
   @override
   int get hashCode => Object.hash(id, uid, orgId, role, isPending, joinedAt);
 
-  /* -------------------------------------------------
-   * toString
-   * ------------------------------------------------- */
   @override
   String toString() =>
-      'MemberModel(id: $id, uid: $uid, orgId: $orgId, role: $role)';
+      'MemberModel(id: $id, uid: $uid, orgId: $orgId, isPending: $isPending)';
 }

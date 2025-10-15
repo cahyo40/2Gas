@@ -7,7 +7,6 @@ import 'package:twogass/apps/bindings/initial_bindings.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/controller/locale_controller.dart';
 import 'package:twogass/apps/controller/theme_controller.dart';
-import 'package:twogass/apps/core/services/sembast.dart';
 import 'package:twogass/apps/routes/route_app.dart';
 import 'package:twogass/apps/routes/route_names.dart';
 import 'package:twogass/firebase_options.dart';
@@ -19,7 +18,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await YoConnectivity.initialize();
   await GetStorage.init();
-  await SembastDatabase().init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(MyApp());

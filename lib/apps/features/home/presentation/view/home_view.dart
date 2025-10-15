@@ -13,20 +13,25 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          physics: AlwaysScrollableScrollPhysics(),
-          padding: YoPadding.all20,
-          children: [
-            HomeHeaderScreen(),
-            SizedBox(height: YoSpacing.md),
-            HomeScheduleScreen(),
-            SizedBox(height: YoSpacing.md),
-            HomeTaskSummaryScreen(),
-            SizedBox(height: YoSpacing.md),
-            HomeOrganitationsScreen(),
-          ],
+    return RefreshIndicator(
+      onRefresh: () async {
+        await controller.initOrg();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: ListView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: YoPadding.all20,
+            children: [
+              HomeHeaderScreen(),
+              SizedBox(height: YoSpacing.md),
+              HomeScheduleScreen(),
+              SizedBox(height: YoSpacing.md),
+              HomeTaskSummaryScreen(),
+              SizedBox(height: YoSpacing.md),
+              HomeOrganitationsScreen(),
+            ],
+          ),
         ),
       ),
     );

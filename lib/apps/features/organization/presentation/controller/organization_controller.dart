@@ -58,6 +58,19 @@ class OrganizationController extends GetxController {
     initialTab.value = i;
   }
 
+  final filtersProject = ["all", "active", "completed", "overdue"];
+  final currentFilterProject = 0.obs;
+
+  changeFilterProject(int index) {
+    currentFilterProject.value = index;
+  }
+
+  final filtersTask = ["all", "to-do", "in progress", 'done'];
+  final currentFilterTask = 0.obs;
+  changeFilterTask(int index) {
+    currentFilterTask.value = index;
+  }
+
   @override
   void onInit() {
     final args = Get.arguments;
@@ -70,10 +83,5 @@ class OrganizationController extends GetxController {
     }
 
     super.onInit();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 }

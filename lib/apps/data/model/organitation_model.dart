@@ -25,6 +25,19 @@ class OrganizationModel {
     this.color,
   });
 
+  factory OrganizationModel.initial() => OrganizationModel(
+    id: '',
+    inviteCode: '',
+    name: '',
+    description: null,
+    createdBy: '',
+    avatarUrl: null,
+    createdAt: DateTime.now(),
+    address: null,
+    email: null,
+    color: 0xFF2196F3, // default Material blue
+  );
+
   factory OrganizationModel.fromFirestore(DocumentSnapshot doc) =>
       OrganizationModel.fromJson(doc.data()! as Map<String, dynamic>);
 

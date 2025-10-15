@@ -29,6 +29,7 @@ class OrganizationCreateUpdateOfflineDatasource
         uid: model.createdBy,
         orgId: model.id,
         role: "owner",
+        imageUrl: user.photoUrl,
         isPending: false,
         joinedAt: now,
       );

@@ -27,6 +27,7 @@ class OrganizationCreateUpdateNetworkDatasource
         orgId: model.id,
         role: "owner",
         isPending: false,
+        imageUrl: user.photoUrl,
         joinedAt: now,
       );
       final activity = ActivityModel(

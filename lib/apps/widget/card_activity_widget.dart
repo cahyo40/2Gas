@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twogass/apps/core/helpers/activity_message.dart';
 import 'package:twogass/apps/core/helpers/color_helpers.dart';
 import 'package:twogass/apps/core/helpers/icon_helpers.dart';
 import 'package:twogass/apps/core/theme/box_shadow.dart';
@@ -36,7 +37,13 @@ class CardActivityWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   YoText.titleMedium(model.title),
-                  YoText.bodyMedium(model.description),
+                  YoText.bodyMedium(
+                    ActivityMessageHelper.getActivityMessage(
+                      context,
+                      model.type,
+                      model.meta!,
+                    ),
+                  ),
                   YoText.bodySmall(
                     YoDateFormatter.formatRelativeTime(
                       DateTime.now().subtract(Duration(hours: 12)),

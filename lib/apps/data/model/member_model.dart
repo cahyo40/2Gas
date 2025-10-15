@@ -5,6 +5,7 @@ class MemberModel {
   final String uid;
   final String orgId;
   final String role;
+  final String imageUrl;
   final bool isPending;
   final DateTime? joinedAt;
 
@@ -13,6 +14,7 @@ class MemberModel {
     required this.uid,
     required this.orgId,
     required this.role,
+    required this.imageUrl,
     this.isPending = true,
     this.joinedAt,
   });
@@ -21,6 +23,7 @@ class MemberModel {
     id: '',
     uid: '',
     orgId: '',
+    imageUrl: '',
     role: 'member',
     isPending: true,
     joinedAt: null,
@@ -34,6 +37,7 @@ class MemberModel {
     uid: json['uid'] as String,
     orgId: json['orgId'] as String,
     role: json['role'] as String,
+    imageUrl: json['imageUrl'],
     isPending: json['isPending'] as bool,
     joinedAt: json['joinedAt'] == null ? null : _dtFromJson(json['joinedAt']),
   );
@@ -43,6 +47,7 @@ class MemberModel {
     'uid': uid,
     'orgId': orgId,
     'role': role,
+    'imageUrl': imageUrl,
     'isPending': isPending,
     'joinedAt': joinedAt == null ? null : _dtToJson(joinedAt!),
   };
@@ -52,6 +57,7 @@ class MemberModel {
     uid: map['uid'] as String,
     orgId: map['orgId'] as String,
     role: map['role'] as String,
+    imageUrl: map['imageUrl'] as String,
     isPending: map['isPending'] as bool,
     joinedAt: map['joinedAt'] == null
         ? null
@@ -63,6 +69,7 @@ class MemberModel {
     'uid': uid,
     'orgId': orgId,
     'role': role,
+    'imageUrl': imageUrl,
     'isPending': isPending,
     'joinedAt': joinedAt?.millisecondsSinceEpoch,
   };
@@ -78,9 +85,11 @@ class MemberModel {
     String? orgId,
     String? role,
     bool? isPending,
+    String? imageUrl,
     DateTime? joinedAt,
   }) => MemberModel(
     id: id ?? this.id,
+    imageUrl: imageUrl ?? this.imageUrl,
     uid: uid ?? this.uid,
     orgId: orgId ?? this.orgId,
     role: role ?? this.role,
@@ -97,6 +106,7 @@ class MemberModel {
           uid == other.uid &&
           orgId == other.orgId &&
           role == other.role &&
+          imageUrl == other.imageUrl &&
           isPending == other.isPending &&
           joinedAt == other.joinedAt;
 

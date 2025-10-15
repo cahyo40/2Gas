@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:icons_plus/icons_plus.dart';
-import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
+import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/organitation_model.dart';
+import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/detail_activity_usecase.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/detail_organization_usecase.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_activity_screen.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_overview_screen.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_project_screen.dart';
@@ -15,37 +17,19 @@ final tr = AppLocalizations.of(Get.context!)!;
 class OrganizationController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxnString error = RxnString();
-
   final initialTab = 0.obs;
   final orgId = "".obs;
+  final org = OrganizationModel.initial().obs;
+  final activity = <ActivityModel>[].obs;
+  final colorIcon = Get.theme.primaryColor.toARGB32().obs;
 
-  final List<BottomBarItem> listBottomNavBarItem = [
-    BottomBarItem(
-      title: YoText.bodyMedium("Overview"),
-      icon: Icon(Iconsax.element_4_outline),
-      selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-    ),
-    BottomBarItem(
-      title: YoText.bodyMedium("Project"),
-      icon: Icon(Iconsax.folder_open_outline),
-      selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-    ),
-    BottomBarItem(
-      title: YoText.bodyMedium("Task"),
-      icon: Icon(Iconsax.note_text_outline),
-      selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-    ),
-    BottomBarItem(
-      title: YoText.bodyMedium("Activity"),
-      icon: Icon(Iconsax.activity_outline),
-      selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-    ),
-    BottomBarItem(
-      title: YoText.bodyMedium(tr.nav_settings),
-      icon: Icon(Iconsax.setting_2_outline),
-      selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-    ),
-  ];
+  GetOrganizationUsecase getOrganizationUsecase = GetOrganizationUsecase(
+    Get.find<OrganizationRepository>(),
+  );
+  DetailActivityUsecase getActivity = DetailActivityUsecase(
+    Get.find<OrganizationRepository>(),
+  );
+
   final tabView = [
     OrganizatonOverviewScreen(),
     OrganizatonProjectScreen(),
@@ -56,6 +40,17 @@ class OrganizationController extends GetxController {
 
   void changeTab(int i) {
     initialTab.value = i;
+  }
+
+  initOrg(String orgId) async {
+    isLoading.value = true;
+    try {
+      org.value = await getOrganizationUsecase(orgId);
+      activity.addAll(await getActivity(orgId));
+    } catch (_) {
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   final filtersProject = ["all", "active", "completed", "overdue"];
@@ -77,10 +72,15 @@ class OrganizationController extends GetxController {
     if (args is Map<String, dynamic> && args['id'] != null) {
       orgId.value = args['id'] as String;
       YoLogger.info('Org ID: ${orgId.value}');
+      initOrg(orgId.value);
     } else {
       YoLogger.error('Argumen "id" tidak ditemukan atau null');
       // opsional: kembali atau tampilkan error
     }
+
+    ever(org, (_) {
+      colorIcon.value = org.value.color ?? Get.context!.primaryColor.toARGB32();
+    });
 
     super.onInit();
   }

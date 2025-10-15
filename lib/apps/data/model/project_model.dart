@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
+
+enum ProjectStatus { active, completed, overdue }
 
 class ProjectModel {
   final String id;
   final String name;
   final String orgId;
-  final String priority;
+  final Priority priority;
+  final ProjectStatus status;
   final String? description;
   final DateTime deadline;
   final DateTime createdAt;
@@ -16,12 +20,26 @@ class ProjectModel {
     required this.name,
     required this.orgId,
     required this.priority,
+    required this.status,
     this.description,
     required this.deadline,
     required this.createdAt,
-    required this.assign,
     required this.createdBy,
+    required this.assign,
   });
+
+  factory ProjectModel.initial() => ProjectModel(
+    id: '',
+    name: '',
+    orgId: '',
+    priority: Priority.medium,
+    status: ProjectStatus.active,
+    description: null,
+    deadline: DateTime.now().add(const Duration(days: 30)),
+    createdAt: DateTime.now(),
+    createdBy: '',
+    assign: const [],
+  );
 
   factory ProjectModel.fromFirestore(DocumentSnapshot doc) =>
       ProjectModel.fromJson(doc.data()! as Map<String, dynamic>);
@@ -30,7 +48,8 @@ class ProjectModel {
     id: json['id'] as String,
     name: json['name'] as String,
     orgId: json['orgId'] as String,
-    priority: json['priority'] as String,
+    priority: Priority.values.firstWhere((e) => e.name == json['priority']),
+    status: ProjectStatus.values.firstWhere((e) => e.name == json['status']),
     description: json['description'] as String?,
     deadline: _dtFromJson(json['deadline']),
     createdAt: _dtFromJson(json['createdAt']),
@@ -44,7 +63,8 @@ class ProjectModel {
     'id': id,
     'name': name,
     'orgId': orgId,
-    'priority': priority,
+    'priority': priority.name,
+    'status': status.name,
     'description': description,
     'deadline': _dtToJson(deadline),
     'createdAt': _dtToJson(createdAt),
@@ -56,11 +76,12 @@ class ProjectModel {
     id: map['id'] as String,
     name: map['name'] as String,
     orgId: map['orgId'] as String,
-    priority: map['priority'] as String,
-    createdBy: map['createdBy'] as String,
+    priority: Priority.values.firstWhere((e) => e.name == map['priority']),
+    status: ProjectStatus.values.firstWhere((e) => e.name == map['status']),
     description: map['description'] as String?,
     deadline: DateTime.fromMillisecondsSinceEpoch(map['deadline'] as int),
     createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+    createdBy: map['createdBy'] as String,
     assign: (map['assign'] as List<dynamic>)
         .map((e) => ProjectAssignModel.fromMap(e as Map<String, dynamic>))
         .toList(),
@@ -70,11 +91,12 @@ class ProjectModel {
     'id': id,
     'name': name,
     'orgId': orgId,
-    'priority': priority,
+    'priority': priority.name,
+    'status': status.name,
     'description': description,
-    'createdBy': createdBy,
     'deadline': deadline.millisecondsSinceEpoch,
     'createdAt': createdAt.millisecondsSinceEpoch,
+    'createdBy': createdBy,
     'assign': assign.map((e) => e.toMap()).toList(),
   };
 
@@ -87,21 +109,23 @@ class ProjectModel {
     String? id,
     String? name,
     String? orgId,
-    String? priority,
+    Priority? priority,
+    ProjectStatus? status,
     String? description,
     DateTime? deadline,
     DateTime? createdAt,
     String? createdBy,
     List<ProjectAssignModel>? assign,
   }) => ProjectModel(
-    createdBy: createdBy ?? this.createdBy,
     id: id ?? this.id,
     name: name ?? this.name,
     orgId: orgId ?? this.orgId,
     priority: priority ?? this.priority,
+    status: status ?? this.status,
     description: description ?? this.description,
     deadline: deadline ?? this.deadline,
     createdAt: createdAt ?? this.createdAt,
+    createdBy: createdBy ?? this.createdBy,
     assign: assign ?? this.assign,
   );
 
@@ -112,12 +136,13 @@ class ProjectModel {
           runtimeType == other.runtimeType &&
           id == other.id &&
           name == other.name &&
-          createdBy == other.createdBy &&
           orgId == other.orgId &&
           priority == other.priority &&
+          status == other.status &&
           description == other.description &&
           deadline == other.deadline &&
           createdAt == other.createdAt &&
+          createdBy == other.createdBy &&
           assign == other.assign;
 
   @override
@@ -126,15 +151,17 @@ class ProjectModel {
     name,
     orgId,
     priority,
+    status,
     description,
     deadline,
     createdAt,
-    assign,
     createdBy,
+    assign,
   );
 
   @override
-  String toString() => 'ProjectModel(id: $id, name: $name, orgId: $orgId)';
+  String toString() =>
+      'ProjectModel(id: $id, name: $name, status: ${status.name})';
 }
 
 class ProjectAssignModel {
@@ -147,9 +174,6 @@ class ProjectAssignModel {
     required this.projectId,
     required this.uid,
   });
-
-  factory ProjectAssignModel.fromFirestore(DocumentSnapshot doc) =>
-      ProjectAssignModel.fromJson(doc.data()! as Map<String, dynamic>);
 
   factory ProjectAssignModel.fromJson(Map<String, dynamic> json) =>
       ProjectAssignModel(

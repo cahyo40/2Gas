@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast_io.dart';
@@ -5,15 +6,17 @@ import 'package:twogass/apps/core/constants/database.dart';
 
 final collect = DatabaseConst();
 
-class SembastDatabase {
-  static Database? _db;
+class SembastService extends GetxService {
+  static SembastService get to => Get.find();
 
-  Future<Database> get database async {
-    _db ??= await init();
+  Database? _db;
+
+  Future<Database> get db async {
+    _db ??= await _open();
     return _db!;
   }
 
-  Future<Database> init() async {
+  Future<Database> _open() async {
     final dir = await getApplicationDocumentsDirectory();
     await dir.create(recursive: true);
     final dbPath = join(dir.path, 'app.db');
@@ -34,4 +37,8 @@ class SembastDatabase {
       stringMapStoreFactory.store(collect.notification);
   static final StoreRef<String, Map<String, dynamic>> vote =
       stringMapStoreFactory.store(collect.voting);
+  static final StoreRef<String, Map<String, dynamic>> member =
+      stringMapStoreFactory.store(collect.member);
+  static final StoreRef<String, Map<String, dynamic>> activity =
+      stringMapStoreFactory.store(collect.activity);
 }

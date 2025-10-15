@@ -7,7 +7,8 @@ class HomeController extends GetxController {
   final RxnString error = RxnString();
 
   addOrganization() {
-    YoLogger.error("Add Org");
+    Get.back();
+    Get.toNamed(RouteNames.ORGANIZATION_CREATE_UPDATE);
   }
 
   joinOrganization() {

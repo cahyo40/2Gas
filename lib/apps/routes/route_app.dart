@@ -20,6 +20,8 @@ import '../features/onboard/presentation/binding/onboard_binding.dart';
 import '../features/onboard/presentation/view/onboard_view.dart';
 import '../features/organization/presentation/binding/organization_binding.dart';
 import '../features/organization/presentation/view/organization_view.dart';
+import '../features/organization_create_update/presentation/binding/organization_create_update_binding.dart';
+import '../features/organization_create_update/presentation/view/organization_create_update_view.dart';
 import 'route_names.dart';
 
 class RouteApp {
@@ -82,6 +84,11 @@ class RouteApp {
       name: RouteNames.ORGANIZATION,
       page: () => const OrganizationView(),
       binding: OrganizationBinding(),
+      
+    ),    GetPage(
+      name: RouteNames.ORGANIZATION_CREATE_UPDATE,
+      page: () => const OrganizationCreateUpdateView(),
+      binding: OrganizationCreateUpdateBinding(),
       
     ),];
 }

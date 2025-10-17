@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class MemberModel {
   final String id;
   final String uid;
+  final String name;
+  final String email;
   final String orgId;
   final String role;
   final String imageUrl;
@@ -12,6 +14,8 @@ class MemberModel {
   const MemberModel({
     required this.id,
     required this.uid,
+    required this.name,
+    required this.email,
     required this.orgId,
     required this.role,
     required this.imageUrl,
@@ -22,9 +26,11 @@ class MemberModel {
   factory MemberModel.initial() => MemberModel(
     id: '',
     uid: '',
+    name: '',
+    email: '',
     orgId: '',
-    imageUrl: '',
     role: 'member',
+    imageUrl: '',
     isPending: true,
     joinedAt: null,
   );
@@ -35,9 +41,11 @@ class MemberModel {
   factory MemberModel.fromJson(Map<String, dynamic> json) => MemberModel(
     id: json['id'] as String,
     uid: json['uid'] as String,
+    name: json['name'] as String,
+    email: json['email'] as String,
     orgId: json['orgId'] as String,
     role: json['role'] as String,
-    imageUrl: json['imageUrl'],
+    imageUrl: json['imageUrl'] as String,
     isPending: json['isPending'] as bool,
     joinedAt: json['joinedAt'] == null ? null : _dtFromJson(json['joinedAt']),
   );
@@ -45,6 +53,8 @@ class MemberModel {
   Map<String, dynamic> toJson() => {
     'id': id,
     'uid': uid,
+    'name': name,
+    'email': email,
     'orgId': orgId,
     'role': role,
     'imageUrl': imageUrl,
@@ -55,6 +65,8 @@ class MemberModel {
   factory MemberModel.fromMap(Map<String, dynamic> map) => MemberModel(
     id: map['id'] as String,
     uid: map['uid'] as String,
+    name: map['name'] as String,
+    email: map['email'] as String,
     orgId: map['orgId'] as String,
     role: map['role'] as String,
     imageUrl: map['imageUrl'] as String,
@@ -67,6 +79,8 @@ class MemberModel {
   Map<String, dynamic> toMap() => {
     'id': id,
     'uid': uid,
+    'name': name,
+    'email': email,
     'orgId': orgId,
     'role': role,
     'imageUrl': imageUrl,
@@ -82,17 +96,21 @@ class MemberModel {
   MemberModel copyWith({
     String? id,
     String? uid,
+    String? name,
+    String? email,
     String? orgId,
     String? role,
-    bool? isPending,
     String? imageUrl,
+    bool? isPending,
     DateTime? joinedAt,
   }) => MemberModel(
     id: id ?? this.id,
-    imageUrl: imageUrl ?? this.imageUrl,
     uid: uid ?? this.uid,
+    name: name ?? this.name,
+    email: email ?? this.email,
     orgId: orgId ?? this.orgId,
     role: role ?? this.role,
+    imageUrl: imageUrl ?? this.imageUrl,
     isPending: isPending ?? this.isPending,
     joinedAt: joinedAt ?? this.joinedAt,
   );
@@ -104,6 +122,8 @@ class MemberModel {
           runtimeType == other.runtimeType &&
           id == other.id &&
           uid == other.uid &&
+          name == other.name &&
+          email == other.email &&
           orgId == other.orgId &&
           role == other.role &&
           imageUrl == other.imageUrl &&
@@ -111,9 +131,19 @@ class MemberModel {
           joinedAt == other.joinedAt;
 
   @override
-  int get hashCode => Object.hash(id, uid, orgId, role, isPending, joinedAt);
+  int get hashCode => Object.hash(
+    id,
+    uid,
+    name,
+    email,
+    orgId,
+    role,
+    imageUrl,
+    isPending,
+    joinedAt,
+  );
 
   @override
   String toString() =>
-      'MemberModel(id: $id, uid: $uid, orgId: $orgId, isPending: $isPending)';
+      'MemberModel(id: $id, uid: $uid, name: $name, isPending: $isPending)';
 }

@@ -9,7 +9,8 @@ import 'package:yo_ui/yo_ui.dart';
 
 class CardProjectWidget extends StatelessWidget {
   final ProjectModel model;
-  const CardProjectWidget({super.key, required this.model});
+  final void Function()? onTap;
+  const CardProjectWidget({super.key, required this.model, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,7 @@ class CardProjectWidget extends StatelessWidget {
     return Padding(
       padding: YoPadding.onlyBottom8,
       child: YoCard(
+        onTap: onTap,
         backgroundColor: context.backgroundColor,
         shadow: YoShadow.card(context),
         child: Column(

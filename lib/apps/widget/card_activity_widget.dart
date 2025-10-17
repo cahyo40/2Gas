@@ -45,9 +45,7 @@ class CardActivityWidget extends StatelessWidget {
                     ),
                   ),
                   YoText.bodySmall(
-                    YoDateFormatter.formatRelativeTime(
-                      DateTime.now().subtract(Duration(hours: 12)),
-                    ),
+                    YoDateFormatter.formatRelativeTime(model.createdAt),
                     color: context.gray500,
                   ),
                 ],

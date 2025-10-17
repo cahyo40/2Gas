@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/schedule_model.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/card_activity_widget.dart';
 import 'package:twogass/apps/widget/card_summary_widget.dart';
 import 'package:twogass/apps/widget/today_schedule_widget.dart';
@@ -88,26 +90,70 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
           SizedBox(height: YoSpacing.md),
           YoText.titleMedium("Project Summary"),
           SizedBox(height: YoSpacing.sm),
-          Row(
-            spacing: YoSpacing.md,
-            children: [
-              Expanded(child: CardSummaryWidget(title: "Active", value: 10)),
-              Expanded(
-                child: CardSummaryWidget(title: "Completed", value: 120),
-              ),
-              Expanded(child: CardSummaryWidget(title: "Overdue", value: 17)),
-            ],
+          Obx(
+            () => Row(
+              spacing: YoSpacing.md,
+              children: [
+                Expanded(
+                  child: CardSummaryWidget(
+                    title: "Active",
+                    value: controller.project
+                        .where((test) => test.status == ProjectStatus.active)
+                        .length,
+                  ),
+                ),
+                Expanded(
+                  child: CardSummaryWidget(
+                    title: "Completed",
+                    value: controller.project
+                        .where((test) => test.status == ProjectStatus.completed)
+                        .length,
+                  ),
+                ),
+                Expanded(
+                  child: CardSummaryWidget(
+                    title: "Overdue",
+                    value: controller.project
+                        .where((test) => test.status == ProjectStatus.overdue)
+                        .length,
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: YoSpacing.md),
           YoText.titleMedium("Task Summary"),
           SizedBox(height: YoSpacing.sm),
-          Row(
-            spacing: YoSpacing.md,
-            children: [
-              Expanded(child: CardSummaryWidget(title: "To-Do", value: 10)),
-              Expanded(child: CardSummaryWidget(title: "Progress", value: 120)),
-              Expanded(child: CardSummaryWidget(title: "Done", value: 17)),
-            ],
+          Obx(
+            () => Row(
+              spacing: YoSpacing.md,
+              children: [
+                Expanded(
+                  child: CardSummaryWidget(
+                    title: "To-Do",
+                    value: controller.task
+                        .where((test) => test.status == TaskStatus.todo)
+                        .length,
+                  ),
+                ),
+                Expanded(
+                  child: CardSummaryWidget(
+                    title: "Progress",
+                    value: controller.task
+                        .where((test) => test.status == TaskStatus.progress)
+                        .length,
+                  ),
+                ),
+                Expanded(
+                  child: CardSummaryWidget(
+                    title: "Done",
+                    value: controller.task
+                        .where((test) => test.status == TaskStatus.done)
+                        .length,
+                  ),
+                ),
+              ],
+            ),
           ),
           SizedBox(height: YoSpacing.md),
           YoText.titleMedium("Lastest Activity"),

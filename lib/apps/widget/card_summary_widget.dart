@@ -4,7 +4,7 @@ import 'package:yo_ui/yo_ui_base.dart';
 
 class CardSummaryWidget extends StatelessWidget {
   final String title;
-  final double value;
+  final int value;
   const CardSummaryWidget({
     super.key,
     required this.title,

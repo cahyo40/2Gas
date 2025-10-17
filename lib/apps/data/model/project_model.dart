@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:twogass/apps/data/model/project_category_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 
 enum ProjectStatus { active, completed, overdue }
@@ -13,6 +14,7 @@ class ProjectModel {
   final DateTime deadline;
   final DateTime createdAt;
   final String createdBy;
+  final List<ProjectCategoryModel> categories;
   final List<ProjectAssignModel> assign;
 
   const ProjectModel({
@@ -25,6 +27,7 @@ class ProjectModel {
     required this.deadline,
     required this.createdAt,
     required this.createdBy,
+    required this.categories,
     required this.assign,
   });
 
@@ -38,6 +41,7 @@ class ProjectModel {
     deadline: DateTime.now().add(const Duration(days: 30)),
     createdAt: DateTime.now(),
     createdBy: '',
+    categories: const [],
     assign: const [],
   );
 
@@ -54,6 +58,9 @@ class ProjectModel {
     deadline: _dtFromJson(json['deadline']),
     createdAt: _dtFromJson(json['createdAt']),
     createdBy: json['createdBy'] as String,
+    categories: (json['categories'] as List<dynamic>)
+        .map((e) => ProjectCategoryModel.fromJson(e as Map<String, dynamic>))
+        .toList(),
     assign: (json['assign'] as List<dynamic>)
         .map((e) => ProjectAssignModel.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -69,6 +76,7 @@ class ProjectModel {
     'deadline': _dtToJson(deadline),
     'createdAt': _dtToJson(createdAt),
     'createdBy': createdBy,
+    'categories': categories.map((e) => e.toJson()).toList(),
     'assign': assign.map((e) => e.toJson()).toList(),
   };
 
@@ -82,6 +90,9 @@ class ProjectModel {
     deadline: DateTime.fromMillisecondsSinceEpoch(map['deadline'] as int),
     createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
     createdBy: map['createdBy'] as String,
+    categories: (map['categories'] as List<dynamic>)
+        .map((e) => ProjectCategoryModel.fromMap(e as Map<String, dynamic>))
+        .toList(),
     assign: (map['assign'] as List<dynamic>)
         .map((e) => ProjectAssignModel.fromMap(e as Map<String, dynamic>))
         .toList(),
@@ -97,6 +108,7 @@ class ProjectModel {
     'deadline': deadline.millisecondsSinceEpoch,
     'createdAt': createdAt.millisecondsSinceEpoch,
     'createdBy': createdBy,
+    'categories': categories.map((e) => e.toMap()).toList(),
     'assign': assign.map((e) => e.toMap()).toList(),
   };
 
@@ -115,6 +127,7 @@ class ProjectModel {
     DateTime? deadline,
     DateTime? createdAt,
     String? createdBy,
+    List<ProjectCategoryModel>? categories,
     List<ProjectAssignModel>? assign,
   }) => ProjectModel(
     id: id ?? this.id,
@@ -126,6 +139,7 @@ class ProjectModel {
     deadline: deadline ?? this.deadline,
     createdAt: createdAt ?? this.createdAt,
     createdBy: createdBy ?? this.createdBy,
+    categories: categories ?? this.categories,
     assign: assign ?? this.assign,
   );
 
@@ -143,6 +157,7 @@ class ProjectModel {
           deadline == other.deadline &&
           createdAt == other.createdAt &&
           createdBy == other.createdBy &&
+          categories == other.categories &&
           assign == other.assign;
 
   @override
@@ -156,6 +171,7 @@ class ProjectModel {
     deadline,
     createdAt,
     createdBy,
+    categories,
     assign,
   );
 
@@ -168,11 +184,13 @@ class ProjectAssignModel {
   final String id;
   final String projectId;
   final String uid;
+  final String imageUrl;
 
   const ProjectAssignModel({
     required this.id,
     required this.projectId,
     required this.uid,
+    required this.imageUrl,
   });
 
   factory ProjectAssignModel.fromJson(Map<String, dynamic> json) =>
@@ -180,12 +198,14 @@ class ProjectAssignModel {
         id: json['id'] as String,
         projectId: json['projectId'] as String,
         uid: json['uid'] as String,
+        imageUrl: json['imageUrl'] as String,
       );
 
   Map<String, dynamic> toJson() => {
     'id': id,
     'projectId': projectId,
     'uid': uid,
+    'imageUrl': imageUrl,
   };
 
   factory ProjectAssignModel.fromMap(Map<String, dynamic> map) =>
@@ -193,20 +213,27 @@ class ProjectAssignModel {
         id: map['id'] as String,
         projectId: map['projectId'] as String,
         uid: map['uid'] as String,
+        imageUrl: map['imageUrl'] as String,
       );
 
   Map<String, dynamic> toMap() => {
     'id': id,
     'projectId': projectId,
     'uid': uid,
+    'imageUrl': imageUrl,
   };
 
-  ProjectAssignModel copyWith({String? id, String? projectId, String? uid}) =>
-      ProjectAssignModel(
-        id: id ?? this.id,
-        projectId: projectId ?? this.projectId,
-        uid: uid ?? this.uid,
-      );
+  ProjectAssignModel copyWith({
+    String? id,
+    String? projectId,
+    String? uid,
+    String? imageUrl,
+  }) => ProjectAssignModel(
+    id: id ?? this.id,
+    projectId: projectId ?? this.projectId,
+    uid: uid ?? this.uid,
+    imageUrl: imageUrl ?? this.imageUrl,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -215,6 +242,7 @@ class ProjectAssignModel {
           runtimeType == other.runtimeType &&
           id == other.id &&
           projectId == other.projectId &&
+          imageUrl == other.imageUrl &&
           uid == other.uid;
 
   @override

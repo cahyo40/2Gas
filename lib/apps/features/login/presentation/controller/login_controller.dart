@@ -18,7 +18,7 @@ class LoginController extends GetxController {
       final initData = {
         'uid': auth.uid,
         'name': auth.name,
-        'email': auth.name,
+        'email': auth.email,
         'photoUrl': auth.photoUrl,
       };
       final data = LoginModel.fromMap(initData);

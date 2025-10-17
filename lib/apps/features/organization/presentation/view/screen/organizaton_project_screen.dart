@@ -86,7 +86,15 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
               itemCount: controller.projectShow.length,
               itemBuilder: (_, i) {
                 final model = controller.projectShow[i];
-                return CardProjectWidget(model: model);
+                return CardProjectWidget(
+                  onTap: () {
+                    Get.toNamed(
+                      RouteNames.PROJECT,
+                      arguments: {"orgId": model.orgId, "id": model.id},
+                    );
+                  },
+                  model: model,
+                );
               },
             ),
           ),

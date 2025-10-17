@@ -16,6 +16,10 @@ import 'package:twogass/apps/features/organization_create_update/data/datasource
 import 'package:twogass/apps/features/organization_create_update/data/datasource/organization_create_update_offline_datasource.dart';
 import 'package:twogass/apps/features/organization_create_update/data/repositories/organization_create_update_repository_impl.dart';
 import 'package:twogass/apps/features/organization_create_update/domain/repositories/organization_create_update_repository.dart';
+import 'package:twogass/apps/features/project_create/data/datasource/project_create_network_datasource.dart';
+import 'package:twogass/apps/features/project_create/data/datasource/project_create_offline_datasource.dart';
+import 'package:twogass/apps/features/project_create/data/repositories/project_create_repository_impl.dart';
+import 'package:twogass/apps/features/project_create/domain/repositories/project_create_repository.dart';
 
 class InitialBindings implements Bindings {
   @override
@@ -85,5 +89,16 @@ class InitialBindings implements Bindings {
 
     Get.lazyPut(() => OrganizationCreateUpdateNetworkDatasource(), fenix: true);
     Get.lazyPut(() => OrganizationCreateUpdateOfflineDatasource(), fenix: true);
+    // ORGANIZATION Create Update
+    Get.lazyPut<ProjectCreateRepository>(
+      () => ProjectCreateRepositoryImpl(
+        Get.find<ProjectCreateNetworkDatasource>(),
+        Get.find<ProjectCreateOfflineDatasource>(),
+      ),
+      fenix: true,
+    );
+
+    Get.lazyPut(() => ProjectCreateNetworkDatasource(), fenix: true);
+    Get.lazyPut(() => ProjectCreateOfflineDatasource(), fenix: true);
   }
 }

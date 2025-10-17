@@ -1,3 +1,5 @@
+import 'package:twogass/apps/data/model/project_model.dart';
+
 import '../repositories/project_create_repository.dart';
 
 class ProjectCreateUsecase {
@@ -5,7 +7,7 @@ class ProjectCreateUsecase {
 
   ProjectCreateUsecase(this._repo);
 
-  Future<void> call() async {
-    // TODO: implement
+  Future<bool> call(ProjectModel project) async {
+    return await _repo.submitProject(project);
   }
 }

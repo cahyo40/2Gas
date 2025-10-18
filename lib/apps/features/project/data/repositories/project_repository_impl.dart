@@ -7,4 +7,12 @@ class ProjectRepositoryImpl implements ProjectRepository {
   final ProjectOfflineDatasource _offline;
 
   ProjectRepositoryImpl(this._network, this._offline);
+
+  @override
+  Future<Map<String, dynamic>> projectResponse({
+    required String id,
+    String? orgId,
+  }) async {
+    return await _network.projectResponse(id: id, orgId: orgId);
+  }
 }

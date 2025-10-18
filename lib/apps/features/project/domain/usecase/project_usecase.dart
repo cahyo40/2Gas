@@ -5,7 +5,7 @@ class ProjectUsecase {
 
   ProjectUsecase(this._repo);
 
-  Future<void> call() async {
-    // TODO: implement
+  Future<Map<String, dynamic>> call(String id, String orgId) async {
+    return await _repo.projectResponse(id: id, orgId: orgId);
   }
 }

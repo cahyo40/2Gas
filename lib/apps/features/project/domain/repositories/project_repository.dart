@@ -1,3 +1,6 @@
 abstract class ProjectRepository {
-  // TODO: define contract
+  Future<Map<String, dynamic>> projectResponse({
+    required String id,
+    String? orgId,
+  });
 }

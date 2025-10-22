@@ -14,7 +14,7 @@ class CardActivityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icon = IconHelpers.getActivityIcon(model.type);
-    final color = ColorHelpers.getActivityColor(model.type);
+    final color = YoColors().getActivityColor(model.type);
     return Padding(
       padding: YoPadding.onlyBottom8,
       child: YoCard(

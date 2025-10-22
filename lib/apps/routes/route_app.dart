@@ -26,6 +26,8 @@ import '../features/project_create/presentation/binding/project_create_binding.d
 import '../features/project_create/presentation/view/project_create_view.dart';
 import '../features/project/presentation/binding/project_binding.dart';
 import '../features/project/presentation/view/project_view.dart';
+import '../features/task_create/presentation/binding/task_create_binding.dart';
+import '../features/task_create/presentation/view/task_create_view.dart';
 import 'route_names.dart';
 
 class RouteApp {
@@ -103,6 +105,11 @@ class RouteApp {
       name: RouteNames.PROJECT,
       page: () => const ProjectView(),
       binding: ProjectBinding(),
+      
+    ),    GetPage(
+      name: RouteNames.TASK_CREATE,
+      page: () => const TaskCreateView(),
+      binding: TaskCreateBinding(),
       
     ),];
 }

@@ -67,13 +67,13 @@ class ProjectCreateController extends GetxController {
   }
 
   onAssignMember(MemberModel member) {
-    if (assigns.any((f) => f.uid.contains(member.id))) {
-      assigns.removeWhere((e) => e.uid.contains(member.id));
+    if (assigns.any((f) => f.uid.contains(member.uid))) {
+      assigns.removeWhere((e) => e.uid.contains(member.uid));
     } else {
       final data = ProjectAssignModel(
         id: YoIdGenerator.alphanumericId(),
         projectId: id,
-        uid: member.id,
+        uid: member.uid,
         imageUrl: member.imageUrl,
       );
       assigns.add(data);

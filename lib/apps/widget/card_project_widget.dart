@@ -5,6 +5,7 @@ import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
+import 'package:twogass/apps/widget/priority_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 class CardProjectWidget extends StatelessWidget {
@@ -50,7 +51,13 @@ class CardProjectWidget extends StatelessWidget {
           spacing: YoSpacing.md,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            YoText.titleMedium(model.name),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                YoText.titleMedium(model.name),
+                PriorityWidget(priority: model.priority),
+              ],
+            ),
             Divider(),
             FutureBuilder<double>(
               future: getPercentage(),

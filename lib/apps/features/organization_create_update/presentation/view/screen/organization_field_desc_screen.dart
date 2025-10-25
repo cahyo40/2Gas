@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_create_update_controller.dart';
@@ -10,23 +11,18 @@ class OrganizationFieldDescScreen
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YoText.titleMedium("Description"),
-        SizedBox(height: YoSpacing.sm),
-        TextFormField(
-          readOnly: controller.isEdit.value,
+        YoTextFormField(
           controller: controller.desc,
-          style: context.yoBodyMedium,
+          readOnly: controller.isEdit.value,
+          labelText: tr.field_description,
+          inputStyle: YoInputStyle.modern,
+          inputType: YoInputType.multiline,
+          hintText: tr.field_description_hint,
           maxLines: null,
-          keyboardType: TextInputType.multiline,
-          decoration: InputDecoration(
-            hintText: "Description",
-            hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),
-            filled: true,
-            fillColor: context.textColor.withValues(alpha: .025),
-          ),
         ),
         SizedBox(height: YoSpacing.md),
       ],

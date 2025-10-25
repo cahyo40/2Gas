@@ -433,6 +433,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{user} deleted label {label}'**
   String labelDeleted(Object label, Object user);
+
+  /// No description provided for @field_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get field_title;
+
+  /// No description provided for @field_title_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a title'**
+  String get field_title_hint;
+
+  /// No description provided for @field_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get field_description;
+
+  /// No description provided for @field_description_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a description'**
+  String get field_description_hint;
+
+  /// No description provided for @field_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get field_address;
+
+  /// No description provided for @field_address_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an address'**
+  String get field_address_hint;
+
+  /// No description provided for @field_email_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get field_email_hint;
+
+  /// No description provided for @field_category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get field_category;
+
+  /// No description provided for @field_category_msg_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Category is required.'**
+  String get field_category_msg_required;
+
+  /// No description provided for @field_categoory_delete_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Category'**
+  String get field_categoory_delete_title;
+
+  /// No description provided for @field_categoory_delete_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this category?'**
+  String get field_categoory_delete_message;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @field_priority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get field_priority;
+
+  /// No description provided for @field_priority_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select priority level'**
+  String get field_priority_hint;
+
+  /// No description provided for @field_assigns.
+  ///
+  /// In en, this message translates to:
+  /// **'Assignees'**
+  String get field_assigns;
+
+  /// No description provided for @select_members.
+  ///
+  /// In en, this message translates to:
+  /// **'Select members'**
+  String get select_members;
 }
 
 class _AppLocalizationsDelegate

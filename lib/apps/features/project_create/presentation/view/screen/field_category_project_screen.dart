@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/project_create_controller.dart';
@@ -10,26 +11,18 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YoText.titleMedium("Category"),
-        SizedBox(height: YoSpacing.sm),
         Row(
           spacing: YoSpacing.md,
           children: [
             Expanded(
-              child: TextFormField(
+              child: YoTextFormField(
                 controller: controller.catCtrl,
-                style: context.yoBodyMedium,
-                decoration: InputDecoration(
-                  hintText: "Category",
-                  hintStyle: context.yoBodyMedium.copyWith(
-                    color: context.gray500,
-                  ),
-                  filled: true,
-                  fillColor: context.textColor.withValues(alpha: .025),
-                ),
+                inputStyle: YoInputStyle.modern,
+                labelText: tr.field_category,
               ),
             ),
             IconButton.filled(
@@ -38,7 +31,7 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
                 if (controller.catCtrl.text.isEmpty) {
                   YoSnackBar.show(
                     context: context,
-                    message: "Isi kategorynya",
+                    message: tr.field_category_msg_required,
                     type: YoSnackBarType.error,
                   );
                 } else {
@@ -69,9 +62,9 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
                 onTap: () {
                   YoConfirmDialog.show(
                     context: context,
-                    title: "Delete",
-                    content: "Cateogry",
-                    confirmText: "Yes",
+                    title: tr.field_categoory_delete_title,
+                    content: tr.field_categoory_delete_message,
+                    confirmText: tr.yes,
                   ).then((onValue) {
                     if (onValue == true && context.mounted) {
                       controller.category.removeAt(i);

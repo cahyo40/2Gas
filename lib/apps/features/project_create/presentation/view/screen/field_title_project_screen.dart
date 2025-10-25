@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/core/helpers/validation_helpers.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/project_create_controller.dart';
@@ -10,22 +11,17 @@ class FieldTitleProjectScreen extends GetView<ProjectCreateController> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YoText.titleMedium("Title"),
-        SizedBox(height: YoSpacing.sm),
-        TextFormField(
+        YoTextFormField(
           controller: controller.name,
-          style: context.yoBodyMedium,
+          labelText: tr.field_title,
+          hintText: tr.field_title_hint,
+          inputStyle: YoInputStyle.modern,
           validator: (value) =>
-              YoFormValidation.required(value, field: "Title"),
-          decoration: InputDecoration(
-            hintText: "Title",
-            hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),
-            filled: true,
-            fillColor: context.textColor.withValues(alpha: .025),
-          ),
+              YoFormValidation.required(value, field: tr.field_title),
         ),
         SizedBox(height: YoSpacing.md),
       ],

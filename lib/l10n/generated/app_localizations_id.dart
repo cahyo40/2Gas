@@ -248,4 +248,62 @@ class AppLocalizationsId extends AppLocalizations {
   String labelDeleted(Object label, Object user) {
     return '$user menghapus label $label';
   }
+
+  @override
+  String get field_title => 'Judul';
+
+  @override
+  String get field_title_hint => 'Masukkan judul';
+
+  @override
+  String get field_description => 'Deskripsi';
+
+  @override
+  String get field_description_hint => 'Masukkan deskripsi';
+
+  @override
+  String get field_address => 'Alamat';
+
+  @override
+  String get field_address_hint => 'Masukkan alamat';
+
+  @override
+  String get field_email_hint => 'Masukkan email Anda';
+
+  @override
+  String get field_category => 'Kategori';
+
+  @override
+  String get field_category_msg_required => 'Kategori wajib dipilih.';
+
+  @override
+  String get field_categoory_delete_title => 'Hapus Kategori';
+
+  @override
+  String get field_categoory_delete_message =>
+      'Yakin ingin menghapus kategori ini?';
+
+  @override
+  String get yes => 'Ya';
+
+  @override
+  String get no => 'Tidak';
+
+  @override
+  String get cancel => 'Batal';
+
+  @override
+  String get close => 'Tutup';
+
+  @override
+  String get field_priority => 'Prioritas';
+
+  @override
+  String get field_priority_hint => 'Pilih tingkat prioritas';
+
+  @override
+  String get field_assigns => 'Penerima Tugas';
+
+  @override
+  String get select_members => 'Pilih anggota';
 }

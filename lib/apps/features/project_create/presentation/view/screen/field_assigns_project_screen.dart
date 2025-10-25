@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/project_create_controller.dart';
@@ -11,10 +12,11 @@ class FieldAssignsProjectScreen extends GetView<ProjectCreateController> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YoText.titleMedium("Assigns"),
+        YoText.titleMedium(tr.field_assigns),
         SizedBox(height: YoSpacing.sm),
 
         Row(
@@ -24,7 +26,7 @@ class FieldAssignsProjectScreen extends GetView<ProjectCreateController> {
               onPressed: () {
                 YoBottomSheet.show(
                   context: context,
-                  title: "Select Member",
+                  title: tr.select_members,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),

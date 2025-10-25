@@ -56,7 +56,7 @@ class OrganizationFieldColorsScreen
                 child: Icon(
                   Iconsax.paintbucket_outline,
                   size: Get.width * 0.1,
-                  color: context.textColor,
+                  color: context.onPrimaryColor,
                 ),
               ),
             ),

@@ -25,6 +25,7 @@ class ProjectCreateView extends GetView<ProjectCreateController> {
             ? SafeArea(
                 child: Form(
                   key: controller.formKey,
+
                   child: ListView(
                     padding: YoPadding.all20,
                     children: [
@@ -37,6 +38,7 @@ class ProjectCreateView extends GetView<ProjectCreateController> {
 
                       YoButton.primary(
                         text: "Submit",
+                        
                         onPressed: controller.onSumbit,
                         textColor: context.colorTextBtn,
                       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/project_create_controller.dart';
@@ -13,9 +12,7 @@ class FieldDeadlineProjectScreen extends GetView<ProjectCreateController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YoText.titleMedium("Deadline"),
-        SizedBox(height: YoSpacing.sm),
-        TextFormField(
+        YoTextFormField(
           onTap: () async {
             final date = await showDatePicker(
               context: context,
@@ -28,17 +25,10 @@ class FieldDeadlineProjectScreen extends GetView<ProjectCreateController> {
           },
           controller: controller.deadlineCtrl,
           readOnly: true,
-          style: context.yoBodyMedium,
-          maxLines: null,
-          keyboardType: TextInputType.multiline,
-          decoration: InputDecoration(
-            prefixIcon: Icon(Iconsax.calendar_2_outline),
-            hintText: "Deadline",
-            hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),
-            filled: true,
-            fillColor: context.textColor.withValues(alpha: .025),
-          ),
+          labelText: "Deadline",
+          inputStyle: YoInputStyle.modern,
         ),
+
         SizedBox(height: YoSpacing.md),
       ],
     );

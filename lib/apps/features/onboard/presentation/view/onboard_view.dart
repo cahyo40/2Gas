@@ -72,7 +72,7 @@ class OnboardView extends GetView<OnboardController> {
                             Get.offAllNamed(RouteNames.LOGIN);
                           }
                         },
-
+                        textColor: context.onPrimaryColor,
                         text: controller.buttonText(
                           controller.currentPage.value,
                         ),

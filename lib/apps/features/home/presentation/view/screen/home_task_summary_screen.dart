@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/home_controller.dart';
@@ -32,7 +31,7 @@ class HomeTaskSummaryScreen extends GetView<HomeController> {
   Widget _cardHomeSummary(String title, double value) {
     return YoCard(
       backgroundColor: Get.context!.backgroundColor,
-      shadow: YoShadow.card(Get.context!),
+      shadows: YoBoxShadow.apple(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

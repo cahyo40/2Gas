@@ -52,8 +52,11 @@ class OrganizationCreateUpdateController extends GetxController {
         await createOrg(model);
         Get.back();
       } catch (e, s) {
-        YoLogger.error('onSubmit error $e -> $s');
-        Get.snackbar('Error', e.toString());
+        YoSnackBar.show(
+          context: Get.context!,
+          message: "Error : $e -> $s",
+          type: YoSnackBarType.error,
+        );
       } finally {
         isLoading.value = false;
       }

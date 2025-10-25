@@ -179,37 +179,84 @@ class TaskModel {
 class TaskAssignModel {
   final String id;
   final String uid;
+  final String imageUrl;
+  final String name;
+  final String? projectId;
   final String taskId;
 
   const TaskAssignModel({
     required this.id,
     required this.uid,
+    required this.imageUrl,
+    required this.name,
+    this.projectId,
     required this.taskId,
   });
+
+  factory TaskAssignModel.initial() => const TaskAssignModel(
+    id: '',
+    uid: '',
+    imageUrl: '',
+    name: '',
+    projectId: null,
+    taskId: '',
+  );
+
+  factory TaskAssignModel.fromFirestore(DocumentSnapshot doc) =>
+      TaskAssignModel.fromJson(doc.data()! as Map<String, dynamic>);
 
   factory TaskAssignModel.fromJson(Map<String, dynamic> json) =>
       TaskAssignModel(
         id: json['id'] as String,
         uid: json['uid'] as String,
+        imageUrl: json['imageUrl'] as String,
+        name: json['name'] as String,
+        projectId: json['projectId'] as String?,
         taskId: json['taskId'] as String,
       );
 
-  Map<String, dynamic> toJson() => {'id': id, 'uid': uid, 'taskId': taskId};
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'uid': uid,
+    'imageUrl': imageUrl,
+    'name': name,
+    'projectId': projectId,
+    'taskId': taskId,
+  };
 
   factory TaskAssignModel.fromMap(Map<String, dynamic> map) => TaskAssignModel(
     id: map['id'] as String,
     uid: map['uid'] as String,
+    imageUrl: map['imageUrl'] as String,
+    name: map['name'] as String,
+    projectId: map['projectId'] as String?,
     taskId: map['taskId'] as String,
   );
 
-  Map<String, dynamic> toMap() => {'id': id, 'uid': uid, 'taskId': taskId};
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'uid': uid,
+    'imageUrl': imageUrl,
+    'name': name,
+    'projectId': projectId,
+    'taskId': taskId,
+  };
 
-  TaskAssignModel copyWith({String? id, String? uid, String? taskId}) =>
-      TaskAssignModel(
-        id: id ?? this.id,
-        uid: uid ?? this.uid,
-        taskId: taskId ?? this.taskId,
-      );
+  TaskAssignModel copyWith({
+    String? id,
+    String? uid,
+    String? imageUrl,
+    String? name,
+    String? projectId,
+    String? taskId,
+  }) => TaskAssignModel(
+    id: id ?? this.id,
+    uid: uid ?? this.uid,
+    imageUrl: imageUrl ?? this.imageUrl,
+    name: name ?? this.name,
+    projectId: projectId ?? this.projectId,
+    taskId: taskId ?? this.taskId,
+  );
 
   @override
   bool operator ==(Object other) =>
@@ -218,11 +265,15 @@ class TaskAssignModel {
           runtimeType == other.runtimeType &&
           id == other.id &&
           uid == other.uid &&
+          imageUrl == other.imageUrl &&
+          name == other.name &&
+          projectId == other.projectId &&
           taskId == other.taskId;
 
   @override
-  int get hashCode => Object.hash(id, uid, taskId);
+  int get hashCode => Object.hash(id, uid, imageUrl, name, projectId, taskId);
 
   @override
-  String toString() => 'TaskAssignModel(id: $id, uid: $uid, taskId: $taskId)';
+  String toString() =>
+      'TaskAssignModel(id: $id, uid: $uid, name: $name, taskId: $taskId)';
 }

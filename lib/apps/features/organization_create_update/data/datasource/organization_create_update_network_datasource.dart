@@ -22,6 +22,8 @@ class OrganizationCreateUpdateNetworkDatasource
         memberName: user.name,
       );
       final member = MemberModel(
+        name: user.name,
+        email: user.email,
         id: memberId,
         uid: model.createdBy,
         orgId: model.id,

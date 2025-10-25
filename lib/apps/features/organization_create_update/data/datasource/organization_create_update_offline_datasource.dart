@@ -26,6 +26,8 @@ class OrganizationCreateUpdateOfflineDatasource
       );
       final member = MemberModel(
         id: memberId,
+        email: user.email,
+        name: user.name,
         uid: model.createdBy,
         orgId: model.id,
         role: "owner",

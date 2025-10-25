@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:twogass/apps/data/model/project_model.dart';
-import 'package:twogass/apps/data/model/task_model.dart';
+import 'package:twogass/apps/routes/route_names.dart';
 import 'package:twogass/apps/widget/card_project_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -16,7 +15,19 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(controller.colorIcon.value),
-        onPressed: () {},
+        onPressed: () async {
+          final result = await Get.toNamed(
+            RouteNames.PROJECT_CREATE,
+            arguments: {"orgId": controller.org.value.id},
+          );
+          if (result == true && context.mounted) {
+            controller.initOrg(controller.orgId.value);
+            YoSnackBar.show(
+              context: context,
+              message: "Sukses menambah Project",
+            );
+          }
+        },
         child: Icon(Iconsax.folder_add_outline, color: context.colorTextBtn),
       ),
       body: ListView(
@@ -68,17 +79,23 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
               ),
             ),
           ),
-          CardProjectWidget(
-            model: ProjectModel(
-              id: "id",
-              name: "Project name",
-              orgId: "orgId",
-              priority: Priority.low,
-              status: ProjectStatus.completed,
-              deadline: DateTime.now().add(Duration(days: 4, minutes: 40)),
-              createdAt: DateTime.now(),
-              assign: [],
-              createdBy: "createdBy",
+          Obx(
+            () => ListView.builder(
+              shrinkWrap: true,
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: controller.projectShow.length,
+              itemBuilder: (_, i) {
+                final model = controller.projectShow[i];
+                return CardProjectWidget(
+                  onTap: () {
+                    Get.toNamed(
+                      RouteNames.PROJECT,
+                      arguments: {"orgId": model.orgId, "id": model.id},
+                    );
+                  },
+                  model: model,
+                );
+              },
             ),
           ),
         ],

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:twogass/apps/core/helpers/activity_message.dart';
 import 'package:twogass/apps/core/helpers/color_helpers.dart';
 import 'package:twogass/apps/core/helpers/icon_helpers.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -14,13 +13,13 @@ class CardActivityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icon = IconHelpers.getActivityIcon(model.type);
-    final color = ColorHelpers.getActivityColor(model.type);
+    final color = YoColors().getActivityColor(model.type);
     return Padding(
       padding: YoPadding.onlyBottom8,
       child: YoCard(
         elevation: 0,
         onTap: onTap,
-        shadow: YoShadow.card(context),
+        shadows: YoBoxShadow.apple(),
         child: Row(
           spacing: YoSpacing.md,
           children: [
@@ -45,9 +44,7 @@ class CardActivityWidget extends StatelessWidget {
                     ),
                   ),
                   YoText.bodySmall(
-                    YoDateFormatter.formatRelativeTime(
-                      DateTime.now().subtract(Duration(hours: 12)),
-                    ),
+                    YoDateFormatter.formatRelativeTime(model.createdAt),
                     color: context.gray500,
                   ),
                 ],

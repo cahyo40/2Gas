@@ -1,0 +1,59 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
+import 'package:twogass/apps/widget/card_summary_widget.dart';
+import 'package:yo_ui/yo_ui_base.dart';
+
+import '../../controller/project_controller.dart';
+
+class ProjectTaskScreen extends GetView<ProjectController> {
+  const ProjectTaskScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView(
+        shrinkWrap: true,
+        physics: AlwaysScrollableScrollPhysics(),
+
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              YoText.titleMedium("Tasks"),
+              TextButton(
+                onPressed: () {},
+                child: YoText.bodyMedium(
+                  "Lihat semua",
+                  color: context.primaryColor,
+                ),
+              ),
+            ],
+          ),
+          Row(
+            spacing: YoSpacing.md,
+            children: TaskStatus.values.map((task) {
+              return Expanded(
+                child: CardSummaryWidget(
+                  title: task.name.capitalize!,
+                  value: controller.task.map((d) => d.status == task).length,
+                ),
+              );
+            }).toList(),
+          ),
+          controller.task.isEmpty
+              ? Center(child: YoEmptyState.noData(title: "Task is empty"))
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: AlwaysScrollableScrollPhysics(),
+                  itemCount: controller.task.length,
+                  itemBuilder: (context, index) {
+                    final model = controller.task[index];
+                    return Text("${model.name.capitalize}");
+                  },
+                ),
+        ],
+      ),
+    );
+  }
+}

@@ -18,4 +18,7 @@ class FirebaseServices {
   static final voting = _fb.collection(collect.voting);
   static final member = _fb.collection(collect.member);
   static final activity = _fb.collection(collect.activity);
+  static final category = _fb.collection(collect.category);
+  static final projectAssign = _fb.collection(collect.projectAssign);
+  static final taskAssign = _fb.collection(collect.taskAssign);
 }

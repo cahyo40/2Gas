@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_create_update_controller.dart';
@@ -10,21 +11,16 @@ class OrganizationFieldAddressScreen
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        YoText.titleMedium("Address"),
-        SizedBox(height: YoSpacing.sm),
-        TextFormField(
-          readOnly: controller.isEdit.value,
+        YoTextFormField(
           controller: controller.address,
-          style: context.yoBodyMedium,
-          decoration: InputDecoration(
-            hintText: "Address",
-            hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),
-            filled: true,
-            fillColor: context.textColor.withValues(alpha: .025),
-          ),
+          readOnly: controller.isEdit.value,
+          labelText: tr.field_address,
+          inputStyle: YoInputStyle.modern,
+          hintText: tr.field_address_hint,
         ),
         SizedBox(height: YoSpacing.md),
       ],

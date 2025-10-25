@@ -38,6 +38,7 @@ class OrganizationCreateUpdateView
                 () => YoButton.primary(
                   text: "Submit",
                   isLoading: controller.isLoading.value,
+                  textColor: context.onPrimaryColor,
                   onPressed: () {
                     controller.onSubmit();
                   },

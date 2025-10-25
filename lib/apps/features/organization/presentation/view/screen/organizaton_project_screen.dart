@@ -67,12 +67,16 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                 controller.filtersProject.length,
                 (i) => ChoiceChip(
                   label: YoText.bodyMedium(
-                    controller.filtersProject[i],
-                    color: controller.currentFilterProject.value == i
-                        ? context.colorTextBtn
-                        : context.textColor,
+                    controller.filtersProject[i].capitalize!,
+                    color: context.onPrimaryBW,
                   ),
-                  checkmarkColor: context.colorTextBtn,
+                  color: WidgetStatePropertyAll(
+                    Color(
+                      controller.org.value.color ??
+                          context.primaryColor.toARGB32(),
+                    ),
+                  ),
+                  checkmarkColor: context.onPrimaryBW,
                   selected: controller.currentFilterProject.value == i,
                   onSelected: (_) => controller.changeFilterProject(i),
                 ),

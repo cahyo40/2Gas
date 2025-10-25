@@ -248,4 +248,62 @@ class AppLocalizationsEn extends AppLocalizations {
   String labelDeleted(Object label, Object user) {
     return '$user deleted label $label';
   }
+
+  @override
+  String get field_title => 'Title';
+
+  @override
+  String get field_title_hint => 'Enter a title';
+
+  @override
+  String get field_description => 'Description';
+
+  @override
+  String get field_description_hint => 'Enter a description';
+
+  @override
+  String get field_address => 'Address';
+
+  @override
+  String get field_address_hint => 'Enter an address';
+
+  @override
+  String get field_email_hint => 'Enter your email';
+
+  @override
+  String get field_category => 'Category';
+
+  @override
+  String get field_category_msg_required => 'Category is required.';
+
+  @override
+  String get field_categoory_delete_title => 'Delete Category';
+
+  @override
+  String get field_categoory_delete_message =>
+      'Are you sure you want to delete this category?';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get field_priority => 'Priority';
+
+  @override
+  String get field_priority_hint => 'Select priority level';
+
+  @override
+  String get field_assigns => 'Assignees';
+
+  @override
+  String get select_members => 'Select members';
 }

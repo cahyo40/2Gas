@@ -38,6 +38,7 @@ class LoginView extends GetView<LoginController> {
               SizedBox(height: YoSpacing.md),
               YoButton.primary(
                 text: tr.login_button_google,
+                textColor: context.onPrimaryColor,
                 onPressed: () {
                   controller.login();
                 },

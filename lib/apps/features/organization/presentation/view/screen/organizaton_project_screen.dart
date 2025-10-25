@@ -72,8 +72,10 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                   ),
                   color: WidgetStatePropertyAll(
                     Color(
-                      controller.org.value.color ??
-                          context.primaryColor.toARGB32(),
+                      controller.currentFilterProject.value == i
+                          ? controller.org.value.color ??
+                                context.primaryColor.toARGB32()
+                          : context.gray400.toARGB32(),
                     ),
                   ),
                   checkmarkColor: context.onPrimaryBW,

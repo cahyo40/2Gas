@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/validation_helpers.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/project_create_controller.dart';
@@ -18,7 +19,7 @@ class FieldTitleProjectScreen extends GetView<ProjectCreateController> {
           controller: controller.name,
           style: context.yoBodyMedium,
           validator: (value) =>
-              YoValidator.validateRequired(value, fieldName: "title"),
+              YoFormValidation.required(value, field: "Title"),
           decoration: InputDecoration(
             hintText: "Title",
             hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),

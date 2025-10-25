@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/validation_helpers.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_create_update_controller.dart';
@@ -20,7 +21,7 @@ class OrganizationFieldEmailScreen
           keyboardType: TextInputType.emailAddress,
           controller: controller.email,
           style: context.yoBodyMedium,
-          validator: (value) => YoValidator.validateEmail(value),
+          validator: (value) => YoFormValidation.email(value),
           decoration: InputDecoration(
             hintText: "Email",
             hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),

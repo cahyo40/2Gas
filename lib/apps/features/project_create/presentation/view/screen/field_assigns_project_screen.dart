@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -36,7 +35,7 @@ class FieldAssignsProjectScreen extends GetView<ProjectCreateController> {
                         padding: YoPadding.onlyBottom8,
                         child: YoCard(
                           backgroundColor: context.backgroundColor,
-                          shadow: YoShadow.card(context),
+                          shadows: YoBoxShadow.apple(),
                           child: ListTile(
                             onTap: () {
                               controller.onAssignMember(member);

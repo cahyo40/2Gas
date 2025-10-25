@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
@@ -46,7 +45,7 @@ class CardProjectWidget extends StatelessWidget {
       child: YoCard(
         onTap: onTap,
         backgroundColor: context.backgroundColor,
-        shadow: YoShadow.card(context),
+        shadows: YoBoxShadow.apple(),
         child: Column(
           spacing: YoSpacing.md,
           crossAxisAlignment: CrossAxisAlignment.start,

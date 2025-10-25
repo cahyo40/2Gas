@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:twogass/apps/core/constants/images.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -15,7 +14,7 @@ class CardTaskWidget extends StatelessWidget {
       padding: YoPadding.onlyBottom8,
       child: YoCard(
         backgroundColor: context.backgroundColor,
-        shadow: YoShadow.card(context),
+        shadows: YoBoxShadow.apple(),
         child: Column(
           spacing: YoSpacing.md,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:yo_ui/yo_ui_base.dart';
 
 class CardSummaryWidget extends StatelessWidget {
@@ -15,7 +14,7 @@ class CardSummaryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return YoCard(
       backgroundColor: context.backgroundColor,
-      shadow: YoShadow.card(context),
+      shadows: YoBoxShadow.apple(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

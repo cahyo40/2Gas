@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:twogass/apps/core/theme/box_shadow.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -16,7 +15,7 @@ class CardHomeOrgWidget extends StatelessWidget {
     return YoCard(
       onTap: onTap,
       backgroundColor: context.backgroundColor,
-      shadow: YoShadow.card(context),
+      shadows: YoBoxShadow.apple(),
       child: Column(
         spacing: YoSpacing.sm,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -149,10 +149,10 @@ packages:
     dependency: transitive
     description:
       name: device_info_plus
-      sha256: "49413c8ca514dea7633e8def233b25efdf83ec8522955cc2c0e3ad802927e7c6"
+      sha256: dd0e8e02186b2196c7848c9d394a5fd6e5b57a43a546082c5820b1ec72317e33
       url: "https://pub.dev"
     source: hosted
-    version: "12.1.0"
+    version: "12.2.0"
   device_info_plus_platform_interface:
     dependency: transitive
     description:
@@ -863,10 +863,10 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "82b290dea196b3d6c850847d049c68a14464b56e"
+      resolved-ref: "3774e0d8624f89b83374b3b5f466fe1f1abd1ae8"
       url: "https://github.com/cahyo40/youi.git"
     source: git
-    version: "0.0.1"
+    version: "1.0.3+1"
 sdks:
   dart: ">=3.9.2 <4.0.0"
   flutter: ">=3.35.1"

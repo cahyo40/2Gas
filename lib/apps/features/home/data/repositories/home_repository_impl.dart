@@ -1,3 +1,4 @@
+import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
 
 import '../../domain/repositories/home_repository.dart';
@@ -12,6 +13,11 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<List<OrganizationHomeResponseModel>> homeOrganization() async {
-    return _network.homeOrganization();
+    return await _network.homeOrganization();
+  }
+
+  @override
+  Future<List<TaskModel>> userTask() async {
+    return await _network.userTask();
   }
 }

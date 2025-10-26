@@ -36,11 +36,16 @@ class ProjectTaskScreen extends GetView<ProjectController> {
               return Expanded(
                 child: CardSummaryWidget(
                   title: task.name.capitalize!,
-                  value: controller.task.map((d) => d.status == task).length,
+                  value: controller.task
+                      .where((d) => d.status.name == task.name)
+                      .toList()
+                      .length,
                 ),
               );
             }).toList(),
           ),
+
+          SizedBox(height: YoSpacing.md),
           controller.task.isEmpty
               ? Center(child: YoEmptyState.noData(title: "Task is empty"))
               : ListView.builder(

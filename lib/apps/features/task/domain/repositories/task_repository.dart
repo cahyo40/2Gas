@@ -1,3 +1,1 @@
-abstract class TaskRepository {
-  // TODO: define contract
-}
+abstract class TaskRepository {}

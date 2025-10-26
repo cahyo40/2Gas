@@ -19,33 +19,44 @@ class CardActivityWidget extends StatelessWidget {
       child: YoCard(
         elevation: 0,
         onTap: onTap,
-        shadows: YoBoxShadow.apple(),
+        backgroundColor: context.backgroundColor,
+        padding: EdgeInsets.all(12),
         child: Row(
-          spacing: YoSpacing.md,
           children: [
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(12),
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: color.withOpacity(0.3)),
               ),
-              child: Icon(icon, color: context.textColor, size: 22),
+              child: Icon(icon, color: color, size: 18),
             ),
+            SizedBox(width: 12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  YoText.titleMedium(model.title),
                   YoText.bodyMedium(
+                    model.title,
+                    fontWeight: FontWeight.w600,
+                    maxLines: 2,
+                  ),
+                  SizedBox(height: 2),
+                  YoText.bodySmall(
                     ActivityMessageHelper.getActivityMessage(
                       context,
                       model.type,
                       model.meta!,
                     ),
+                    color: Colors.grey.shade600,
+                    maxLines: 2,
                   ),
+                  SizedBox(height: 4),
                   YoText.bodySmall(
                     YoDateFormatter.formatRelativeTime(model.createdAt),
-                    color: context.gray500,
+                    color: Colors.grey.shade500,
+                    fontSize: 11,
                   ),
                 ],
               ),

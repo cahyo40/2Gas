@@ -124,36 +124,19 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
           SizedBox(height: YoSpacing.md),
           YoText.titleMedium("Task Summary"),
           SizedBox(height: YoSpacing.sm),
-          Obx(
-            () => Row(
-              spacing: YoSpacing.md,
-              children: [
-                Expanded(
-                  child: CardSummaryWidget(
-                    title: "To-Do",
-                    value: controller.task
-                        .where((test) => test.status == TaskStatus.todo)
-                        .length,
-                  ),
+          Row(
+            spacing: YoSpacing.md,
+            children: TaskStatus.values.map((task) {
+              return Expanded(
+                child: CardSummaryWidget(
+                  title: task.name.capitalize!,
+                  value: controller.task
+                      .where((d) => d.status.name == task.name)
+                      .toList()
+                      .length,
                 ),
-                Expanded(
-                  child: CardSummaryWidget(
-                    title: "Progress",
-                    value: controller.task
-                        .where((test) => test.status == TaskStatus.progress)
-                        .length,
-                  ),
-                ),
-                Expanded(
-                  child: CardSummaryWidget(
-                    title: "Done",
-                    value: controller.task
-                        .where((test) => test.status == TaskStatus.done)
-                        .length,
-                  ),
-                ),
-              ],
-            ),
+              );
+            }).toList(),
           ),
           SizedBox(height: YoSpacing.md),
           YoText.titleMedium("Lastest Activity"),

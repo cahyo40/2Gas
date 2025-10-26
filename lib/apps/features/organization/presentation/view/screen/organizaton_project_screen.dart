@@ -62,29 +62,52 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
           SizedBox(height: YoSpacing.md),
           Obx(
             () => Wrap(
-              spacing: 8,
+              spacing: 6,
+              runSpacing: 6,
               children: List.generate(
                 controller.filtersProject.length,
-                (i) => ChoiceChip(
-                  label: YoText.bodyMedium(
-                    controller.filtersProject[i].capitalize!,
-                    color: context.onPrimaryBW,
-                  ),
-                  color: WidgetStatePropertyAll(
-                    Color(
-                      controller.currentFilterProject.value == i
-                          ? controller.org.value.color ??
-                                context.primaryColor.toARGB32()
-                          : context.gray400.toARGB32(),
+                (i) => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: controller.currentFilterProject.value == i
+                        ? Color(
+                            controller.org.value.color ??
+                                context.primaryColor.toARGB32(),
+                          )
+                        : Colors.transparent,
+                    border: Border.all(
+                      color: controller.currentFilterProject.value == i
+                          ? Colors.transparent
+                          : Colors.grey.shade300,
                     ),
                   ),
-                  checkmarkColor: context.onPrimaryBW,
-                  selected: controller.currentFilterProject.value == i,
-                  onSelected: (_) => controller.changeFilterProject(i),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () => controller.changeFilterProject(i),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: YoText.bodyMedium(
+                          controller.filtersProject[i].capitalize!,
+                          color: controller.currentFilterProject.value == i
+                              ? context.onPrimaryBW
+                              : Colors.grey.shade700,
+                          fontWeight: controller.currentFilterProject.value == i
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
           ),
+          SizedBox(height: YoSpacing.md),
           Obx(
             () => ListView.builder(
               shrinkWrap: true,

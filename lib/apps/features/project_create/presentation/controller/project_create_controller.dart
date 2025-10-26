@@ -82,7 +82,7 @@ class ProjectCreateController extends GetxController {
   }
 
   bool isAssignMember(MemberModel member) {
-    return assigns.any((f) => f.uid.contains(member.id));
+    return assigns.any((f) => f.uid.contains(member.uid));
   }
 
   Priority onSelectPriority(String value) {

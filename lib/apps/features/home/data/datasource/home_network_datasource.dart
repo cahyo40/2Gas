@@ -5,6 +5,7 @@ import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
 import 'package:twogass/apps/features/home/domain/repositories/home_repository.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -54,6 +55,32 @@ class HomeNetworkDatasource implements HomeRepository {
 
           projects: project,
         );
+      });
+      return Future.wait(data);
+    } on FirebaseException catch (e, s) {
+      YoLogger.error('Firestore error $e -> $s');
+      rethrow;
+    } catch (e, s) {
+      YoLogger.error('Unexpected error  $e-> $s');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<TaskModel>> userTask() async {
+    try {
+      final myTask = await FirebaseServices.taskAssign
+          .where("uid", isEqualTo: user.uid)
+          .get();
+      final taskId = myTask.docs
+          .map((d) => d['taskId'] as String)
+          .toSet()
+          .toList();
+      if (taskId.isEmpty) return [];
+      final data = taskId.map((id) async {
+        final taskSnap = await FirebaseServices.task.doc(id).get();
+        final taskModel = TaskModel.fromFirestore(taskSnap);
+        return taskModel;
       });
       return Future.wait(data);
     } on FirebaseException catch (e, s) {

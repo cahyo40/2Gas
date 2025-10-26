@@ -41,181 +41,145 @@ class CardProjectWidget extends StatelessWidget {
     }
 
     return Padding(
-      padding: YoPadding.onlyBottom8,
+      padding: YoPadding.onlyBottom12,
       child: YoCard(
         onTap: onTap,
         backgroundColor: context.backgroundColor,
         shadows: YoBoxShadow.apple(),
+        padding: EdgeInsets.all(12),
         child: Column(
-          spacing: YoSpacing.md,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header row
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                YoText.titleMedium(model.name),
+                Expanded(
+                  child: YoText.titleMedium(
+                    model.name,
+                    fontWeight: FontWeight.w600,
+                    maxLines: 1,
+                  ),
+                ),
+                SizedBox(width: 8),
                 PriorityWidget(priority: model.priority),
               ],
             ),
-            Divider(),
-            FutureBuilder<double>(
-              future: getPercentage(),
-              initialData: 0.0,
-              builder: (context, asyncSnapshot) {
-                if (!asyncSnapshot.hasData) {
-                  return Row(
-                    children: [
-                      Expanded(flex: 2, child: YoText.bodyMedium("Progress")),
-                      Expanded(
-                        flex: 2,
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(text: ": ", style: context.yoBodyMedium),
-                              TextSpan(
-                                text: "10%",
-                                style: context.yoBodyMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: LinearProgressIndicator(
-                          borderRadius: YoSpacing.borderRadiusMd,
-                          minHeight: 20,
-                          backgroundColor: context.primaryColor.withValues(
-                            alpha: .1,
-                          ),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            context.primaryColor,
-                          ),
-                          value: .1,
-                        ),
-                      ),
-                    ],
-                  );
-                } else {
-                  final percent = asyncSnapshot.data! * 100;
-                  return Row(
-                    children: [
-                      Expanded(flex: 2, child: YoText.bodyMedium("Progress")),
-                      Expanded(
-                        flex: 2,
-                        child: RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(text: ": ", style: context.yoBodyMedium),
-                              TextSpan(
-                                text: "${percent.toStringAsFixed(2)} %",
-                                style: context.yoBodyMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 6,
-                        child: LinearProgressIndicator(
-                          borderRadius: YoSpacing.borderRadiusMd,
-                          minHeight: 20,
-                          backgroundColor: context.primaryColor.withValues(
-                            alpha: .1,
-                          ),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            context.primaryColor,
-                          ),
-                          value: asyncSnapshot.data,
-                        ),
-                      ),
-                    ],
-                  );
-                }
-              },
-            ),
+
+            SizedBox(height: 8),
+
+            // Progress and info in one row
             Row(
               children: [
-                Expanded(flex: 2, child: YoText.bodyMedium("Tasks")),
+                // Progress section
                 Expanded(
-                  flex: 8,
-                  child: FutureBuilder<int>(
-                    initialData: 0,
-                    future: getTaskCount(),
+                  flex: 3,
+                  child: FutureBuilder<double>(
+                    future: getPercentage(),
+                    initialData: 0.0,
                     builder: (context, asyncSnapshot) {
-                      if (!asyncSnapshot.hasData) {
-                        return RichText(
-                          text: TextSpan(
+                      final percent = asyncSnapshot.data ?? 0.0;
+                      final percentText = (percent * 100).toStringAsFixed(0);
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              TextSpan(text: ": ", style: context.yoBodyMedium),
-                              TextSpan(text: "0", style: context.yoBodyMedium),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(text: ": ", style: context.yoBodyMedium),
-                              TextSpan(
-                                text: asyncSnapshot.data.toString(),
-                                style: context.yoBodyMedium,
+                              YoText.bodySmall(
+                                "Progress",
+                                fontWeight: FontWeight.w500,
+                              ),
+                              SizedBox(width: 4),
+                              YoText.bodySmall(
+                                "$percentText%",
+                                fontWeight: FontWeight.w700,
                               ),
                             ],
                           ),
-                        );
-                      }
+                          SizedBox(height: 4),
+                          LinearProgressIndicator(
+                            borderRadius: BorderRadius.circular(2),
+                            minHeight: 4,
+                            backgroundColor: context.primaryColor.withOpacity(
+                              0.1,
+                            ),
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              context.primaryColor,
+                            ),
+                            value: percent,
+                          ),
+                        ],
+                      );
                     },
                   ),
                 ),
-              ],
-            ),
 
-            Row(
-              children: [
-                Expanded(flex: 2, child: YoText.bodyMedium("Members")),
-                YoText.bodyMedium(":"),
+                SizedBox(width: 16),
+
+                // Tasks count
                 Expanded(
-                  flex: 8,
-                  child: AvatarOverlappingWidget(
-                    imagesUrl: model.assign.map((e) => e.imageUrl).toList(),
-                    width: .75,
-                    avatarRadius: YoSpacing.md,
-                    maxDisplay: 6,
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(flex: 2, child: YoText.bodyMedium("Due")),
-                Expanded(
-                  flex: 4,
-                  child: RichText(
-                    text: TextSpan(
+                  flex: 2,
+                  child: FutureBuilder<int>(
+                    future: getTaskCount(),
+                    initialData: 0,
+                    builder: (context, snapshot) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextSpan(text: ": ", style: context.yoBodyMedium),
-                        TextSpan(
-                          text: YoDateFormatter.formatDate(model.deadline),
-                          style: context.yoBodySmall,
+                        YoText.bodySmall("Tasks", fontWeight: FontWeight.w500),
+                        SizedBox(height: 2),
+                        YoText.titleSmall(
+                          "${snapshot.data ?? 0}",
+                          fontWeight: FontWeight.w700,
+                          color: context.primaryColor,
                         ),
                       ],
                     ),
                   ),
                 ),
+              ],
+            ),
 
-                Expanded(
-                  flex: 4,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    spacing: YoSpacing.sm,
-                    children: [
-                      YoText.bodySmall("Status:"),
-                      YoText.bodySmall(
-                        model.status.name.toString().capitalize!,
-                      ),
-                    ],
+            SizedBox(height: 8),
+
+            // Footer row
+            Row(
+              children: [
+                // Status
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: _getStatusColor(model.status).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(4),
                   ),
+                  child: YoText.bodySmall(
+                    model.status.name.capitalize!,
+                    color: _getStatusColor(model.status),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                SizedBox(width: 8),
+
+                // Due date
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: 12,
+                  color: Colors.grey.shade600,
+                ),
+                SizedBox(width: 2),
+                YoText.bodySmall(
+                  YoDateFormatter.formatDate(model.deadline),
+                  color: Colors.grey.shade600,
+                ),
+
+                Spacer(),
+
+                // Members
+                AvatarOverlappingWidget(
+                  imagesUrl: model.assign.map((e) => e.imageUrl).toList(),
+                  width: .5,
+                  avatarRadius: 10,
+                  maxDisplay: 3,
                 ),
               ],
             ),
@@ -223,5 +187,16 @@ class CardProjectWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color _getStatusColor(ProjectStatus status) {
+    switch (status) {
+      case ProjectStatus.active:
+        return Get.context!.infoColor;
+      case ProjectStatus.completed:
+        return Get.context!.successColor;
+      case ProjectStatus.overdue:
+        return Get.context!.warningColor;
+    }
   }
 }

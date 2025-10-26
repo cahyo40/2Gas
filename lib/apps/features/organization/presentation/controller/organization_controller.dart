@@ -57,8 +57,8 @@ class OrganizationController extends GetxController {
     initialTab.value = i;
   }
 
-  initOrg(String orgId) async {
-    isLoading.value = true;
+  initOrg(String orgId, {bool useLoading = true}) async {
+    isLoading.value = useLoading;
     try {
       org.value = await getOrganizationUsecase(orgId);
       activity.value = await getActivity(orgId);
@@ -69,6 +69,13 @@ class OrganizationController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  refreshProject() async {
+    try {
+      project.value = await getProject(orgId.value);
+      projectShow.value = project;
+    } catch (_) {}
   }
 
   final filtersProject = ["all", "active", "completed", "overdue"];

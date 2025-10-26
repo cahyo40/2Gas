@@ -7,10 +7,12 @@ import 'package:yo_ui/yo_ui_base.dart';
 class UserListtileWidget extends StatelessWidget {
   final String uid;
   final bool? isSelected;
+  final void Function()? onTap;
   const UserListtileWidget({
     super.key,
     required this.uid,
     this.isSelected = false,
+    this.onTap,
   });
 
   @override
@@ -30,6 +32,7 @@ class UserListtileWidget extends StatelessWidget {
         return Padding(
           padding: YoPadding.onlyBottom8,
           child: ListTile(
+            onTap: onTap,
             title: YoText.bodyMedium(
               user?.name ?? "",
               maxLines: 1,

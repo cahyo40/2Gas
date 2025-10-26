@@ -48,19 +48,14 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
   @override
   Future<List<TaskModel>> getTask(String orgId, String? projectId) async {
     try {
-      QuerySnapshot data;
-      if (projectId != "" || projectId != null) {
-        data = await FirebaseServices.task
-            .where("orgId", isEqualTo: orgId)
-            .where("projectId", isEqualTo: projectId)
-            .orderBy("deadline", descending: true)
-            .get();
-      } else {
-        data = await FirebaseServices.task
-            .where("orgId", isEqualTo: orgId)
-            .orderBy("deadline", descending: true)
-            .get();
+      Query<Map<String, dynamic>> query = FirebaseServices.task.where(
+        'orgId',
+        isEqualTo: orgId,
+      );
+      if (projectId != null && projectId.trim().isNotEmpty) {
+        query = query.where('projectId', isEqualTo: projectId);
       }
+      final data = await query.orderBy('deadline', descending: true).get();
       return data.docs.map((doc) => TaskModel.fromFirestore(doc)).toList();
     } catch (e) {
       return [];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -12,6 +13,7 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context)!;
+    final orgColor = Get.find<OrganizationController>().org.value.color;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -25,31 +27,43 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
                 labelText: tr.field_category,
               ),
             ),
-            IconButton.filled(
-              color: context.primaryColor,
-              onPressed: () {
-                if (controller.catCtrl.text.isEmpty) {
-                  YoSnackBar.show(
-                    context: context,
-                    message: tr.field_category_msg_required,
-                    type: YoSnackBarType.error,
-                  );
-                } else {
-                  controller.onAddCategory(controller.catCtrl.text);
-                  controller.catCtrl.clear();
-                  YoLogger.info(controller.category.toJson().toString());
-                  FocusScope.of(context).unfocus();
-                }
-              },
-              icon: Icon(
-                Iconsax.add_circle_outline,
-                color: context.colorTextBtn,
+            CircleAvatar(
+              backgroundColor: Color(
+                orgColor ?? context.primaryColor.toARGB32(),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  if (controller.catCtrl.text.isEmpty) {
+                    YoSnackBar.show(
+                      context: context,
+                      message: tr.field_category_msg_required,
+                      type: YoSnackBarType.error,
+                    );
+                  } else {
+                    controller.onAddCategory(controller.catCtrl.text);
+                    controller.catCtrl.clear();
+                    YoLogger.info(controller.category.toJson().toString());
+                    FocusScope.of(context).unfocus();
+                  }
+                },
+                icon: Icon(
+                  Iconsax.add_circle_outline,
+                  color: context.colorTextBtn,
+                ),
               ),
             ),
-            IconButton.filled(
-              color: context.accentColor,
-              onPressed: () {},
-              icon: Icon(Iconsax.category_2_bold, color: context.colorTextBtn),
+
+            CircleAvatar(
+              backgroundColor: Color(
+                orgColor ?? context.primaryColor.toARGB32(),
+              ),
+              child: IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Iconsax.category_2_bold,
+                  color: context.colorTextBtn,
+                ),
+              ),
             ),
           ],
         ),

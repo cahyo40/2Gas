@@ -1,3 +1,5 @@
+import 'package:twogass/apps/data/model/task_model.dart';
+
 abstract class TaskCreateRepository {
-  // TODO: define contract
+  Future<bool> createTask(TaskModel task);
 }

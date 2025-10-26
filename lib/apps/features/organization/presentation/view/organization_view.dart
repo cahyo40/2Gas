@@ -38,29 +38,34 @@ class OrganizationView extends GetView<OrganizationController> {
         selectedColor: Color(controller.colorIcon.value),
       ),
     ];
-    return Scaffold(
-      appBar: AppBar(),
-      bottomNavigationBar: Obx(
-        () => controller.isLoading.isFalse
-            ? StylishBottomBar(
-                option: BubbleBarOptions(barStyle: BubbleBarStyle.horizontal),
-                backgroundColor: context.backgroundColor,
-                currentIndex: controller.initialTab.value,
-                onTap: (i) => controller.changeTab(i),
-                items: listBottomNavBarItem.map((b) {
-                  return b;
-                }).toList(),
-              )
-            : SizedBox.shrink(),
-      ),
-      body: SafeArea(
-        child: Obx(
+    return RefreshIndicator(
+      onRefresh: () async {
+        controller.initOrg(controller.orgId.value, useLoading: false);
+      },
+      child: Scaffold(
+        appBar: AppBar(),
+        bottomNavigationBar: Obx(
           () => controller.isLoading.isFalse
-              ? IndexedStack(
-                  index: controller.initialTab.value,
-                  children: controller.tabView,
+              ? StylishBottomBar(
+                  option: BubbleBarOptions(barStyle: BubbleBarStyle.horizontal),
+                  backgroundColor: context.backgroundColor,
+                  currentIndex: controller.initialTab.value,
+                  onTap: (i) => controller.changeTab(i),
+                  items: listBottomNavBarItem.map((b) {
+                    return b;
+                  }).toList(),
                 )
-              : Center(child: YoLoading()),
+              : SizedBox.shrink(),
+        ),
+        body: SafeArea(
+          child: Obx(
+            () => controller.isLoading.isFalse
+                ? IndexedStack(
+                    index: controller.initialTab.value,
+                    children: controller.tabView,
+                  )
+                : Center(child: YoLoading()),
+          ),
         ),
       ),
     );

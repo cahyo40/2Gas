@@ -71,4 +71,50 @@ class ProjectNetworkDatasource implements ProjectRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> updateTaskStatus({
+    required taskId,
+    required String projectId,
+    required TaskStatus status,
+  }) async {
+    try {
+      await FirebaseServices.task.doc(taskId).update({'status': status.name});
+
+      final task = await FirebaseServices.task
+          .where("projectId", isEqualTo: projectId)
+          .get();
+
+      final totalTask = task.docs.length;
+      final doneTask = task.docs
+          .where((d) => TaskModel.fromFirestore(d).status == TaskStatus.done)
+          .length;
+
+      final progress = totalTask == 0 ? 0 : (doneTask / totalTask) * 100;
+      final projectSnap = await FirebaseServices.project.doc(projectId).get();
+      final project = ProjectModel.fromFirestore(projectSnap);
+
+      final deadline = project.deadline;
+      final now = DateTime.now();
+
+      ProjectStatus projectStatus;
+      if (progress == 100) {
+        projectStatus = ProjectStatus.completed;
+      } else if (now.isAfter(deadline)) {
+        projectStatus = ProjectStatus.overdue;
+      } else {
+        projectStatus = ProjectStatus.active;
+      }
+
+      await FirebaseServices.project.doc(projectId).update({
+        'status': projectStatus.name,
+      });
+    } on FirebaseException catch (e, s) {
+      YoLogger.error('Firestore error $e -> $s');
+      rethrow;
+    } catch (e, s) {
+      YoLogger.error('Unexpected error  $e-> $s');
+      rethrow;
+    }
+  }
 }

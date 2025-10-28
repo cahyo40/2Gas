@@ -9,11 +9,11 @@ import 'package:twogass/apps/features/organization/domain/usecase/detail_activit
 import 'package:twogass/apps/features/organization/domain/usecase/detail_organization_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_project_org_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_task_org_usecase.dart';
+import 'package:twogass/apps/features/organization/presentation/view/screen/organization_schedule_screen.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_activity_screen.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_overview_screen.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_project_screen.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_settings_screen.dart';
-import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_task_screen.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -48,7 +48,7 @@ class OrganizationController extends GetxController {
   final tabView = [
     OrganizatonOverviewScreen(),
     OrganizatonProjectScreen(),
-    OrganizatonTaskScreen(),
+    OrganizationScheduleScreen(),
     OrganizatonActivityScreen(),
     OrganizatonSettingsScreen(),
   ];
@@ -94,12 +94,6 @@ class OrganizationController extends GetxController {
     }
 
     projectShow.refresh();
-  }
-
-  final filtersTask = ["all", "to-do", "in progress", 'done'];
-  final currentFilterTask = 0.obs;
-  changeFilterTask(int index) {
-    currentFilterTask.value = index;
   }
 
   @override

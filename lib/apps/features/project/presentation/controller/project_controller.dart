@@ -22,6 +22,12 @@ class ProjectController extends GetxController {
 
   ProjectUsecase projectUsecase = ProjectUsecase(Get.find<ProjectRepository>());
 
+  final filtersTask = ["all", "to-do", "in progress", 'done'];
+  final currentFilterTask = 0.obs;
+  changeFilterTask(int index) {
+    currentFilterTask.value = index;
+  }
+
   initData() async {
     isLoading.value = true;
     try {

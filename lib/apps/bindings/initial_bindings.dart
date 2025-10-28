@@ -24,6 +24,10 @@ import 'package:twogass/apps/features/project_create/data/datasource/project_cre
 import 'package:twogass/apps/features/project_create/data/datasource/project_create_offline_datasource.dart';
 import 'package:twogass/apps/features/project_create/data/repositories/project_create_repository_impl.dart';
 import 'package:twogass/apps/features/project_create/domain/repositories/project_create_repository.dart';
+import 'package:twogass/apps/features/task_create/data/datasource/task_create_network_datasource.dart';
+import 'package:twogass/apps/features/task_create/data/datasource/task_create_offline_datasource.dart';
+import 'package:twogass/apps/features/task_create/data/repositories/task_create_repository_impl.dart';
+import 'package:twogass/apps/features/task_create/domain/repositories/task_create_repository.dart';
 
 class InitialBindings implements Bindings {
   @override
@@ -116,5 +120,16 @@ class InitialBindings implements Bindings {
 
     Get.lazyPut(() => ProjectCreateNetworkDatasource(), fenix: true);
     Get.lazyPut(() => ProjectCreateOfflineDatasource(), fenix: true);
+    // TASK CREATE
+    Get.lazyPut<TaskCreateRepository>(
+      () => TaskCreateRepositoryImpl(
+        Get.find<TaskCreateNetworkDatasource>(),
+        Get.find<TaskCreateOfflineDatasource>(),
+      ),
+      fenix: true,
+    );
+
+    Get.lazyPut(() => TaskCreateNetworkDatasource(), fenix: true);
+    Get.lazyPut(() => TaskCreateOfflineDatasource(), fenix: true);
   }
 }

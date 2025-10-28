@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project_create/presentation/view/screen/field_assigns_project_screen.dart';
 import 'package:twogass/apps/features/project_create/presentation/view/screen/field_category_project_screen.dart';
 import 'package:twogass/apps/features/project_create/presentation/view/screen/field_deadline_project_screen.dart';
@@ -15,6 +16,7 @@ class ProjectCreateView extends GetView<ProjectCreateController> {
 
   @override
   Widget build(BuildContext context) {
+    final orgColor = Get.find<OrganizationController>().org.value.color;
     return Scaffold(
       appBar: AppBar(
         title: YoText.titleMedium('Create Project'),
@@ -36,9 +38,11 @@ class ProjectCreateView extends GetView<ProjectCreateController> {
                       FieldPriorityProjectScreen(),
                       FieldDeadlineProjectScreen(),
 
-                      YoButton.primary(
+                      YoButton.custom(
                         text: "Submit",
-                        
+                        backgroundColor: Color(
+                          orgColor ?? context.primaryColor.toARGB32(),
+                        ),
                         onPressed: controller.onSumbit,
                         textColor: context.colorTextBtn,
                       ),

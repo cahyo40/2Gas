@@ -1,3 +1,5 @@
+import 'package:twogass/apps/data/model/task_model.dart';
+
 import '../../domain/repositories/project_repository.dart';
 import '../datasource/project_network_datasource.dart';
 import '../datasource/project_offline_datasource.dart';
@@ -14,5 +16,18 @@ class ProjectRepositoryImpl implements ProjectRepository {
     String? orgId,
   }) async {
     return await _network.projectResponse(id: id, orgId: orgId);
+  }
+
+  @override
+  Future<void> updateTaskStatus({
+    required taskId,
+    required String projectId,
+    required TaskStatus status,
+  }) async {
+    return await _network.updateTaskStatus(
+      taskId: taskId,
+      projectId: projectId,
+      status: status,
+    );
   }
 }

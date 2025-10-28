@@ -15,11 +15,23 @@ class CardSummaryWidget extends StatelessWidget {
     return YoCard(
       backgroundColor: context.backgroundColor,
       shadows: YoBoxShadow.apple(),
+      padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          YoText.bodyMedium(title),
-          YoText.monoLarge(value.toStringAsFixed(0), fontSize: YoSpacing.xl),
+          YoText.bodySmall(
+            title.toUpperCase(),
+            fontWeight: FontWeight.w600,
+            color: Colors.grey.shade600,
+            fontSize: 12,
+          ),
+          SizedBox(height: 4),
+          YoText.monoLarge(
+            value.toString(),
+            fontSize: 28,
+            fontWeight: FontWeight.w700,
+          ),
         ],
       ),
     );

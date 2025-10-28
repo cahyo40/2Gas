@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
+import 'package:twogass/apps/widget/card_summary_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/home_controller.dart';
@@ -9,35 +11,20 @@ class HomeTaskSummaryScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
+    return Obx(
+      () => Row(
         spacing: YoSpacing.md,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          YoText.titleLarge('Task Summary'),
-          Row(
-            spacing: YoSpacing.md,
-            children: [
-              Expanded(child: _cardHomeSummary("To-Do", 90)),
-              Expanded(child: _cardHomeSummary("Progress", 120)),
-              Expanded(child: _cardHomeSummary("Done", 90)),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _cardHomeSummary(String title, double value) {
-    return YoCard(
-      backgroundColor: Get.context!.backgroundColor,
-      shadows: YoBoxShadow.apple(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          YoText.bodyMedium(title),
-          YoText.monoLarge(value.toStringAsFixed(0), fontSize: YoSpacing.xl),
-        ],
+        children: TaskStatus.values.map((task) {
+          return Expanded(
+            child: CardSummaryWidget(
+              title: task.name.capitalize!,
+              value: controller.task
+                  .where((d) => d.status.name == task.name)
+                  .toList()
+                  .length,
+            ),
+          );
+        }).toList(),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -13,58 +14,66 @@ class FieldAssignsProjectScreen extends GetView<ProjectCreateController> {
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context)!;
+    final orgColor = Get.find<OrganizationController>().org.value.color;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoText.titleMedium(tr.field_assigns),
         SizedBox(height: YoSpacing.sm),
-
         Row(
           spacing: YoSpacing.md,
           children: [
-            IconButton.filled(
-              onPressed: () {
-                YoBottomSheet.show(
-                  context: context,
-                  title: tr.select_members,
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: controller.initialMember.length,
-                    itemBuilder: (_, i) {
-                      final member = controller.initialMember[i];
-                      return Padding(
-                        padding: YoPadding.onlyBottom8,
-                        child: YoCard(
-                          backgroundColor: context.backgroundColor,
-                          shadows: YoBoxShadow.apple(),
-                          child: ListTile(
-                            onTap: () {
-                              controller.onAssignMember(member);
-                              Get.back();
-                            },
-                            contentPadding: EdgeInsets.zero,
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(member.imageUrl),
-                            ),
-                            title: YoText.bodyMedium(member.name),
-                            subtitle: YoText.bodySmall(member.email),
-                            trailing: Obx(
-                              () => controller.isAssignMember(member)
-                                  ? Icon(
-                                      Iconsax.tick_square_bold,
-                                      color: context.successColor,
-                                    )
-                                  : SizedBox.shrink(),
+            CircleAvatar(
+              backgroundColor: Color(
+                orgColor ?? context.primaryColor.toARGB32(),
+              ),
+              child: IconButton(
+                onPressed: () {
+                  YoBottomSheet.show(
+                    context: context,
+                    title: tr.select_members,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      itemCount: controller.initialMember.length,
+                      itemBuilder: (_, i) {
+                        final member = controller.initialMember[i];
+                        return Padding(
+                          padding: YoPadding.onlyBottom8,
+                          child: YoCard(
+                            backgroundColor: context.backgroundColor,
+                            shadows: YoBoxShadow.apple(),
+                            child: ListTile(
+                              onTap: () {
+                                controller.onAssignMember(member);
+                                Get.back();
+                              },
+                              contentPadding: EdgeInsets.zero,
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(member.imageUrl),
+                              ),
+                              title: YoText.bodyMedium(member.name),
+                              subtitle: YoText.bodySmall(member.email),
+                              trailing: Obx(
+                                () => controller.isAssignMember(member)
+                                    ? Icon(
+                                        Iconsax.tick_square_bold,
+                                        color: context.successColor,
+                                      )
+                                    : SizedBox.shrink(),
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-              icon: Icon(Iconsax.user_add_outline, color: context.colorTextBtn),
+                        );
+                      },
+                    ),
+                  );
+                },
+                icon: Icon(
+                  Iconsax.user_add_outline,
+                  color: context.colorTextBtn,
+                ),
+              ),
             ),
             Expanded(
               child: Obx(

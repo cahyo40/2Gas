@@ -24,7 +24,7 @@ class ProjectTaskScreen extends GetView<ProjectController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              YoText.titleMedium("Tasks"),
+              YoText.titleMedium("Tasks (${controller.task.length})"),
               TextButton(
                 onPressed: () {
                   Get.to(OrganizatonTaskScreen());
@@ -57,7 +57,9 @@ class ProjectTaskScreen extends GetView<ProjectController> {
               : ListView.builder(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
-                  itemCount: controller.task.length,
+                  itemCount: controller.task.length > 3
+                      ? 3
+                      : controller.task.length,
                   itemBuilder: (context, index) {
                     final model = controller.task[index];
                     return CardTaskWidget(model: model);

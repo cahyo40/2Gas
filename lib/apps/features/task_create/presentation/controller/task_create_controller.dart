@@ -74,6 +74,7 @@ class TaskCreateController extends GetxController {
           status: status.value,
           deadline: deadline.value,
           createdAt: now,
+          description: desc.text,
           createdBy: Get.find<AuthController>().uid,
           assigns: assigns,
         );

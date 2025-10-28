@@ -31,7 +31,8 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
         child: Icon(Iconsax.folder_add_outline, color: context.colorTextBtn),
       ),
       body: ListView(
-        padding: YoPadding.all20,
+        physics: BouncingScrollPhysics(),
+        padding: YoPadding.fromLTRB(20, 8, 20, 20),
         children: [
           Row(
             spacing: YoSpacing.md,
@@ -111,7 +112,7 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
           Obx(
             () => ListView.builder(
               shrinkWrap: true,
-              physics: AlwaysScrollableScrollPhysics(),
+              physics: BouncingScrollPhysics(),
               itemCount: controller.projectShow.length,
               itemBuilder: (_, i) {
                 final model = controller.projectShow[i];

@@ -27,7 +27,7 @@ class OrganizationCreateUpdateNetworkDatasource
         id: memberId,
         uid: model.createdBy,
         orgId: model.id,
-        role: "owner",
+        role: MemberRole.owner,
         isPending: false,
         imageUrl: user.photoUrl,
         joinedAt: now,
@@ -56,4 +56,6 @@ class OrganizationCreateUpdateNetworkDatasource
       return false;
     }
   }
+
+
 }

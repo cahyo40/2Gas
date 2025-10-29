@@ -30,7 +30,7 @@ class OrganizationCreateUpdateOfflineDatasource
         name: user.name,
         uid: model.createdBy,
         orgId: model.id,
-        role: "owner",
+        role: MemberRole.owner,
         imageUrl: user.photoUrl,
         isPending: false,
         joinedAt: now,
@@ -56,5 +56,17 @@ class OrganizationCreateUpdateOfflineDatasource
       YoLogger.error('Unexpected error  $e-> $s');
       return false;
     }
+  }
+
+  @override
+  Future<List<OrganizationModel>> getOrganization(String orgCode) {
+    // TODO: implement getOrganization
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> joinOrganization(String orgId) {
+    // TODO: implement joinOrganization
+    throw UnimplementedError();
   }
 }

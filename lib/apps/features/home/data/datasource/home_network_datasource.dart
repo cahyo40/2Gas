@@ -17,6 +17,7 @@ class HomeNetworkDatasource implements HomeRepository {
     try {
       final myOrg = await FirebaseServices.member
           .where("uid", isEqualTo: user.uid)
+          .where("isPending", isEqualTo: false)
           .get();
       final orgsId = myOrg.docs
           .map((d) => MemberModel.fromFirestore(d).orgId)
@@ -52,7 +53,6 @@ class HomeNetworkDatasource implements HomeRepository {
         return OrganizationHomeResponseModel(
           org: model,
           members: members,
-
           projects: project,
         );
       });
@@ -89,6 +89,66 @@ class HomeNetworkDatasource implements HomeRepository {
     } catch (e, s) {
       YoLogger.error('Unexpected error  $e-> $s');
       rethrow;
+    }
+  }
+
+  @override
+  Future<List<OrganizationModel>> getOrganization(String orgCode) async {
+    try {
+      final req = await FirebaseServices.org
+          .where("inviteCode", isEqualTo: orgCode)
+          .get();
+      if (req.docs.isEmpty) return [];
+
+      final org = req.docs
+          .map((org) => OrganizationModel.fromFirestore(org))
+          .toList();
+      return org;
+    } on FirebaseException catch (e, s) {
+      YoLogger.error('Firestore error $e -> $s');
+      return [];
+    } catch (e, s) {
+      YoLogger.error('Unexpected error  $e-> $s');
+      return [];
+    }
+  }
+
+  @override
+  Future<void> joinOrganization(String orgId) async {
+    try {
+      final memberId = YoIdGenerator.alphanumericId();
+      final member = MemberModel(
+        id: memberId,
+        uid: user.uid,
+        name: user.name,
+        email: user.email,
+        orgId: orgId,
+        role: MemberRole.member,
+        imageUrl: user.photoUrl,
+      );
+      await FirebaseServices.member.doc(memberId).set(member.toJson());
+    } on FirebaseException catch (e, s) {
+      YoLogger.error('Firestore error $e -> $s');
+      rethrow;
+    } catch (e, s) {
+      YoLogger.error('Unexpected error  $e-> $s');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<bool> isJoinOrganization(String orgId) async {
+    try {
+      final res = await FirebaseServices.member
+          .where('uid', isEqualTo: user.uid)
+          .where('orgId', isEqualTo: orgId)
+          .where('isPending', isEqualTo: false)
+          .limit(1) // cukup ambil 1 saja
+          .get();
+
+      return res.docs.isNotEmpty; // true kalau ada
+    } catch (e) {
+      return false;
     }
   }
 }

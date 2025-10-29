@@ -55,7 +55,9 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
                         ),
                       ],
                     ),
-                    YoText.bodyMedium("12 Members"),
+                    YoText.bodyMedium(
+                      "${controller.members.where((v) => v.isPending == false).toList().length} Members",
+                    ),
                   ],
                 ),
               ),

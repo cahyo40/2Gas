@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -57,6 +58,18 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
       }
       final data = await query.orderBy('deadline', descending: true).get();
       return data.docs.map((doc) => TaskModel.fromFirestore(doc)).toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  @override
+  Future<List<MemberModel>> getMember(String orgId) async {
+    try {
+      final res = await FirebaseServices.member
+          .where("orgId", isEqualTo: orgId)
+          .get();
+      return res.docs.map((doc) => MemberModel.fromFirestore(doc)).toList();
     } catch (e) {
       return [];
     }

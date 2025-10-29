@@ -11,11 +11,14 @@ class CardHomeOrgWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> images = model.members!.map((e) => e.imageUrl).toList();
+    List<String> images = model.members!
+        .where((member) => member.isPending == false)
+        .map((e) => e.imageUrl)
+        .toList();
     return YoCard(
       onTap: onTap,
       backgroundColor: context.backgroundColor,
-      shadows: YoBoxShadow.apple(),
+      shadows: YoBoxShadow.apple(color: context.textColor),
       child: Column(
         spacing: YoSpacing.sm,
         crossAxisAlignment: CrossAxisAlignment.start,

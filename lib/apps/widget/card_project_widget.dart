@@ -45,7 +45,7 @@ class CardProjectWidget extends StatelessWidget {
       child: YoCard(
         onTap: onTap,
         backgroundColor: context.backgroundColor,
-        shadows: YoBoxShadow.apple(),
+        shadows: YoBoxShadow.apple(color: context.textColor),
         padding: EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -31,6 +31,7 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       YoCard(
+                        shadows: YoBoxShadow.apple(color: context.textColor),
                         onTap: controller.addOrganization,
                         backgroundColor: context.backgroundColor,
                         child: ListTile(

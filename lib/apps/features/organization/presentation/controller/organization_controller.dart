@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
+import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -7,17 +9,14 @@ import 'package:twogass/apps/features/home/presentation/controller/home_controll
 import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_activity_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_organization_usecase.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/fetch_member_org_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_project_org_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_task_org_usecase.dart';
-import 'package:twogass/apps/features/organization/presentation/view/screen/organization_schedule_screen.dart';
-import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_activity_screen.dart';
-import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_overview_screen.dart';
-import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_project_screen.dart';
-import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_settings_screen.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 final tr = AppLocalizations.of(Get.context!)!;
+final uid = Get.find<AuthController>().uid;
 
 class OrganizationController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -30,6 +29,11 @@ class OrganizationController extends GetxController {
   final project = <ProjectModel>[].obs;
   final projectShow = <ProjectModel>[].obs;
   final task = <TaskModel>[].obs;
+  final members = <MemberModel>[].obs;
+  final membersShow = <MemberModel>[].obs;
+  final myRole = MemberRole.member.obs;
+  final isMemberPending = false.obs;
+
   final colorIcon = Get.theme.primaryColor.toARGB32().obs;
 
   GetOrganizationUsecase getOrganizationUsecase = GetOrganizationUsecase(
@@ -45,13 +49,7 @@ class OrganizationController extends GetxController {
     Get.find<OrganizationRepository>(),
   );
 
-  final tabView = [
-    OrganizatonOverviewScreen(),
-    OrganizatonProjectScreen(),
-    OrganizationScheduleScreen(),
-    OrganizatonActivityScreen(),
-    OrganizatonSettingsScreen(),
-  ];
+  FetchMemberOrgUsecase getMember = FetchMemberOrgUsecase(Get.find());
 
   void changeTab(int i) {
     initialTab.value = i;
@@ -65,10 +63,19 @@ class OrganizationController extends GetxController {
       project.value = await getProject(orgId);
       projectShow.value = project;
       task.value = await getTask(orgId, "");
+      members.value = await getMember(orgId);
+
+      myRole.value = members.where((d) => d.uid == uid).first.role;
     } catch (_) {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  membersFilter() {
+    membersShow.value = members
+        .where((mem) => mem.isPending == isMemberPending.value)
+        .toList();
   }
 
   refreshProject() async {

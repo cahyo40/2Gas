@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:yo_ui/yo_ui.dart';
+
+String get uid => Get.find<AuthController>().uid;
 
 class CardMemberOrgWidget extends StatelessWidget {
   final MemberModel member;
   final bool isMember;
+  final void Function()? onAcceptTap;
   const CardMemberOrgWidget({
     super.key,
     required this.member,
     required this.isMember,
+    this.onAcceptTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final isCurrentUser = member.uid == uid;
+
     return Container(
       margin: YoPadding.onlyBottom16,
       child: YoCard(
@@ -34,7 +42,9 @@ class CardMemberOrgWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: member.isPending
+                          color: isCurrentUser
+                              ? context.primaryColor
+                              : member.isPending
                               ? context.warningColor
                               : context.successColor,
                           width: 2,
@@ -59,6 +69,25 @@ class CardMemberOrgWidget extends StatelessWidget {
                           ),
                         ),
                       ),
+                    if (isCurrentUser)
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: Container(
+                          width: 16,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            color: context.primaryColor,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: Icon(
+                            Icons.person,
+                            size: 8,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
 
@@ -69,12 +98,34 @@ class CardMemberOrgWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      YoText.bodyLarge(
-                        member.name,
-                        fontWeight: FontWeight.w600,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: YoText.bodyLarge(
+                              member.name,
+                              fontWeight: FontWeight.w600,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (isCurrentUser)
+                            Padding(
+                              padding: EdgeInsets.only(left: 6),
+                              child: YoText.bodySmall(
+                                "(You)",
+                                color: context.primaryColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                        ],
                       ),
                       SizedBox(height: 2),
-                      YoText.bodySmall(member.email, color: context.gray500),
+                      YoText.bodySmall(
+                        member.email,
+                        color: context.gray500,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ],
                   ),
                 ),
@@ -100,7 +151,6 @@ class CardMemberOrgWidget extends StatelessWidget {
 
             // Footer dengan status dan action
             Row(
-              spacing: context.yoSpacingSm,
               children: [
                 // Status info
                 Expanded(
@@ -113,7 +163,6 @@ class CardMemberOrgWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
                           member.isPending ? Icons.pending : Icons.verified,
@@ -123,22 +172,25 @@ class CardMemberOrgWidget extends StatelessWidget {
                               : context.successColor,
                         ),
                         SizedBox(width: 6),
-                        YoText.bodySmall(
-                          member.isPending
-                              ? "Pending Approval"
-                              : "Active Member",
-                          color: member.isPending
-                              ? context.warningColor
-                              : context.successColor,
-                          fontWeight: FontWeight.w500,
+                        Expanded(
+                          child: YoText.bodySmall(
+                            member.isPending
+                                ? "Pending Approval"
+                                : "Active Member",
+                            color: member.isPending
+                                ? context.warningColor
+                                : context.successColor,
+                            fontWeight: FontWeight.w500,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                         if (!member.isPending && member.joinedAt != null)
-                          Expanded(
-                            child: YoText.bodySmall(
-                              " • Joined ${YoDateFormatter.formatDate(member.joinedAt!)}",
-                              color: Colors.grey.shade600,
-                              align: TextAlign.right,
-                            ),
+                          YoText.bodySmall(
+                            " • ${YoDateFormatter.formatDate(member.joinedAt!)}",
+                            color: Colors.grey.shade600,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                       ],
                     ),
@@ -146,26 +198,25 @@ class CardMemberOrgWidget extends StatelessWidget {
                 ),
 
                 // Action buttons untuk admin/owner (bukan member)
-                if (member.isPending && !isMember)
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: context.successColor,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.check,
-                            size: 18,
-                            color: Colors.white,
-                          ),
-                          padding: EdgeInsets.all(6),
-                          constraints: BoxConstraints(),
-                        ),
+                if (member.isPending && !isMember && !isCurrentUser)
+                  Padding(
+                    padding: EdgeInsets.only(left: 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: context.successColor,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    ],
+                      child: IconButton(
+                        onPressed: onAcceptTap,
+                        icon: Icon(
+                          Iconsax.tick_square_outline,
+                          size: 18,
+                          color: Colors.white,
+                        ),
+                        padding: EdgeInsets.all(6),
+                        constraints: BoxConstraints(),
+                      ),
+                    ),
                   ),
               ],
             ),

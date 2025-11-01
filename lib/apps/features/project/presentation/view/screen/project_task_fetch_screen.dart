@@ -15,26 +15,29 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
   Widget build(BuildContext context) {
     final orgColor = Get.find<OrganizationController>().org.value.color;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(orgColor ?? context.primaryColor.toARGB32()),
-        onPressed: () async {
-          final result = await Get.toNamed(
-            RouteNames.TASK_CREATE,
-            arguments: {
-              "projectId": controller.id.value,
-              "orgId": controller.orgId.value,
-            },
-          );
-
-          if (result == true && context.mounted) {
-            YoSnackBar.show(
-              context: context,
-              message: "Task created successfully",
-              type: YoSnackBarType.success,
+      floatingActionButton: Visibility(
+        visible: controller.isAssigner.value,
+        child: FloatingActionButton(
+          backgroundColor: Color(orgColor ?? context.primaryColor.toARGB32()),
+          onPressed: () async {
+            final result = await Get.toNamed(
+              RouteNames.TASK_CREATE,
+              arguments: {
+                "projectId": controller.id.value,
+                "orgId": controller.orgId.value,
+              },
             );
-          }
-        },
-        child: Icon(Iconsax.note_add_outline, color: context.onPrimaryColor),
+
+            if (result == true && context.mounted) {
+              YoSnackBar.show(
+                context: context,
+                message: "Task created successfully",
+                type: YoSnackBarType.success,
+              );
+            }
+          },
+          child: Icon(Iconsax.note_add_outline, color: context.onPrimaryColor),
+        ),
       ),
       appBar: AppBar(
         title: YoText.titleLarge("Tasks ${controller.project.value.name}"),
@@ -130,37 +133,47 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
                   return CardTaskWidget(
                     model: model,
                     onLongPress: () {
-                      YoBottomSheet.show(
-                        context: context,
-                        title: "Change Status",
-                        maxHeight: 400,
-                        child: ListView(
-                          shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
-                          children: TaskStatus.values.map((status) {
-                            return ListTile(
-                              title: YoText.bodyMedium(status.name.capitalize!),
-                              trailing: model.status == status
-                                  ? Icon(
-                                      Iconsax.tick_square_outline,
-                                      color: Color(
-                                        orgColor ??
-                                            context.primaryColor.toARGB32(),
-                                      ),
-                                    )
-                                  : null,
-                              onTap: () async {
-                                Get.back();
-                                await controller.updateStatusTask(
-                                  model.id,
-                                  model.projectId,
-                                  status,
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      );
+                      if (controller.isAssigner.value) {
+                        YoBottomSheet.show(
+                          context: context,
+                          title: "Change Status",
+                          maxHeight: 400,
+                          child: ListView(
+                            shrinkWrap: true,
+                            physics: BouncingScrollPhysics(),
+                            children: TaskStatus.values.map((status) {
+                              return ListTile(
+                                title: YoText.bodyMedium(
+                                  status.name.capitalize!,
+                                ),
+                                trailing: model.status == status
+                                    ? Icon(
+                                        Iconsax.tick_square_outline,
+                                        color: Color(
+                                          orgColor ??
+                                              context.primaryColor.toARGB32(),
+                                        ),
+                                      )
+                                    : null,
+                                onTap: () async {
+                                  Get.back();
+                                  await controller.updateStatusTask(
+                                    model.id,
+                                    model.projectId,
+                                    status,
+                                  );
+                                },
+                              );
+                            }).toList(),
+                          ),
+                        );
+                      } else {
+                        YoSnackBar.show(
+                          context: context,
+                          message: "Anda bukan anggota",
+                          type: YoSnackBarType.warning,
+                        );
+                      }
                     },
                   );
                 },

@@ -25,30 +25,33 @@ class ProjectView extends GetView<ProjectController> {
                 controller.initData();
               },
               child: Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  backgroundColor: Color(
-                    orgColor ?? context.primaryColor.toARGB32(),
-                  ),
-                  onPressed: () async {
-                    final result = await Get.toNamed(
-                      RouteNames.TASK_CREATE,
-                      arguments: {
-                        "projectId": controller.id.value,
-                        "orgId": controller.orgId.value,
-                      },
-                    );
-
-                    if (result == true && context.mounted) {
-                      YoSnackBar.show(
-                        context: context,
-                        message: "Task created successfully",
-                        type: YoSnackBarType.success,
+                floatingActionButton: Visibility(
+                  visible: controller.isAssigner.value,
+                  child: FloatingActionButton(
+                    backgroundColor: Color(
+                      orgColor ?? context.primaryColor.toARGB32(),
+                    ),
+                    onPressed: () async {
+                      final result = await Get.toNamed(
+                        RouteNames.TASK_CREATE,
+                        arguments: {
+                          "projectId": controller.id.value,
+                          "orgId": controller.orgId.value,
+                        },
                       );
-                    }
-                  },
-                  child: Icon(
-                    Iconsax.note_add_outline,
-                    color: context.onPrimaryColor,
+
+                      if (result == true && context.mounted) {
+                        YoSnackBar.show(
+                          context: context,
+                          message: "Task created successfully",
+                          type: YoSnackBarType.success,
+                        );
+                      }
+                    },
+                    child: Icon(
+                      Iconsax.note_add_outline,
+                      color: context.onPrimaryColor,
+                    ),
                   ),
                 ),
                 key: key,
@@ -83,8 +86,15 @@ class ProjectView extends GetView<ProjectController> {
                       ProjectDetailScreen(),
                       SizedBox(height: YoSpacing.md),
                       ProjectTaskScreen(),
-                      SizedBox(height: YoSpacing.md),
-                      ProjectCommentsScreen(),
+                      Visibility(
+                        visible: controller.isAssigner.value,
+                        child: Column(
+                          children: [
+                            SizedBox(height: YoSpacing.md),
+                            ProjectCommentsScreen(),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

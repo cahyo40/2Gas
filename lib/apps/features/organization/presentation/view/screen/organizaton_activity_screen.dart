@@ -15,7 +15,7 @@ class OrganizatonActivityScreen extends GetView<OrganizationController> {
         () => ListView.builder(
           padding: YoPadding.all20,
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: AlwaysScrollableScrollPhysics(),
           itemCount: controller.activity.length,
           itemBuilder: (_, i) {
             final model = controller.activity[i];

@@ -3,16 +3,21 @@ import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/task_create/domain/repositories/task_create_repository.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 class TaskCreateNetworkDatasource implements TaskCreateRepository {
-  final user = Get.find<AuthController>();
+  AuthController get user => Get.find<AuthController>();
   @override
   Future<bool> createTask(TaskModel task) async {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
+      final projectSnap = await FirebaseServices.project
+          .doc(task.projectId)
+          .get();
+      final project = ProjectModel.fromFirestore(projectSnap);
       final activity = ActivityModel(
         createdAt: task.createdAt,
         orgId: task.orgId,
@@ -22,9 +27,9 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         type: ActivityType.taskCreated,
         description: "",
         meta: ActivityMeta(
-          projectName: task.name,
+          memberName: user.name,
           taskName: task.name,
-          organizationName: user.name,
+          projectName: project.name,
         ),
       );
 
@@ -45,6 +50,4 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
       return false;
     }
   }
-
-  // TODO: remote api calls
 }

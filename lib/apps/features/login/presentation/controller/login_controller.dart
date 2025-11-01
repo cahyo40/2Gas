@@ -11,7 +11,7 @@ class LoginController extends GetxController {
   final version = "0.0.0".obs;
 
   LoginUsecase loginUsecase = LoginUsecase(Get.find());
-  final auth = Get.find<AuthController>();
+  AuthController get auth => Get.find<AuthController>();
   login() async {
     try {
       await auth.signInWithGoogle();

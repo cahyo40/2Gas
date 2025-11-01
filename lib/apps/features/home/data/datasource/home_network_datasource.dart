@@ -11,7 +11,7 @@ import 'package:twogass/apps/features/home/domain/repositories/home_repository.d
 import 'package:yo_ui/yo_ui.dart';
 
 class HomeNetworkDatasource implements HomeRepository {
-  final user = Get.find<AuthController>();
+  AuthController get user  => Get.find<AuthController>();
   @override
   Future<List<OrganizationHomeResponseModel>> homeOrganization() async {
     try {

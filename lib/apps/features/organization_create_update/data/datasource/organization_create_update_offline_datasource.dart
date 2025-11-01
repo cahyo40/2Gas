@@ -12,7 +12,7 @@ class OrganizationCreateUpdateOfflineDatasource
     implements OrganizationCreateUpdateRepository {
   OrganizationCreateUpdateOfflineDatasource();
 
-  final user = Get.find<AuthController>();
+  AuthController get user => Get.find<AuthController>();
   @override
   Future<bool> createOrganization(OrganizationModel model) async {
     try {

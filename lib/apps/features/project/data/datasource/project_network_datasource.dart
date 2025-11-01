@@ -1,14 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
+import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
+import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/data/model/user_model.dart';
+import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/domain/repositories/project_repository.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 class ProjectNetworkDatasource implements ProjectRepository {
   final key = DatabaseConst();
+  AuthController get user => Get.find<AuthController>();
   @override
   Future<Map<String, dynamic>> projectResponse({
     required String id,
@@ -79,6 +84,10 @@ class ProjectNetworkDatasource implements ProjectRepository {
     required TaskStatus status,
   }) async {
     try {
+      final activityId = YoIdGenerator.alphanumericId();
+      final taskSnap = await FirebaseServices.task.doc(taskId).get();
+      final taskData = TaskModel.fromFirestore(taskSnap);
+
       await FirebaseServices.task.doc(taskId).update({'status': status.name});
 
       final task = await FirebaseServices.task
@@ -106,9 +115,25 @@ class ProjectNetworkDatasource implements ProjectRepository {
         projectStatus = ProjectStatus.active;
       }
 
+      final activity = ActivityModel(
+        createdAt: DateTime.now(),
+        orgId: Get.find<OrganizationController>().orgId.value,
+        projectId: projectId,
+        id: activityId,
+        title: 'Task Change Status',
+        type: ActivityType.taskMoved,
+        description: "",
+        meta: ActivityMeta(
+          taskName: status.name,
+          memberName: user.name,
+          projectName: taskData.name,
+        ),
+      );
+
       await FirebaseServices.project.doc(projectId).update({
         'status': projectStatus.name,
       });
+      await FirebaseServices.activity.doc(activityId).set(activity.toJson());
     } on FirebaseException catch (e, s) {
       YoLogger.error('Firestore error $e -> $s');
       rethrow;

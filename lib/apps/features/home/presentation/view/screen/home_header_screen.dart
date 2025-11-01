@@ -6,12 +6,13 @@ import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/home_controller.dart';
 
+AuthController get user => Get.find<AuthController>();
+
 class HomeHeaderScreen extends GetView<HomeController> {
   const HomeHeaderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final user = Get.find<AuthController>();
     return Padding(
       padding: YoPadding.onlyBottom16,
       child: Row(

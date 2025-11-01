@@ -12,7 +12,7 @@ import 'package:yo_ui/yo_ui.dart';
 
 class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
   final key = DatabaseConst();
-  final user = Get.find<AuthController>();
+  AuthController get user => Get.find<AuthController>();
 
   @override
   Future<void> createCategory(ProjectCategoryModel categories) async {

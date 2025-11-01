@@ -7,6 +7,7 @@ import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/presentation/controller/home_controller.dart';
 import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/accept_member_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_activity_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_organization_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_member_org_usecase.dart';
@@ -16,7 +17,7 @@ import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 final tr = AppLocalizations.of(Get.context!)!;
-final uid = Get.find<AuthController>().uid;
+String get uid => Get.find<AuthController>().uid;
 
 class OrganizationController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -49,6 +50,10 @@ class OrganizationController extends GetxController {
     Get.find<OrganizationRepository>(),
   );
 
+  AcceptMemberUsecase acceptMember = AcceptMemberUsecase(
+    Get.find<OrganizationRepository>(),
+  );
+
   FetchMemberOrgUsecase getMember = FetchMemberOrgUsecase(Get.find());
 
   void changeTab(int i) {
@@ -72,10 +77,32 @@ class OrganizationController extends GetxController {
     }
   }
 
-  membersFilter() {
-    membersShow.value = members
+  void membersFilter() {
+    final filtered = members
         .where((mem) => mem.isPending == isMemberPending.value)
         .toList();
+
+    // taruh diri-sendiri paling atas
+    filtered.sort((a, b) {
+      final aIsMe = a.uid == uid;
+      final bIsMe = b.uid == uid;
+      if (aIsMe && !bIsMe) return -1; // a duluan
+      if (!aIsMe && bIsMe) return 1; // b duluan
+      return 0; // urutan awal
+    });
+
+    membersShow.assignAll(filtered);
+  }
+
+  onAcceptMember(MemberModel model) async {
+    await acceptMember(model);
+    members.value = await getMember(orgId.value);
+    initOrg(orgId.value, useLoading: false);
+    YoSnackBar.show(
+      context: Get.context!,
+      message: "${model.name} join ${org.value.name}",
+      type: YoSnackBarType.success,
+    );
   }
 
   refreshProject() async {

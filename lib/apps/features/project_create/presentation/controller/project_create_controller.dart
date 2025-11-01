@@ -13,7 +13,7 @@ import 'package:yo_ui/yo_ui_base.dart';
 class ProjectCreateController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxnString error = RxnString();
-  final user = Get.find<AuthController>();
+  AuthController get user => Get.find<AuthController>();
   final id = YoIdGenerator.alphanumericId();
   final formKey = GlobalKey<FormState>();
   final RxString orgId = "".obs;

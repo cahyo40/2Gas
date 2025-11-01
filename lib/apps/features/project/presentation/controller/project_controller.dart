@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -10,6 +11,7 @@ import 'package:twogass/apps/features/project/domain/usecase/update_task_status_
 import 'package:yo_ui/yo_ui_base.dart';
 
 final key = DatabaseConst();
+AuthController get user => Get.find<AuthController>();
 
 class ProjectController extends GetxController {
   final RxBool isLoading = false.obs;
@@ -22,6 +24,7 @@ class ProjectController extends GetxController {
   final taskNew = <TaskModel>[].obs;
   final createdBy = UserModel.initial().obs;
   final assignProject = <ProjectAssignModel>[].obs;
+  final RxBool isAssigner = false.obs;
 
   ProjectUsecase projectUsecase = ProjectUsecase(Get.find<ProjectRepository>());
   UpdateTaskStatusUsecase updateTaskStatus = UpdateTaskStatusUsecase(
@@ -63,6 +66,9 @@ class ProjectController extends GetxController {
       taskNew.value = task;
       assignProject.value = data[key.projectAssign];
       createdBy.value = data["createdBy"];
+      isAssigner.value = assignProject
+          .where((e) => e.uid == user.uid)
+          .isNotEmpty;
     } catch (_) {
     } finally {
       isLoading.value = false;

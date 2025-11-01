@@ -38,4 +38,9 @@ class OrganizationRepositoryImpl implements OrganizationRepository {
   Future<List<MemberModel>> getMember(String orgId) async {
     return await _network.getMember(orgId);
   }
+
+  @override
+  Future<void> acceptMember(MemberModel memberId) async {
+    return await _network.acceptMember(memberId);
+  }
 }

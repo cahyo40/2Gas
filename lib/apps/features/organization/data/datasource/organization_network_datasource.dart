@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
@@ -6,6 +7,8 @@ import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
+import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
+import 'package:yo_ui/yo_ui_base.dart';
 
 class OrganizationNetworkDatasource implements OrganizationRepository {
   @override
@@ -72,6 +75,33 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
       return res.docs.map((doc) => MemberModel.fromFirestore(doc)).toList();
     } catch (e) {
       return [];
+    }
+  }
+
+  @override
+  Future<void> acceptMember(MemberModel member) async {
+    try {
+      final activityId = YoIdGenerator.alphanumericId();
+      final updateData = {"isPending": false, "joinedAt": DateTime.now()};
+
+      final activity = ActivityModel(
+        createdAt: DateTime.now(),
+        orgId: Get.find<OrganizationController>().orgId.value,
+        id: activityId,
+        title: 'New Member',
+        type: ActivityType.organizationJoined,
+        description: "",
+        meta: ActivityMeta(
+          organizationName: Get.find<OrganizationController>().org.value.name,
+          memberName: member.name,
+        ),
+      );
+
+      await FirebaseServices.activity.doc(activityId).set(activity.toJson());
+      await FirebaseServices.member.doc(member.id).update(updateData);
+    } catch (e, s) {
+      YoLogger.error("$e -> $s");
+      rethrow;
     }
   }
 }

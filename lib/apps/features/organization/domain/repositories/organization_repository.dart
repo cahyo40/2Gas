@@ -10,4 +10,5 @@ abstract class OrganizationRepository {
   Future<List<ProjectModel>> getProject(String orgId);
   Future<List<TaskModel>> getTask(String orgId, String? projectId);
   Future<List<MemberModel>> getMember(String orgId);
+  Future<void> acceptMember(MemberModel member);
 }

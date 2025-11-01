@@ -11,7 +11,6 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
 
   @override
   Widget build(BuildContext context) {
-    final orgColor = controller.org.value.color;
     return Scaffold(
       appBar: AppBar(title: Text("All Members")),
       body: SafeArea(
@@ -128,6 +127,16 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                       return CardMemberOrgWidget(
                         member: member,
                         isMember: isMember,
+                        onAcceptTap: () {
+                          YoConfirmDialog.show(
+                            context: context,
+                            title: "Confirmation",
+                            content: "Confirmation gan",
+                            confirmText: "Accept",
+                          ).then((confirm) {
+                            controller.onAcceptMember(member);
+                          });
+                        },
                       );
                     },
                   ),

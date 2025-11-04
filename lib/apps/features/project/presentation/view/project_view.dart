@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
-import 'package:twogass/apps/features/project/presentation/view/screen/project_assign_screen.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_comments_screen.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_detail_screen.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_task_screen.dart';
@@ -55,10 +54,41 @@ class ProjectView extends GetView<ProjectController> {
                   ),
                 ),
                 key: key,
-                endDrawer: Drawer(
-                  backgroundColor: context.backgroundColor,
-                  width: Get.width * 0.8,
-                  child: ProjectAssignScreen(),
+                endDrawer: SafeArea(
+                  child: YoDrawer(
+                    header: Padding(
+                      padding: YoPadding.all12,
+                      child: YoText.titleMedium("Setting Project"),
+                    ),
+                    items: [
+                      YoDrawerItem(
+                        icon: Iconsax.profile_2user_outline,
+                        title: "Member",
+                        onTap: () {
+                          controller.goToAssignProject();
+                        },
+                      ),
+                      YoDrawerItem(
+                        icon: Iconsax.edit_outline,
+                        title: "Edit Project",
+                        onTap: () {},
+                      ),
+                    ],
+                    footer: Padding(
+                      padding: YoPadding.only(bottom: YoSpacing.md),
+                      child: Visibility(
+                        visible: controller.project.value.createdBy == uid,
+                        child: YoListTile(
+                          leading: Icon(
+                            Iconsax.trash_outline,
+                            color: context.errorColor,
+                          ),
+                          title: "Delete Project",
+                          onTap: () {},
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 appBar: AppBar(
                   title: YoText.titleLarge(
@@ -66,15 +96,14 @@ class ProjectView extends GetView<ProjectController> {
                   ),
                   centerTitle: true,
                   actions: [
-                    IconButton(
-                      onPressed: () {
-                        key.currentState!.openEndDrawer();
-                      },
-                      icon: Icon(Iconsax.profile_2user_outline),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Iconsax.setting_2_outline),
+                    Visibility(
+                      visible: controller.isAssigner.value,
+                      child: IconButton(
+                        onPressed: () {
+                          key.currentState!.openEndDrawer();
+                        },
+                        icon: Icon(Iconsax.setting_2_outline),
+                      ),
                     ),
                   ],
                 ),

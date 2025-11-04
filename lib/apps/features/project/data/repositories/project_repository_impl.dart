@@ -1,3 +1,4 @@
+import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 
 import '../../domain/repositories/project_repository.dart';
@@ -29,5 +30,10 @@ class ProjectRepositoryImpl implements ProjectRepository {
       projectId: projectId,
       status: status,
     );
+  }
+
+  @override
+  Future<void> addAssigner({required ProjectAssignModel model}) async {
+    return await _network.addAssigner(model: model);
   }
 }

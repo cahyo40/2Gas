@@ -142,4 +142,20 @@ class ProjectNetworkDatasource implements ProjectRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> addAssigner({required ProjectAssignModel model}) async {
+    try {
+      await FirebaseServices.projectAssign.doc(model.id).set(model.toJson());
+      await FirebaseServices.project.doc(model.projectId).update({
+        "assign": FieldValue.arrayUnion([model.toJson()]),
+      });
+    } on FirebaseException catch (e, s) {
+      YoLogger.error('Firestore error $e -> $s');
+      rethrow;
+    } catch (e, s) {
+      YoLogger.error('Unexpected error  $e-> $s');
+      rethrow;
+    }
+  }
 }

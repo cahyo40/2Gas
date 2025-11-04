@@ -110,23 +110,28 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
           ),
           SizedBox(height: YoSpacing.md),
           Obx(
-            () => ListView.builder(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              itemCount: controller.projectShow.length,
-              itemBuilder: (_, i) {
-                final model = controller.projectShow[i];
-                return CardProjectWidget(
-                  onTap: () {
-                    Get.toNamed(
-                      RouteNames.PROJECT,
-                      arguments: {"orgId": model.orgId, "id": model.id},
-                    );
-                  },
-                  model: model,
-                );
-              },
-            ),
+            () => controller.projectShow.isEmpty
+                ? SizedBox(
+                    height: Get.width,
+                    child: Center(child: YoEmptyState.noData()),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: controller.projectShow.length,
+                    itemBuilder: (_, i) {
+                      final model = controller.projectShow[i];
+                      return CardProjectWidget(
+                        onTap: () {
+                          Get.toNamed(
+                            RouteNames.PROJECT,
+                            arguments: {"orgId": model.orgId, "id": model.id},
+                          );
+                        },
+                        model: model,
+                      );
+                    },
+                  ),
           ),
         ],
       ),

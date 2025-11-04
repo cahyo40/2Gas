@@ -28,8 +28,8 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         description: "",
         meta: ActivityMeta(
           memberName: user.name,
-          taskName: task.name,
-          projectName: project.name,
+          taskName: project.name,
+          projectName: task.name,
         ),
       );
 

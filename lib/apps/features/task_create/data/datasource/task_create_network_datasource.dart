@@ -4,6 +4,7 @@ import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
+import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/task_create/domain/repositories/task_create_repository.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -14,6 +15,7 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
   Future<bool> createTask(TaskModel task) async {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
+      final scheduleId = YoIdGenerator.alphanumericId();
       final projectSnap = await FirebaseServices.project
           .doc(task.projectId)
           .get();
@@ -33,6 +35,22 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         ),
       );
 
+      final schedule = ScheduleModel(
+        id: scheduleId,
+        uid: user.uid,
+        type: ScheduleType.deadline,
+        date: task.deadline,
+        createdAt: task.createdAt,
+        title: "Deadline Task",
+        orgId: task.orgId,
+        projectId: task.projectId,
+        taskId: task.id,
+        access: ScheduleAccess.org,
+        uidAccess: task.assigns.map((e) => e.uid).toList(),
+        description:
+            "${task.name.capitalize!} at ${project.name.capitalize!} Project -> priority ${task.priority.name.capitalize}",
+      );
+
       await FirebaseServices.task.doc(task.id).set(task.toJson());
       await FirebaseServices.activity.doc(idActivity).set(activity.toJson());
       await Future.wait(
@@ -40,6 +58,7 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
           (a) => FirebaseServices.taskAssign.doc(a.id).set(a.toJson()),
         ),
       );
+      await FirebaseServices.schedule.doc(scheduleId).set(schedule.toJson());
 
       return true;
     } on FirebaseException catch (e, s) {

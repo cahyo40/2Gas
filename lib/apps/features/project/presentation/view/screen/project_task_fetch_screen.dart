@@ -110,31 +110,40 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
                   uid: task.createdBy,
                   size: UserListTileSize.small,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: AvatarOverlappingWidget(
-                        imagesUrl: task.assigns.map((e) => e.imageUrl).toList(),
-                        width: .6,
-                        avatarRadius: 12,
-                        maxDisplay: 3,
+                Visibility(
+                  visible: task.status != TaskStatus.done,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AvatarOverlappingWidget(
+                          imagesUrl: task.assigns
+                              .map((e) => e.imageUrl)
+                              .toList(),
+                          width: .6,
+                          avatarRadius: 12,
+                          maxDisplay: 3,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 4),
-                    Icon(
-                      Icons.calendar_today_outlined,
-                      size: 12,
-                      color: YoColors().getDeadlineColor(daysLeft),
-                    ),
-                    SizedBox(width: 4),
-                    YoText.bodySmall(
-                      "${YoDateFormatter.formatDate(task.deadline)} (${YoDateFormatter.daysBetween(DateTime.now(), task.deadline)} Days)",
-                      color: YoColors().getDeadlineColor(daysLeft),
-                      fontWeight: isOverdue || isUrgent
-                          ? FontWeight.w600
-                          : FontWeight.normal,
-                    ),
-                  ],
+                      SizedBox(width: 4),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 12,
+                            color: YoColors().getDeadlineColor(daysLeft),
+                          ),
+                          SizedBox(width: 4),
+                          YoText.bodySmall(
+                            "${YoDateFormatter.formatDate(task.deadline)} (${YoDateFormatter.daysBetween(DateTime.now(), task.deadline)} Days)",
+                            color: YoColors().getDeadlineColor(daysLeft),
+                            fontWeight: isOverdue || isUrgent
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
               tags: [],

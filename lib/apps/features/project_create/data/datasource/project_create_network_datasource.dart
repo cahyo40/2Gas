@@ -7,6 +7,7 @@ import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/project_category_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
+import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/features/project_create/domain/repositories/project_create_repository.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -61,6 +62,8 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
   Future<bool> submitProject(ProjectModel project) async {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
+      final scheduleId = YoIdGenerator.alphanumericId();
+      List<String> uidAccess = project.assign.map((e) => e.uid).toList();
       final activity = ActivityModel(
         id: idActivity,
         orgId: project.orgId,
@@ -72,6 +75,22 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
           projectName: project.name,
           organizationName: user.name,
         ),
+      );
+
+      final schedule = ScheduleModel(
+        id: scheduleId,
+        uid: user.uid,
+        type: ScheduleType.deadline,
+        date: project.deadline,
+        createdAt: project.createdAt,
+        title: "Deadline Project",
+        orgId: project.orgId,
+        projectId: project.id,
+        access: ScheduleAccess.org,
+        uidAccess: uidAccess,
+
+        description:
+            "${project.name.capitalize} -> priority ${project.priority.name.capitalize}",
       );
 
       await FirebaseServices.project.doc(project.id).set(project.toJson());
@@ -91,6 +110,7 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
         }),
       );
       await FirebaseServices.activity.doc(activity.id).set(activity.toJson());
+      await FirebaseServices.schedule.doc(scheduleId).set(schedule.toJson());
 
       return true;
     } on FirebaseException catch (e, s) {

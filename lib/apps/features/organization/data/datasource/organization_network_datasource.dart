@@ -5,6 +5,7 @@ import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
+import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
@@ -102,6 +103,24 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
     } catch (e, s) {
       YoLogger.error("$e -> $s");
       rethrow;
+    }
+  }
+
+  @override
+  Future<List<ScheduleModel>> getSchedule(String orgId) async {
+    try {
+      final res = await FirebaseServices.schedule
+          .where("orgId", isEqualTo: orgId)
+          .orderBy("date", descending: false)
+          .get();
+      final data = res.docs
+          .map((doc) => ScheduleModel.fromFirestore(doc))
+          .toList();
+      YoLogger.debug("Data => ${data.first.toJson()}");
+      return data;
+    } catch (e) {
+      YoLogger.error(e.toString());
+      return [];
     }
   }
 }

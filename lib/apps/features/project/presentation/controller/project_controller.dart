@@ -10,6 +10,7 @@ import 'package:twogass/apps/features/organization/presentation/controller/organ
 import 'package:twogass/apps/features/project/domain/repositories/project_repository.dart';
 import 'package:twogass/apps/features/project/domain/usecase/add_assigner_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/project_usecase.dart';
+import 'package:twogass/apps/features/project/domain/usecase/update_project_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/update_task_status_usecase.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_assign_screen.dart';
 import 'package:yo_ui/yo_ui_base.dart';
@@ -37,6 +38,7 @@ class ProjectController extends GetxController {
   );
   FetchMemberOrgUsecase getMember = FetchMemberOrgUsecase(Get.find());
   AddAssignerUsecase addAssign = AddAssignerUsecase(Get.find());
+  UpdateProjectUsecase updateProject = UpdateProjectUsecase(Get.find());
 
   final filtersTask = ["all", "todo", "progress", 'done'];
   final currentFilterTask = 0.obs;
@@ -57,7 +59,7 @@ class ProjectController extends GetxController {
       status: status,
       projectId: projectId,
     );
-    await initData(useLoading: false);
+    // await initData(useLoading: false);
   }
 
   refreshTask() async {
@@ -73,6 +75,7 @@ class ProjectController extends GetxController {
       taskNew.value = task;
       assignProject.value = data[key.projectAssign];
       createdBy.value = data["createdBy"];
+
       isAssigner.value = assignProject
           .where((e) => e.uid == user.uid)
           .isNotEmpty;
@@ -88,7 +91,7 @@ class ProjectController extends GetxController {
     Get.to(() => ProjectAssignScreen());
   }
 
-  addAssigner(MemberModel model) async{
+  addAssigner(MemberModel model) async {
     final assignId = YoIdGenerator.alphanumericId();
     ProjectAssignModel data = ProjectAssignModel(
       id: assignId,
@@ -97,9 +100,39 @@ class ProjectController extends GetxController {
       imageUrl: model.imageUrl,
     );
     await addAssign(data);
-    initData(
-      useLoading: true,
-    );
+    initData(useLoading: true);
+  }
+
+  bool isCreator(String uid) {
+    return user.uid == uid;
+  }
+
+  updatePriority(Priority priority) async {
+    if (isAssigner.isTrue) {
+      final projectUpdate = project.value.copyWith(priority: priority);
+      await updateProject(projectUpdate);
+      initData(useLoading: true);
+    } else {
+      YoSnackBar.show(
+        context: Get.context!,
+        message: "Anda tidak bisa mengubah data",
+        type: YoSnackBarType.error,
+      );
+    }
+  }
+
+  updateDeadline(DateTime date) async {
+    if (isAssigner.isTrue) {
+      final projectUpdate = project.value.copyWith(deadline: date);
+      await updateProject(projectUpdate);
+      initData(useLoading: true);
+    } else {
+      YoSnackBar.show(
+        context: Get.context!,
+        message: "Anda tidak bisa mengubah data",
+        type: YoSnackBarType.error,
+      );
+    }
   }
 
   @override

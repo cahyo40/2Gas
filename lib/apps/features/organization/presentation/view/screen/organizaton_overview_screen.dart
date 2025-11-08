@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
-import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/card_activity_widget.dart';
 import 'package:twogass/apps/widget/card_summary_widget.dart';
@@ -66,27 +65,8 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
           SizedBox(height: YoSpacing.md),
           YoText.titleMedium("Today's Schedule"),
           SizedBox(height: YoSpacing.sm),
-          TodayScheduleWidget(
-            color: controller.org.value.color,
-            source: [
-              ScheduleModel(
-                id: "id",
-                uid: "uid",
-                type: "type",
-                start: DateTime.now().subtract(Duration(hours: 3)),
-                end: DateTime.now(),
-                creatdAt: DateTime.now(),
-                title: "Meeting Harian",
-              ),
-              ScheduleModel(
-                id: "id",
-                uid: "uid",
-                type: "type",
-                start: DateTime.now().subtract(Duration(hours: 5)),
-                end: DateTime.now(),
-                creatdAt: DateTime.now(),
-                title: "Meeting Harian",
-              ),
+          TodayScheduleWidget(color: controller.org.value.color, source: [
+             
             ],
           ),
           SizedBox(height: YoSpacing.md),

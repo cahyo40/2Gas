@@ -36,4 +36,9 @@ class ProjectRepositoryImpl implements ProjectRepository {
   Future<void> addAssigner({required ProjectAssignModel model}) async {
     return await _network.addAssigner(model: model);
   }
+
+  @override
+  Future<void> updateProject(ProjectModel model) async {
+    return await _network.updateProject(model);
+  }
 }

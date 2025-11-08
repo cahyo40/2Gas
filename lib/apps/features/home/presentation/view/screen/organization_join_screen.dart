@@ -67,7 +67,7 @@ class OrganizationJoinScreen extends GetView<HomeController> {
                                   return YoButton.primary(
                                     text: "Bergabung",
                                     size: YoButtonSize.small,
-                                    textColor: context.onPrimaryBW,
+                                    textColor: context.onPrimaryColor,
                                     onPressed: () {
                                       controller.onJoinOrg(org.id);
                                     },

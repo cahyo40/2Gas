@@ -50,7 +50,7 @@ class CardHomeOrgWidget extends StatelessWidget {
                 child: Center(
                   child: YoText.titleMedium(
                     model.org.name.substring(0, 1).toUpperCase(),
-                    color: context.onPrimaryBW,
+                    color: context.onPrimaryColor,
                     fontWeight: FontWeight.w700,
                   ),
                 ),

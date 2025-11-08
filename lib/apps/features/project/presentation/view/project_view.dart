@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_comments_screen.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_detail_screen.dart';
@@ -68,10 +69,53 @@ class ProjectView extends GetView<ProjectController> {
                           controller.goToAssignProject();
                         },
                       ),
+
                       YoDrawerItem(
                         icon: Iconsax.edit_outline,
-                        title: "Edit Project",
-                        onTap: () {},
+                        title: "Change Priority",
+                        onTap: () {
+                          YoBottomSheet.show(
+                            context: context,
+                            title: "Select Priority",
+                            maxHeight: 300,
+                            child: Obx(
+                              () => Column(
+                                children: Priority.values.map((p) {
+                                  return YoListTile(
+                                    title: p.name.capitalize,
+                                    onTap: () async {
+                                      await controller.updatePriority(p);
+                                      Get.back();
+                                    },
+                                    selected:
+                                        p == controller.project.value.priority,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      YoDrawerItem(
+                        icon: Iconsax.calendar_edit_outline,
+                        title: "Change Deadline",
+                        subtitle: YoDateFormatter.formatDate(
+                          controller.project.value.deadline,
+                        ),
+                        onTap: () async {
+                          final date = await YoDialogPicker.date(
+                            context: context,
+                            initialDate: controller.project.value.deadline,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(
+                              DateTime.now().year + 5,
+                              DateTime.now().month,
+                            ),
+                          );
+                          if (date != null) {
+                            await controller.updateDeadline(date);
+                          }
+                        },
                       ),
                     ],
                     footer: Padding(

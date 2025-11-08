@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:twogass/apps/data/model/schedule_model.dart';
-import 'package:twogass/apps/widget/card_schedule_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/home_controller.dart';
@@ -26,19 +24,8 @@ class HomeScheduleScreen extends GetView<HomeController> {
             ),
           ],
         ),
-        Column(
-          children: [
-            CardScheduleWidget(
-              model: ScheduleModel(
-                id: "id",
-                uid: "uid",
-                type: "type",
-                start: DateTime.now().subtract(Duration(hours: 3)),
-                end: DateTime.now(),
-                creatdAt: DateTime.now(),
-                title: "Meeting Harian",
-              ),
-            ),
+        Column(children: [
+           
           ],
         ),
       ],

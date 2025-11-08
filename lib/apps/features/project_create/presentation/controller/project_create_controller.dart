@@ -57,13 +57,29 @@ class ProjectCreateController extends GetxController {
       orgId: orgId.value,
       name: value.trim(),
     );
+    initialCategory.add(data);
+    initialCategory.refresh();
     category.add(data);
     category.refresh();
   }
 
   onSelectCategory(ProjectCategoryModel model) {
-    category.add(model);
-    category.refresh();
+    if (category.any((e) => e.id == model.id)) {
+      YoSnackBar.show(
+        context: Get.context!,
+        message: "Category has been added",
+        type: YoSnackBarType.error,
+      );
+    } else {
+      category.add(model);
+      category.refresh();
+    }
+
+    Get.back();
+  }
+
+  bool isExistCategory(ProjectCategoryModel model) {
+    return category.any((e) => e.id == model.id);
   }
 
   onAssignMember(MemberModel member) {

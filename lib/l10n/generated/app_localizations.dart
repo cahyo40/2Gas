@@ -547,6 +547,396 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select members'**
   String get select_members;
+
+  /// No description provided for @nav_overview.
+  ///
+  /// In en, this message translates to:
+  /// **'Overview'**
+  String get nav_overview;
+
+  /// No description provided for @nav_project.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get nav_project;
+
+  /// No description provided for @nav_schedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get nav_schedule;
+
+  /// No description provided for @nav_activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get nav_activity;
+
+  /// No description provided for @all_members.
+  ///
+  /// In en, this message translates to:
+  /// **'All Members'**
+  String get all_members;
+
+  /// No description provided for @active_member.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Member'**
+  String get active_member;
+
+  /// No description provided for @pending_member.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Member'**
+  String get pending_member;
+
+  /// No description provided for @dialog_acc_member_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept Member'**
+  String get dialog_acc_member_title;
+
+  /// No description provided for @dialog_acc_member_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Do you want to accept this member?'**
+  String get dialog_acc_member_content;
+
+  /// No description provided for @accept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get accept;
+
+  /// No description provided for @decline.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get decline;
+
+  /// No description provided for @activity_org.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Activity'**
+  String get activity_org;
+
+  /// No description provided for @member.
+  ///
+  /// In en, this message translates to:
+  /// **'Member'**
+  String get member;
+
+  /// No description provided for @today_schedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Schedule'**
+  String get today_schedule;
+
+  /// No description provided for @project_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Summary'**
+  String get project_summary;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// No description provided for @completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get completed;
+
+  /// No description provided for @overdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get overdue;
+
+  /// No description provided for @task_summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Summary'**
+  String get task_summary;
+
+  /// No description provided for @latest_activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest Activity'**
+  String get latest_activity;
+
+  /// No description provided for @msg_success_create_project.
+  ///
+  /// In en, this message translates to:
+  /// **'Project created successfully'**
+  String get msg_success_create_project;
+
+  /// No description provided for @search_project.
+  ///
+  /// In en, this message translates to:
+  /// **'Search projects'**
+  String get search_project;
+
+  /// No description provided for @back_to_home.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Home'**
+  String get back_to_home;
+
+  /// No description provided for @msg_success_create_task.
+  ///
+  /// In en, this message translates to:
+  /// **'Task created successfully'**
+  String get msg_success_create_task;
+
+  /// No description provided for @setting_project.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Settings'**
+  String get setting_project;
+
+  /// No description provided for @change_prioriy.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Priority'**
+  String get change_prioriy;
+
+  /// No description provided for @select_priority.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Priority'**
+  String get select_priority;
+
+  /// No description provided for @change_deadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Deadline'**
+  String get change_deadline;
+
+  /// No description provided for @delete_project.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Project'**
+  String get delete_project;
+
+  /// No description provided for @assign.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign'**
+  String get assign;
+
+  /// No description provided for @org_member_list.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Members'**
+  String get org_member_list;
+
+  /// No description provided for @dialog_list_assign_project_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Project'**
+  String get dialog_list_assign_project_title;
+
+  /// No description provided for @dialog_list_assign_project_context.
+  ///
+  /// In en, this message translates to:
+  /// **'Select members to assign this project to'**
+  String get dialog_list_assign_project_context;
+
+  /// No description provided for @creator.
+  ///
+  /// In en, this message translates to:
+  /// **'Creator'**
+  String get creator;
+
+  /// No description provided for @priority.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get priority;
+
+  /// No description provided for @deadline.
+  ///
+  /// In en, this message translates to:
+  /// **'Deadline'**
+  String get deadline;
+
+  /// No description provided for @categories.
+  ///
+  /// In en, this message translates to:
+  /// **'Categories'**
+  String get categories;
+
+  /// No description provided for @project_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Info'**
+  String get project_info;
+
+  /// No description provided for @created_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Created by'**
+  String get created_by;
+
+  /// No description provided for @created_at.
+  ///
+  /// In en, this message translates to:
+  /// **'Created at'**
+  String get created_at;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get description;
+
+  /// No description provided for @task.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get task;
+
+  /// No description provided for @no_description.
+  ///
+  /// In en, this message translates to:
+  /// **'No description'**
+  String get no_description;
+
+  /// No description provided for @see_all.
+  ///
+  /// In en, this message translates to:
+  /// **'See All'**
+  String get see_all;
+
+  /// No description provided for @msg_task_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks yet'**
+  String get msg_task_empty;
+
+  /// No description provided for @msg_cannot_change_data.
+  ///
+  /// In en, this message translates to:
+  /// **'You cannot change this data'**
+  String get msg_cannot_change_data;
+
+  /// No description provided for @create_project.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Project'**
+  String get create_project;
+
+  /// No description provided for @submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @select_category.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Category'**
+  String get select_category;
+
+  /// No description provided for @pending_approval.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Approval'**
+  String get pending_approval;
+
+  /// No description provided for @category_has_been_added.
+  ///
+  /// In en, this message translates to:
+  /// **'Category has been added'**
+  String get category_has_been_added;
+
+  /// No description provided for @overdue_by.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue by {day} days'**
+  String overdue_by(Object day);
+
+  /// No description provided for @overdue_in.
+  ///
+  /// In en, this message translates to:
+  /// **'Due in {day} days'**
+  String overdue_in(Object day);
+
+  /// No description provided for @please_wait.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait'**
+  String get please_wait;
+
+  /// No description provided for @my_org.
+  ///
+  /// In en, this message translates to:
+  /// **'My Organization'**
+  String get my_org;
+
+  /// No description provided for @create_org.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Organization'**
+  String get create_org;
+
+  /// No description provided for @join_org.
+  ///
+  /// In en, this message translates to:
+  /// **'Join Organization'**
+  String get join_org;
+
+  /// No description provided for @add_org.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Organization'**
+  String get add_org;
+
+  /// No description provided for @joined.
+  ///
+  /// In en, this message translates to:
+  /// **'Joined'**
+  String get joined;
+
+  /// No description provided for @join.
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get join;
+
+  /// No description provided for @wait_for_approval.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait for approval'**
+  String get wait_for_approval;
+
+  /// No description provided for @color_org.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Color'**
+  String get color_org;
+
+  /// No description provided for @change_color.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Color'**
+  String get change_color;
+
+  /// No description provided for @org.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization'**
+  String get org;
+
+  /// No description provided for @create_task.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Task'**
+  String get create_task;
 }
 
 class _AppLocalizationsDelegate

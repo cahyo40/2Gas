@@ -18,22 +18,22 @@ class OrganizationView extends GetView<OrganizationController> {
   Widget build(BuildContext context) {
     List<BottomBarItem> listBottomNavBarItem = [
       BottomBarItem(
-        title: YoText.bodyMedium("Overview"),
+        title: YoText.bodyMedium(tr.nav_overview),
         icon: Icon(Iconsax.element_4_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),
       BottomBarItem(
-        title: YoText.bodyMedium("Project"),
+        title: YoText.bodyMedium(tr.nav_project),
         icon: Icon(Iconsax.folder_open_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),
       BottomBarItem(
-        title: YoText.bodyMedium("Schedule"),
+        title: YoText.bodyMedium(tr.nav_schedule),
         icon: Icon(Iconsax.calendar_2_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),
       BottomBarItem(
-        title: YoText.bodyMedium("Activity"),
+        title: YoText.bodyMedium(tr.nav_activity),
         icon: Icon(Iconsax.activity_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),

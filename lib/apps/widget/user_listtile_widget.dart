@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/user_model.dart';
 import 'package:yo_ui/yo_ui_base.dart';
@@ -95,7 +96,7 @@ class UserListtileWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            user?.name ?? "please wait...",
+                            user?.name ?? L10n.t.please_wait,
                             style: textStyle,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

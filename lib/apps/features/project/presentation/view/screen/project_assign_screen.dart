@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/widget/user_listtile_widget.dart';
@@ -19,7 +20,7 @@ class ProjectAssignScreen extends GetView<ProjectController> {
     final orgColor = Get.find<OrganizationController>().org.value.color;
     return Scaffold(
       appBar: YoAppBar(
-        title: "Assign",
+        title: L10n.t.assign,
         backgroundColor: context.backgroundColor,
         actions: [
           Visibility(
@@ -32,8 +33,8 @@ class ProjectAssignScreen extends GetView<ProjectController> {
               onPressed: () {
                 YoDialog.show(
                   context: context,
-                  title: "Member",
-                  content: "Daftar Member Org",
+                  title: L10n.t.member,
+                  content: L10n.t.org_member_list,
                   actions: [
                     Obx(
                       () => ListView.builder(
@@ -56,9 +57,12 @@ class ProjectAssignScreen extends GetView<ProjectController> {
                               if (!isAssinger) {
                                 YoConfirmDialog.show(
                                   context: context,
-                                  title: "title",
-                                  content: "content",
-                                  confirmText: "Yes",
+                                  title:
+                                      L10n.t.dialog_list_assign_project_title,
+                                  content:
+                                      L10n.t.dialog_list_assign_project_context,
+                                  confirmText: L10n.t.yes,
+                                  cancelText: L10n.t.no,
                                 ).then((confirm) async {
                                   if (confirm == true) {
                                     await controller.addAssigner(member);
@@ -101,7 +105,7 @@ class ProjectAssignScreen extends GetView<ProjectController> {
                         Expanded(child: UserListtileWidget(uid: model.uid)),
 
                         controller.isCreator(model.uid)
-                            ? YoChip(label: "CREATOR")
+                            ? YoChip(label: L10n.t.creator.toUpperCase())
                             : Visibility(
                                 visible:
                                     controller.project.value.status !=

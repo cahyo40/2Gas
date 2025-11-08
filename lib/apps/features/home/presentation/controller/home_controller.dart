@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
@@ -66,7 +67,7 @@ class HomeController extends GetxController {
       Get.back();
       YoSnackBar.show(
         context: Get.context!,
-        message: "Tunggu persetujuan dahulu",
+        message: L10n.t.wait_for_approval,
         type: YoSnackBarType.success,
       );
     }

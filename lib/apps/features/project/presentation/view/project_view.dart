@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_comments_screen.dart';
@@ -43,7 +44,7 @@ class ProjectView extends GetView<ProjectController> {
                       if (result == true && context.mounted) {
                         YoSnackBar.show(
                           context: context,
-                          message: "Task created successfully",
+                          message: L10n.t.msg_success_create_task,
                           type: YoSnackBarType.success,
                         );
                       }
@@ -59,12 +60,12 @@ class ProjectView extends GetView<ProjectController> {
                   child: YoDrawer(
                     header: Padding(
                       padding: YoPadding.all12,
-                      child: YoText.titleMedium("Setting Project"),
+                      child: YoText.titleMedium(L10n.t.setting_project),
                     ),
                     items: [
                       YoDrawerItem(
                         icon: Iconsax.profile_2user_outline,
-                        title: "Member",
+                        title: L10n.t.member,
                         onTap: () {
                           controller.goToAssignProject();
                         },
@@ -72,11 +73,11 @@ class ProjectView extends GetView<ProjectController> {
 
                       YoDrawerItem(
                         icon: Iconsax.edit_outline,
-                        title: "Change Priority",
+                        title: L10n.t.change_prioriy,
                         onTap: () {
                           YoBottomSheet.show(
                             context: context,
-                            title: "Select Priority",
+                            title: L10n.t.select_priority,
                             maxHeight: 300,
                             child: Obx(
                               () => Column(
@@ -98,7 +99,7 @@ class ProjectView extends GetView<ProjectController> {
                       ),
                       YoDrawerItem(
                         icon: Iconsax.calendar_edit_outline,
-                        title: "Change Deadline",
+                        title: L10n.t.change_deadline,
                         subtitle: YoDateFormatter.formatDate(
                           controller.project.value.deadline,
                         ),
@@ -127,7 +128,7 @@ class ProjectView extends GetView<ProjectController> {
                             Iconsax.trash_outline,
                             color: context.errorColor,
                           ),
-                          title: "Delete Project",
+                          title: L10n.t.delete_project,
                           onTap: () {},
                         ),
                       ),

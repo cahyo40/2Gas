@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/project_category_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
@@ -67,7 +68,7 @@ class ProjectCreateController extends GetxController {
     if (category.any((e) => e.id == model.id)) {
       YoSnackBar.show(
         context: Get.context!,
-        message: "Category has been added",
+        message: L10n.t.category_has_been_added,
         type: YoSnackBarType.error,
       );
     } else {

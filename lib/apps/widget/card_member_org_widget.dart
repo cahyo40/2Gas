@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -175,8 +176,8 @@ class CardMemberOrgWidget extends StatelessWidget {
                         Expanded(
                           child: YoText.bodySmall(
                             member.isPending
-                                ? "Pending Approval"
-                                : "Active Member",
+                                ? L10n.t.pending_approval
+                                : L10n.t.active_member,
                             color: member.isPending
                                 ? context.warningColor
                                 : context.successColor,

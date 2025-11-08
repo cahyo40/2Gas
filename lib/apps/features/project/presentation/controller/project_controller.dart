@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -115,7 +116,7 @@ class ProjectController extends GetxController {
     } else {
       YoSnackBar.show(
         context: Get.context!,
-        message: "Anda tidak bisa mengubah data",
+        message: L10n.t.msg_cannot_change_data,
         type: YoSnackBarType.error,
       );
     }
@@ -129,7 +130,7 @@ class ProjectController extends GetxController {
     } else {
       YoSnackBar.show(
         context: Get.context!,
-        message: "Anda tidak bisa mengubah data",
+        message: L10n.t.msg_cannot_change_data,
         type: YoSnackBarType.error,
       );
     }

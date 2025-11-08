@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/features/organization/presentation/view/screen/org_settings_member_screen.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -17,7 +18,7 @@ class OrganizatonSettingsScreen extends GetView<OrganizationController> {
         child: Column(
           children: [
             ListTile(
-              title: YoText("Member"),
+              title: YoText(L10n.t.member),
               leading: Icon(Iconsax.profile_2user_outline),
               onTap: () {
                 controller.membersFilter();
@@ -26,7 +27,7 @@ class OrganizatonSettingsScreen extends GetView<OrganizationController> {
             ),
             Spacer(),
             ListTile(
-              title: YoText("Back to home"),
+              title: YoText(L10n.t.back_to_home),
               leading: Icon(Iconsax.home_1_outline),
               onTap: () => Get.back(),
             ),

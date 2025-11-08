@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/core/helpers/color_helpers.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/helpers/priority_message.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -27,7 +28,7 @@ class ProjectDetailScreen extends GetView<ProjectController> {
             ),
           ),
           _buildDetailItem(
-            label: "Priority",
+            label: L10n.t.priority,
             value: PriorityMessage().call(context, model.priority),
             valueStyle: TextStyle(
               color: YoColors().getPriority(context, model.priority),
@@ -36,7 +37,7 @@ class ProjectDetailScreen extends GetView<ProjectController> {
             ),
           ),
           _buildDetailItem(
-            label: "Deadline",
+            label: L10n.t.deadline,
             value:
                 "${YoDateFormatter.formatDate(model.deadline)} • ${YoDateFormatter.daysBetween(DateTime.now(), model.deadline)} Hari lagi",
             valueStyle: TextStyle(
@@ -50,7 +51,10 @@ class ProjectDetailScreen extends GetView<ProjectController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  YoText.titleSmall("Categories", fontWeight: FontWeight.w600),
+                  YoText.titleSmall(
+                    L10n.t.categories,
+                    fontWeight: FontWeight.w600,
+                  ),
                   SizedBox(height: 6),
                   Wrap(
                     spacing: 6,
@@ -97,11 +101,17 @@ class ProjectDetailScreen extends GetView<ProjectController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                YoText.titleSmall("Project Info", fontWeight: FontWeight.w600),
+                YoText.titleSmall(
+                  L10n.t.project_info,
+                  fontWeight: FontWeight.w600,
+                ),
                 SizedBox(height: 8),
-                _buildInfoRow("Created by", controller.createdBy.value.name),
                 _buildInfoRow(
-                  "Created at",
+                  L10n.t.created_by,
+                  controller.createdBy.value.name,
+                ),
+                _buildInfoRow(
+                  L10n.t.created_at,
                   YoDateFormatter.formatDateTime(model.createdAt),
                 ),
               ],
@@ -116,7 +126,10 @@ class ProjectDetailScreen extends GetView<ProjectController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                YoText.titleMedium("Description", fontWeight: FontWeight.w600),
+                YoText.titleMedium(
+                  L10n.t.description,
+                  fontWeight: FontWeight.w600,
+                ),
                 SizedBox(height: 8),
                 YoExpandableText(
                   text: controller.project.value.description!,

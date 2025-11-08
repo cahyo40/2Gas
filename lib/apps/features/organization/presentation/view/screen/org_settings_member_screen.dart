@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/widget/card_member_org_widget.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_controller.dart';
@@ -11,8 +12,9 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text("All Members")),
+      appBar: AppBar(title: Text(t.all_members)),
       body: SafeArea(
         child: Padding(
           padding: YoPadding.all20,
@@ -52,7 +54,7 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                                 vertical: 10,
                               ),
                               child: YoText.bodyMedium(
-                                "Active Members",
+                                t.active_member,
                                 align: TextAlign.center,
                                 color: controller.isMemberPending.value == false
                                     ? context.colorTextBtn
@@ -97,7 +99,7 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                                 vertical: 10,
                               ),
                               child: YoText.bodyMedium(
-                                "Pending Members",
+                                t.pending_member,
                                 align: TextAlign.center,
                                 color: controller.isMemberPending.value == true
                                     ? context.colorTextBtn
@@ -130,9 +132,10 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                         onAcceptTap: () {
                           YoConfirmDialog.show(
                             context: context,
-                            title: "Confirmation",
-                            content: "Confirmation gan",
-                            confirmText: "Accept",
+                            title: t.dialog_acc_member_title,
+                            content: t.dialog_acc_member_content,
+                            confirmText: t.accept,
+                            cancelText: t.decline,
                           ).then((confirm) {
                             controller.onAcceptMember(member);
                           });

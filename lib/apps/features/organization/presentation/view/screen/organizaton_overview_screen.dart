@@ -6,6 +6,7 @@ import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/card_activity_widget.dart';
 import 'package:twogass/apps/widget/card_summary_widget.dart';
 import 'package:twogass/apps/widget/today_schedule_widget.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui_base.dart';
 
 import '../../controller/organization_controller.dart';
@@ -15,6 +16,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return SafeArea(
       child: ListView(
         padding: YoPadding.all20,
@@ -55,7 +57,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
                       ],
                     ),
                     YoText.bodyMedium(
-                      "${controller.members.where((v) => v.isPending == false).toList().length} Members",
+                      "${controller.members.where((v) => v.isPending == false).toList().length} ${t.member}",
                     ),
                   ],
                 ),
@@ -63,14 +65,14 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
             ],
           ),
           SizedBox(height: YoSpacing.md),
-          YoText.titleMedium("Today's Schedule"),
+          YoText.titleMedium(t.today_schedule),
           SizedBox(height: YoSpacing.sm),
           TodayScheduleWidget(color: controller.org.value.color, source: [
              
             ],
           ),
           SizedBox(height: YoSpacing.md),
-          YoText.titleMedium("Project Summary"),
+          YoText.titleMedium(t.project_summary),
           SizedBox(height: YoSpacing.sm),
           Obx(
             () => Row(
@@ -78,7 +80,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
               children: [
                 Expanded(
                   child: CardSummaryWidget(
-                    title: "Active",
+                    title: t.active,
                     value: controller.project
                         .where((test) => test.status == ProjectStatus.active)
                         .length,
@@ -86,7 +88,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
                 ),
                 Expanded(
                   child: CardSummaryWidget(
-                    title: "Completed",
+                    title: t.completed,
                     value: controller.project
                         .where((test) => test.status == ProjectStatus.completed)
                         .length,
@@ -94,7 +96,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
                 ),
                 Expanded(
                   child: CardSummaryWidget(
-                    title: "Overdue",
+                    title: t.overdue,
                     value: controller.project
                         .where((test) => test.status == ProjectStatus.overdue)
                         .length,
@@ -104,7 +106,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
             ),
           ),
           SizedBox(height: YoSpacing.md),
-          YoText.titleMedium("Task Summary"),
+          YoText.titleMedium(t.task_summary),
           SizedBox(height: YoSpacing.sm),
           Row(
             spacing: YoSpacing.md,
@@ -121,7 +123,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
             }).toList(),
           ),
           SizedBox(height: YoSpacing.md),
-          YoText.titleMedium("Lastest Activity"),
+          YoText.titleMedium(t.latest_activity),
           SizedBox(height: YoSpacing.sm),
           Obx(
             () => ListView.builder(

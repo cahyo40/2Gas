@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/core/helpers/color_helpers.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/presentation/controller/project_controller.dart';
@@ -36,7 +37,7 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
               if (context.mounted) {
                 YoSnackBar.show(
                   context: context,
-                  message: "Task created successfully",
+                  message: L10n.t.msg_success_create_task,
                   type: YoSnackBarType.success,
                 );
               }
@@ -48,7 +49,7 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
       appBar: AppBar(
         title: Obx(
           () => YoText.titleLarge(
-            "Tasks ${controller.project.value.name} (${controller.taskNew.length})",
+            "${L10n.t.task} ${controller.project.value.name} (${controller.taskNew.length})",
           ),
         ),
       ),
@@ -205,11 +206,11 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
       Get.dialog(
         AlertDialog(
           title: YoText.titleLarge(task.name),
-          content: YoText.bodyMedium(task.description ?? "No description"),
+          content: YoText.bodyMedium(task.description ?? L10n.t.no_description),
           actions: [
             TextButton(
               onPressed: () => Get.back(),
-              child: YoText.bodyMedium("Close"),
+              child: YoText.bodyMedium(L10n.t.close),
             ),
           ],
         ),

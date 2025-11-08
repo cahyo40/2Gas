@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -59,12 +60,9 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
               ),
               child: IconButton(
                 onPressed: () {
-                  YoLogger.debug(
-                    "${controller.initialCategory.length} panjang category",
-                  );
                   YoBottomSheet.show(
                     context: context,
-                    title: "Select Category",
+                    title: L10n.t.select_category,
                     child: Obx(
                       () => ListView.builder(
                         shrinkWrap: true,

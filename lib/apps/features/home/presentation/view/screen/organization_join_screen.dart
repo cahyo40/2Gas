@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/features/home/presentation/controller/home_controller.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -59,13 +60,13 @@ class OrganizationJoinScreen extends GetView<HomeController> {
 
                                 if (isJoined) {
                                   return YoText.bodyMedium(
-                                    "Joined",
+                                    L10n.t.joined,
                                     color: context.primaryColor,
                                     fontWeight: FontWeight.w600,
                                   );
                                 } else {
                                   return YoButton.primary(
-                                    text: "Bergabung",
+                                    text: L10n.t.join,
                                     size: YoButtonSize.small,
                                     textColor: context.onPrimaryColor,
                                     onPressed: () {

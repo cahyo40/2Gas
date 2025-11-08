@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/storage.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/services/storage.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
@@ -94,7 +95,7 @@ class CardHomeOrgWidget extends StatelessWidget {
                 child: _buildStatItem(
                   icon: Iconsax.people_outline,
                   value: "${images.length}",
-                  label: "Members",
+                  label: L10n.t.member,
                   color: orgColor,
                 ),
               ),
@@ -104,7 +105,7 @@ class CardHomeOrgWidget extends StatelessWidget {
                 child: _buildStatItem(
                   icon: Iconsax.folder_2_outline,
                   value: "${model.projects?.length ?? 0}",
-                  label: "Projects",
+                  label: L10n.t.nav_project,
                   color: orgColor,
                 ),
               ),

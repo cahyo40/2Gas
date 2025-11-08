@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -184,7 +185,10 @@ class CardProjectWidget extends StatelessWidget {
                     builder: (context, snapshot) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        YoText.bodySmall("Tasks", fontWeight: FontWeight.w500),
+                        YoText.bodySmall(
+                          L10n.t.task,
+                          fontWeight: FontWeight.w500,
+                        ),
                         SizedBox(height: 2),
                         YoText.titleSmall(
                           "${snapshot.data ?? 0}",

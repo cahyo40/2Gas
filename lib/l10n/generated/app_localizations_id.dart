@@ -306,4 +306,204 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get select_members => 'Pilih anggota';
+
+  @override
+  String get nav_overview => 'Ikhtisar';
+
+  @override
+  String get nav_project => 'Proyek';
+
+  @override
+  String get nav_schedule => 'Jadwal';
+
+  @override
+  String get nav_activity => 'Aktivitas';
+
+  @override
+  String get all_members => 'Semua Anggota';
+
+  @override
+  String get active_member => 'Anggota Aktif';
+
+  @override
+  String get pending_member => 'Anggota Tertunda';
+
+  @override
+  String get dialog_acc_member_title => 'Terima Anggota';
+
+  @override
+  String get dialog_acc_member_content => 'Terima anggota ini?';
+
+  @override
+  String get accept => 'Terima';
+
+  @override
+  String get decline => 'Tolak';
+
+  @override
+  String get activity_org => 'Aktivitas Organisasi';
+
+  @override
+  String get member => 'Anggota';
+
+  @override
+  String get today_schedule => 'Jadwal Hari Ini';
+
+  @override
+  String get project_summary => 'Ringkasan Proyek';
+
+  @override
+  String get active => 'Aktif';
+
+  @override
+  String get completed => 'Selesai';
+
+  @override
+  String get overdue => 'Terlambat';
+
+  @override
+  String get task_summary => 'Ringkasan Tugas';
+
+  @override
+  String get latest_activity => 'Aktivitas Terbaru';
+
+  @override
+  String get msg_success_create_project => 'Proyek berhasil dibuat';
+
+  @override
+  String get search_project => 'Cari proyek';
+
+  @override
+  String get back_to_home => 'Kembali ke Beranda';
+
+  @override
+  String get msg_success_create_task => 'Tugas berhasil dibuat';
+
+  @override
+  String get setting_project => 'Pengaturan Proyek';
+
+  @override
+  String get change_prioriy => 'Ubah Prioritas';
+
+  @override
+  String get select_priority => 'Pilih Prioritas';
+
+  @override
+  String get change_deadline => 'Ubat Tenggat Waktu';
+
+  @override
+  String get delete_project => 'Hapus Proyek';
+
+  @override
+  String get assign => 'Tugaskan';
+
+  @override
+  String get org_member_list => 'Daftar Anggota Organisasi';
+
+  @override
+  String get dialog_list_assign_project_title => 'Tugaskan Proyek';
+
+  @override
+  String get dialog_list_assign_project_context =>
+      'Pilih anggota untuk ditugaskan pada proyek ini';
+
+  @override
+  String get creator => 'Pembuat';
+
+  @override
+  String get priority => 'Prioritas';
+
+  @override
+  String get deadline => 'Tenggat waktu';
+
+  @override
+  String get categories => 'Kategori';
+
+  @override
+  String get project_info => 'Info Proyek';
+
+  @override
+  String get created_by => 'Dibuat oleh';
+
+  @override
+  String get created_at => 'Dibuat pada';
+
+  @override
+  String get description => 'Deskripsi';
+
+  @override
+  String get task => 'Tugas';
+
+  @override
+  String get no_description => 'Tidak ada deskripsi';
+
+  @override
+  String get see_all => 'Lihat Semua';
+
+  @override
+  String get msg_task_empty => 'Belum ada tugas';
+
+  @override
+  String get msg_cannot_change_data => 'Anda tidak bisa mengubah data';
+
+  @override
+  String get create_project => 'Buat Proyek';
+
+  @override
+  String get submit => 'Kirim';
+
+  @override
+  String get select_category => 'Pilih Kategori';
+
+  @override
+  String get pending_approval => 'Menunggu Persetujuan';
+
+  @override
+  String get category_has_been_added => 'Kategori telah ditambahkan';
+
+  @override
+  String overdue_by(Object day) {
+    return 'Terlambat $day hari';
+  }
+
+  @override
+  String overdue_in(Object day) {
+    return 'Jatuh tempo dalam $day hari';
+  }
+
+  @override
+  String get please_wait => 'Mohon tunggu';
+
+  @override
+  String get my_org => 'Organisasi Saya';
+
+  @override
+  String get create_org => 'Buat Organisasi';
+
+  @override
+  String get join_org => 'Gabung Organisasi';
+
+  @override
+  String get add_org => 'Tambah Organisasi';
+
+  @override
+  String get joined => 'Bergabung';
+
+  @override
+  String get join => 'Gabung';
+
+  @override
+  String get wait_for_approval => 'Tunggu persetujuan dahulu';
+
+  @override
+  String get color_org => 'Warna Organisasi';
+
+  @override
+  String get change_color => 'Ubah Warna';
+
+  @override
+  String get org => 'Organisasi';
+
+  @override
+  String get create_task => 'Buat Tugas';
 }

@@ -53,7 +53,7 @@ class CardScheduleWidget extends StatelessWidget {
                 YoText.titleMedium(model.title, color: context.colorTextBtn),
                 const SizedBox(height: 4),
                 YoText.bodyMedium(
-                  '${hour.format(model.date)}',
+                  hour.format(model.date),
                   color: context.colorTextBtn,
                 ),
                 if (model.description != null) ...[

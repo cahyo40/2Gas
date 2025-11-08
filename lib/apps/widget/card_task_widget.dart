@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:twogass/apps/widget/user_listtile_widget.dart';
@@ -120,8 +121,8 @@ class CardTaskWidget extends StatelessWidget {
                           Expanded(
                             child: YoText.bodySmall(
                               isOverdue
-                                  ? "Overdue by ${daysLeft.abs()} days"
-                                  : "Due in $daysLeft days",
+                                  ? L10n.t.overdue_by(daysLeft.abs())
+                                  : L10n.t.overdue_in(daysLeft),
                               color: _getDeadlineColor(daysLeft),
                               fontWeight: FontWeight.w600,
                             ),

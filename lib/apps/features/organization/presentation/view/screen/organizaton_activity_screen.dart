@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/widget/card_activity_widget.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_controller.dart';
@@ -12,9 +13,10 @@ class OrganizatonActivityScreen extends GetView<OrganizationController> {
   @override
   Widget build(BuildContext context) {
     final orgColor = controller.org.value.color;
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: YoAppBar(
-        title: "Activity Org",
+        title: t.activity_org,
         leading: SizedBox(),
         backgroundColor: context.backgroundColor,
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/data/model/schedule_model.dart';
+import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_controller.dart';
@@ -10,10 +11,11 @@ class OrganizationScheduleScreen extends GetView<OrganizationController> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final orgColor = controller.org.value.color;
     return Scaffold(
       appBar: YoAppBar(
-        title: "Schedule",
+        title: t.nav_schedule,
         leading: SizedBox(),
         backgroundColor: context.backgroundColor,
         actions: [IconButton(onPressed: () {}, icon: Icon(Icons.refresh))],

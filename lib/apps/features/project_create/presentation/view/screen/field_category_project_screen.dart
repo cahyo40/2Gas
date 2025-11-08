@@ -58,7 +58,37 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
                 orgColor ?? context.primaryColor.toARGB32(),
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  YoLogger.debug(
+                    "${controller.initialCategory.length} panjang category",
+                  );
+                  YoBottomSheet.show(
+                    context: context,
+                    title: "Select Category",
+                    child: Obx(
+                      () => ListView.builder(
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: controller.initialCategory.length,
+                        itemBuilder: (_, index) {
+                          final category = controller.initialCategory[index];
+                          return YoListTile(
+                            title: category.name,
+                            onTap: () {
+                              controller.onSelectCategory(category);
+                            },
+                            trailing: controller.isExistCategory(category)
+                                ? Icon(
+                                    Iconsax.tick_square_bold,
+                                    color: context.successColor,
+                                  )
+                                : SizedBox(),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
                 icon: Icon(
                   Iconsax.category_2_bold,
                   color: context.colorTextBtn,

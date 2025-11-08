@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_create_update_controller.dart';
@@ -15,13 +16,13 @@ class OrganizationFieldColorsScreen
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        YoText.titleMedium("Color Organization"),
+        YoText.titleMedium(L10n.t.color_org),
         SizedBox(height: YoSpacing.sm),
         InkWell(
           onTap: () {
             YoBottomSheet.show(
               context: context,
-              title: "Change Color",
+              title: L10n.t.change_color,
 
               child: Column(
                 children: [
@@ -35,7 +36,7 @@ class OrganizationFieldColorsScreen
                   ),
                   SizedBox(height: YoSpacing.sm),
                   YoButton.primary(
-                    text: "Save",
+                    text: L10n.t.submit,
                     onPressed: () {
                       Get.back();
                     },

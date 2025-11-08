@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/color_helpers.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/presentation/controller/project_controller.dart';
 import 'package:twogass/apps/routes/route_names.dart';
-import 'package:twogass/apps/widget/card_task_widget.dart';
+import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
+import 'package:twogass/apps/widget/user_listtile_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 class OrganizatonTaskScreen extends GetView<ProjectController> {
@@ -14,161 +17,204 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
   @override
   Widget build(BuildContext context) {
     final orgColor = Get.find<OrganizationController>().org.value.color;
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(orgColor ?? context.primaryColor.toARGB32()),
-        onPressed: () async {
-          final result = await Get.toNamed(
-            RouteNames.TASK_CREATE,
-            arguments: {
-              "projectId": controller.id.value,
-              "orgId": controller.orgId.value,
-            },
-          );
 
-          if (result == true && context.mounted) {
-            YoSnackBar.show(
-              context: context,
-              message: "Task created successfully",
-              type: YoSnackBarType.success,
+    return Scaffold(
+      floatingActionButton: Visibility(
+        visible: controller.isAssigner.value,
+        child: FloatingActionButton(
+          backgroundColor: Color(orgColor ?? context.primaryColor.toARGB32()),
+          onPressed: () async {
+            final result = await Get.toNamed(
+              RouteNames.TASK_CREATE,
+              arguments: {
+                "projectId": controller.id.value,
+                "orgId": controller.orgId.value,
+              },
             );
-          }
-        },
-        child: Icon(Iconsax.note_add_outline, color: context.onPrimaryColor),
+            if (result == true) {
+              await controller.refreshTask();
+              await Future.delayed(Duration(milliseconds: 500));
+              if (context.mounted) {
+                YoSnackBar.show(
+                  context: context,
+                  message: L10n.t.msg_success_create_task,
+                  type: YoSnackBarType.success,
+                );
+              }
+            }
+          },
+          child: Icon(Iconsax.note_add_outline, color: context.onPrimaryColor),
+        ),
       ),
       appBar: AppBar(
-        title: YoText.titleLarge("Tasks ${controller.project.value.name}"),
+        title: Obx(
+          () => YoText.titleLarge(
+            "${L10n.t.task} ${controller.project.value.name} (${controller.taskNew.length})",
+          ),
+        ),
       ),
       body: RefreshIndicator(
-        onRefresh: () async => await controller.refreshTask(),
-        child: ListView(
-          physics: AlwaysScrollableScrollPhysics(), // Ubah ini
-          padding: YoPadding.all20,
-          children: [
-            Row(
-              spacing: YoSpacing.md,
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    style: context.yoBodyMedium,
-                    textInputAction: TextInputAction.search,
-                    decoration: InputDecoration(
-                      hintText: "Search Task",
-                      hintStyle: context.yoBodyMedium.copyWith(
-                        color: context.gray500,
-                      ),
-                      prefixIcon: Icon(Iconsax.search_normal_1_outline),
-                      suffix: InkWell(
-                        onTap: () {},
-                        child: Icon(
-                          Iconsax.close_circle_outline,
-                          color: context.errorColor,
+        onRefresh: () async {
+          await controller.refreshTask();
+        },
+        child: Obx(() {
+          final kanbanKey = ValueKey(
+            'kanban_${controller.taskNew.length}_${YoIdGenerator.alphanumericId()}',
+          );
+          return SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: _buildKanbanBoard(context, kanbanKey),
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget _buildKanbanBoard(BuildContext context, Key key) {
+    return YoKanbanBoard(
+      key: key,
+      dragEnabled: controller.isAssigner.value,
+      columnWidth: Get.width - 40,
+      onItemTap: (item, columnId) {
+        // Handle item tap
+        _showTaskDetails(item.id);
+      },
+      onItemMoved: (item, fromId, toId) async {
+        List getId = item.id.split("_");
+        final taskId = getId[0];
+        final projectId = getId[1];
+
+        await controller.updateStatusTask(taskId, projectId, _getStatus(toId));
+      },
+      height: Get.height - 200,
+      columns: TaskStatus.values.map((status) {
+        // Filter tasks by status
+        final statusTasks = controller.taskNew
+            .where((task) => task.status.name == status.name)
+            .toList();
+
+        return YoKanbanColumn(
+          id: status.name,
+          title: status.name.capitalize!,
+          items: statusTasks.map((task) {
+            final daysLeft = task.deadline.difference(DateTime.now()).inDays;
+            final isOverdue = daysLeft < 0;
+            final isUrgent = daysLeft <= 3 && daysLeft >= 0;
+            return YoKanbanItem(
+              id: "${task.id}_${task.projectId}",
+              title: task.name,
+              description: task.description,
+              priority: _getPriorityValue(task.priority.name),
+              color: _getStatusColor(status, context),
+              customWidgets: [
+                UserListtileWidget(
+                  uid: task.createdBy,
+                  size: UserListTileSize.small,
+                ),
+                Visibility(
+                  visible: task.status != TaskStatus.done,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: AvatarOverlappingWidget(
+                          imagesUrl: task.assigns
+                              .map((e) => e.imageUrl)
+                              .toList(),
+                          width: .6,
+                          avatarRadius: 12,
+                          maxDisplay: 3,
                         ),
                       ),
-                    ),
+                      SizedBox(width: 4),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 12,
+                            color: YoColors().getDeadlineColor(daysLeft),
+                          ),
+                          SizedBox(width: 4),
+                          YoText.bodySmall(
+                            "${YoDateFormatter.formatDate(task.deadline)} (${YoDateFormatter.daysBetween(DateTime.now(), task.deadline)} Days)",
+                            color: YoColors().getDeadlineColor(daysLeft),
+                            fontWeight: isOverdue || isUrgent
+                                ? FontWeight.w600
+                                : FontWeight.normal,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Iconsax.filter_outline),
                 ),
               ],
-            ),
-            SizedBox(height: YoSpacing.md),
-            Obx(
-              () => Wrap(
-                spacing: 6,
-                runSpacing: 6,
-                children: List.generate(
-                  controller.filtersTask.length,
-                  (i) => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: controller.currentFilterTask.value == i
-                          ? Color(orgColor ?? context.primaryColor.toARGB32())
-                          : Colors.transparent,
-                      border: Border.all(
-                        color: controller.currentFilterTask.value == i
-                            ? Colors.transparent
-                            : Colors.grey.shade300,
-                      ),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(20),
-                        onTap: () => controller.changeFilterTask(i),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          child: YoText.bodyMedium(
-                            controller.filtersTask[i].capitalize!,
-                            color: controller.currentFilterTask.value == i
-                                ? context.colorTextBtn
-                                : Colors.grey.shade700,
-                            fontWeight: controller.currentFilterTask.value == i
-                                ? FontWeight.w600
-                                : FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: YoSpacing.md),
-            Obx(
-              () => ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(), // Tambah ini
-                itemCount: controller.taskNew.length,
-                itemBuilder: (context, index) {
-                  final model = controller.taskNew[index];
-                  return CardTaskWidget(
-                    model: model,
-                    onLongPress: () {
-                      YoBottomSheet.show(
-                        context: context,
-                        title: "Change Status",
-                        maxHeight: 400,
-                        child: ListView(
-                          shrinkWrap: true,
-                          physics: BouncingScrollPhysics(),
-                          children: TaskStatus.values.map((status) {
-                            return ListTile(
-                              title: YoText.bodyMedium(status.name.capitalize!),
-                              trailing: model.status == status
-                                  ? Icon(
-                                      Iconsax.tick_square_outline,
-                                      color: Color(
-                                        orgColor ??
-                                            context.primaryColor.toARGB32(),
-                                      ),
-                                    )
-                                  : null,
-                              onTap: () async {
-                                Get.back();
-                                await controller.updateStatusTask(
-                                  model.id,
-                                  model.projectId,
-                                  status,
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              tags: [],
+            );
+          }).toList(),
+        );
+      }).toList(),
+    );
+  }
+
+  // Helper methods
+  int _getPriorityValue(String priority) {
+    switch (priority.toLowerCase()) {
+      case 'high':
+        return 3;
+      case 'medium':
+        return 2;
+      case 'low':
+        return 1;
+      default:
+        return 0;
+    }
+  }
+
+  Color _getStatusColor(TaskStatus status, BuildContext context) {
+    switch (status) {
+      case TaskStatus.todo:
+        return context.gray400;
+      case TaskStatus.progress:
+        return context.warningColor;
+      case TaskStatus.done:
+        return context.successColor;
+    }
+  }
+
+  TaskStatus _getStatus(String stat) {
+    switch (stat) {
+      case "done":
+        return TaskStatus.done;
+      case "progress":
+        return TaskStatus.progress;
+      default:
+        return TaskStatus.todo;
+    }
+  }
+
+  void _showTaskDetails(String itemId) {
+    // Implement task details view
+    List getId = itemId.split("_");
+    final taskId = getId[0];
+
+    final task = controller.taskNew.firstWhere(
+      (task) => task.id == taskId,
+      orElse: () => TaskModel.initial(),
+    );
+
+    if (task.id.isNotEmpty) {
+      // Show task details
+      Get.dialog(
+        AlertDialog(
+          title: YoText.titleLarge(task.name),
+          content: YoText.bodyMedium(task.description ?? L10n.t.no_description),
+          actions: [
+            TextButton(
+              onPressed: () => Get.back(),
+              child: YoText.bodyMedium(L10n.t.close),
             ),
           ],
         ),
-      ),
-    );
+      );
+    }
   }
 }

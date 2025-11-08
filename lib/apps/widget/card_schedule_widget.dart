@@ -22,7 +22,7 @@ class CardScheduleWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               YoText.bodySmall(
-                hour.format(model.start),
+                hour.format(model.date),
                 color: context.textColor,
               ),
               Container(
@@ -53,7 +53,7 @@ class CardScheduleWidget extends StatelessWidget {
                 YoText.titleMedium(model.title, color: context.colorTextBtn),
                 const SizedBox(height: 4),
                 YoText.bodyMedium(
-                  '${hour.format(model.start)} - ${hour.format(model.end)}',
+                  hour.format(model.date),
                   color: context.colorTextBtn,
                 ),
                 if (model.description != null) ...[

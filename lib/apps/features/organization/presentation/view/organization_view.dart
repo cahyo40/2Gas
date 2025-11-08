@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
+import 'package:twogass/apps/features/organization/presentation/view/screen/organization_schedule_screen.dart';
+import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_activity_screen.dart';
+import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_overview_screen.dart';
+import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_project_screen.dart';
+import 'package:twogass/apps/features/organization/presentation/view/screen/organizaton_settings_screen.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../controller/organization_controller.dart';
@@ -13,22 +18,22 @@ class OrganizationView extends GetView<OrganizationController> {
   Widget build(BuildContext context) {
     List<BottomBarItem> listBottomNavBarItem = [
       BottomBarItem(
-        title: YoText.bodyMedium("Overview"),
+        title: YoText.bodyMedium(tr.nav_overview),
         icon: Icon(Iconsax.element_4_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),
       BottomBarItem(
-        title: YoText.bodyMedium("Project"),
+        title: YoText.bodyMedium(tr.nav_project),
         icon: Icon(Iconsax.folder_open_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),
       BottomBarItem(
-        title: YoText.bodyMedium("Schedule"),
+        title: YoText.bodyMedium(tr.nav_schedule),
         icon: Icon(Iconsax.calendar_2_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),
       BottomBarItem(
-        title: YoText.bodyMedium("Activity"),
+        title: YoText.bodyMedium(tr.nav_activity),
         icon: Icon(Iconsax.activity_outline),
         selectedColor: Color(controller.colorIcon.value),
       ),
@@ -43,7 +48,6 @@ class OrganizationView extends GetView<OrganizationController> {
         controller.initOrg(controller.orgId.value, useLoading: false);
       },
       child: Scaffold(
-        appBar: AppBar(),
         bottomNavigationBar: Obx(
           () => controller.isLoading.isFalse
               ? StylishBottomBar(
@@ -62,7 +66,13 @@ class OrganizationView extends GetView<OrganizationController> {
             () => controller.isLoading.isFalse
                 ? IndexedStack(
                     index: controller.initialTab.value,
-                    children: controller.tabView,
+                    children: [
+                      OrganizatonOverviewScreen(),
+                      OrganizatonProjectScreen(),
+                      OrganizationScheduleScreen(),
+                      OrganizatonActivityScreen(),
+                      OrganizatonSettingsScreen(),
+                    ],
                   )
                 : Center(child: YoLoading()),
           ),

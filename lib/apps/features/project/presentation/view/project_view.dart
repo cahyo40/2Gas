@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
+import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
-import 'package:twogass/apps/features/project/presentation/view/screen/project_assign_screen.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_comments_screen.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_detail_screen.dart';
 import 'package:twogass/apps/features/project/presentation/view/screen/project_task_screen.dart';
@@ -25,37 +26,114 @@ class ProjectView extends GetView<ProjectController> {
                 controller.initData();
               },
               child: Scaffold(
-                floatingActionButton: FloatingActionButton(
-                  backgroundColor: Color(
-                    orgColor ?? context.primaryColor.toARGB32(),
-                  ),
-                  onPressed: () async {
-                    final result = await Get.toNamed(
-                      RouteNames.TASK_CREATE,
-                      arguments: {
-                        "projectId": controller.id.value,
-                        "orgId": controller.orgId.value,
-                      },
-                    );
-
-                    if (result == true && context.mounted) {
-                      YoSnackBar.show(
-                        context: context,
-                        message: "Task created successfully",
-                        type: YoSnackBarType.success,
+                floatingActionButton: Visibility(
+                  visible: controller.isAssigner.value,
+                  child: FloatingActionButton(
+                    backgroundColor: Color(
+                      orgColor ?? context.primaryColor.toARGB32(),
+                    ),
+                    onPressed: () async {
+                      final result = await Get.toNamed(
+                        RouteNames.TASK_CREATE,
+                        arguments: {
+                          "projectId": controller.id.value,
+                          "orgId": controller.orgId.value,
+                        },
                       );
-                    }
-                  },
-                  child: Icon(
-                    Iconsax.note_add_outline,
-                    color: context.onPrimaryColor,
+
+                      if (result == true && context.mounted) {
+                        YoSnackBar.show(
+                          context: context,
+                          message: L10n.t.msg_success_create_task,
+                          type: YoSnackBarType.success,
+                        );
+                      }
+                    },
+                    child: Icon(
+                      Iconsax.note_add_outline,
+                      color: context.onPrimaryColor,
+                    ),
                   ),
                 ),
                 key: key,
-                endDrawer: Drawer(
-                  backgroundColor: context.backgroundColor,
-                  width: Get.width * 0.8,
-                  child: ProjectAssignScreen(),
+                endDrawer: SafeArea(
+                  child: YoDrawer(
+                    header: Padding(
+                      padding: YoPadding.all12,
+                      child: YoText.titleMedium(L10n.t.setting_project),
+                    ),
+                    items: [
+                      YoDrawerItem(
+                        icon: Iconsax.profile_2user_outline,
+                        title: L10n.t.member,
+                        onTap: () {
+                          controller.goToAssignProject();
+                        },
+                      ),
+
+                      YoDrawerItem(
+                        icon: Iconsax.edit_outline,
+                        title: L10n.t.change_prioriy,
+                        onTap: () {
+                          YoBottomSheet.show(
+                            context: context,
+                            title: L10n.t.select_priority,
+                            maxHeight: 300,
+                            child: Obx(
+                              () => Column(
+                                children: Priority.values.map((p) {
+                                  return YoListTile(
+                                    title: p.name.capitalize,
+                                    onTap: () async {
+                                      await controller.updatePriority(p);
+                                      Get.back();
+                                    },
+                                    selected:
+                                        p == controller.project.value.priority,
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                      YoDrawerItem(
+                        icon: Iconsax.calendar_edit_outline,
+                        title: L10n.t.change_deadline,
+                        subtitle: YoDateFormatter.formatDate(
+                          controller.project.value.deadline,
+                        ),
+                        onTap: () async {
+                          final date = await YoDialogPicker.date(
+                            context: context,
+                            initialDate: controller.project.value.deadline,
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(
+                              DateTime.now().year + 5,
+                              DateTime.now().month,
+                            ),
+                          );
+                          if (date != null) {
+                            await controller.updateDeadline(date);
+                          }
+                        },
+                      ),
+                    ],
+                    footer: Padding(
+                      padding: YoPadding.only(bottom: YoSpacing.md),
+                      child: Visibility(
+                        visible: controller.project.value.createdBy == uid,
+                        child: YoListTile(
+                          leading: Icon(
+                            Iconsax.trash_outline,
+                            color: context.errorColor,
+                          ),
+                          title: L10n.t.delete_project,
+                          onTap: () {},
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 appBar: AppBar(
                   title: YoText.titleLarge(
@@ -63,15 +141,14 @@ class ProjectView extends GetView<ProjectController> {
                   ),
                   centerTitle: true,
                   actions: [
-                    IconButton(
-                      onPressed: () {
-                        key.currentState!.openEndDrawer();
-                      },
-                      icon: Icon(Iconsax.profile_2user_outline),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Iconsax.setting_2_outline),
+                    Visibility(
+                      visible: controller.isAssigner.value,
+                      child: IconButton(
+                        onPressed: () {
+                          key.currentState!.openEndDrawer();
+                        },
+                        icon: Icon(Iconsax.setting_2_outline),
+                      ),
                     ),
                   ],
                 ),
@@ -83,8 +160,15 @@ class ProjectView extends GetView<ProjectController> {
                       ProjectDetailScreen(),
                       SizedBox(height: YoSpacing.md),
                       ProjectTaskScreen(),
-                      SizedBox(height: YoSpacing.md),
-                      ProjectCommentsScreen(),
+                      Visibility(
+                        visible: controller.isAssigner.value,
+                        child: Column(
+                          children: [
+                            SizedBox(height: YoSpacing.md),
+                            ProjectCommentsScreen(),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

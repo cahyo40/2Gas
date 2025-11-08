@@ -1,6 +1,8 @@
 import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
+import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 
 import '../../domain/repositories/organization_repository.dart';
@@ -31,5 +33,20 @@ class OrganizationRepositoryImpl implements OrganizationRepository {
   @override
   Future<List<TaskModel>> getTask(String orgId, String? projectId) async {
     return await _network.getTask(orgId, projectId ?? "");
+  }
+
+  @override
+  Future<List<MemberModel>> getMember(String orgId) async {
+    return await _network.getMember(orgId);
+  }
+
+  @override
+  Future<void> acceptMember(MemberModel memberId) async {
+    return await _network.acceptMember(memberId);
+  }
+
+  @override
+  Future<List<ScheduleModel>> getSchedule(String orgId) async {
+    return await _network.getSchedule(orgId);
   }
 }

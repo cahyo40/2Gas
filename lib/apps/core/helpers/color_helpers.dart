@@ -39,4 +39,27 @@ extension ColorHelpers on YoColors {
         return context.infoColor;
     }
   }
+
+  Color getStatus(TaskStatus status) {
+    switch (status) {
+      case TaskStatus.todo:
+        return Colors.grey;
+      case TaskStatus.progress:
+        return Colors.orange;
+      case TaskStatus.done:
+        return Colors.green;
+    }
+  }
+
+  Color getDeadlineColor(int daysLeft) {
+    if (daysLeft < 0) {
+      return Colors.red; // Overdue
+    } else if (daysLeft <= 1) {
+      return Colors.red; // Due today or tomorrow
+    } else if (daysLeft <= 3) {
+      return Colors.orange; // Due in 2-3 days
+    } else {
+      return Colors.grey.shade600; // Normal
+    }
+  }
 }

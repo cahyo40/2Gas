@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -58,7 +59,34 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
                 orgColor ?? context.primaryColor.toARGB32(),
               ),
               child: IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  YoBottomSheet.show(
+                    context: context,
+                    title: L10n.t.select_category,
+                    child: Obx(
+                      () => ListView.builder(
+                        shrinkWrap: true,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: controller.initialCategory.length,
+                        itemBuilder: (_, index) {
+                          final category = controller.initialCategory[index];
+                          return YoListTile(
+                            title: category.name,
+                            onTap: () {
+                              controller.onSelectCategory(category);
+                            },
+                            trailing: controller.isExistCategory(category)
+                                ? Icon(
+                                    Iconsax.tick_square_bold,
+                                    color: context.successColor,
+                                  )
+                                : SizedBox(),
+                          );
+                        },
+                      ),
+                    ),
+                  );
+                },
                 icon: Icon(
                   Iconsax.category_2_bold,
                   color: context.colorTextBtn,

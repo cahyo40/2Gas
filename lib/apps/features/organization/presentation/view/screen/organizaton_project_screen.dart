@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/routes/route_names.dart';
 import 'package:twogass/apps/widget/card_project_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -24,7 +25,7 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
             controller.initOrg(controller.orgId.value);
             YoSnackBar.show(
               context: context,
-              message: "Sukses menambah Project",
+              message: L10n.t.msg_success_create_project,
             );
           }
         },
@@ -42,7 +43,7 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                   style: context.yoBodyMedium,
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
-                    hintText: "Search Project",
+                    hintText: L10n.t.search_project,
                     hintStyle: context.yoBodyMedium.copyWith(
                       color: context.gray500,
                     ),
@@ -95,7 +96,7 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                         child: YoText.bodyMedium(
                           controller.filtersProject[i].capitalize!,
                           color: controller.currentFilterProject.value == i
-                              ? context.onPrimaryBW
+                              ? context.onPrimaryColor
                               : Colors.grey.shade700,
                           fontWeight: controller.currentFilterProject.value == i
                               ? FontWeight.w600
@@ -110,23 +111,28 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
           ),
           SizedBox(height: YoSpacing.md),
           Obx(
-            () => ListView.builder(
-              shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
-              itemCount: controller.projectShow.length,
-              itemBuilder: (_, i) {
-                final model = controller.projectShow[i];
-                return CardProjectWidget(
-                  onTap: () {
-                    Get.toNamed(
-                      RouteNames.PROJECT,
-                      arguments: {"orgId": model.orgId, "id": model.id},
-                    );
-                  },
-                  model: model,
-                );
-              },
-            ),
+            () => controller.projectShow.isEmpty
+                ? SizedBox(
+                    height: Get.width,
+                    child: Center(child: YoEmptyState.noData()),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: controller.projectShow.length,
+                    itemBuilder: (_, i) {
+                      final model = controller.projectShow[i];
+                      return CardProjectWidget(
+                        onTap: () {
+                          Get.toNamed(
+                            RouteNames.PROJECT,
+                            arguments: {"orgId": model.orgId, "id": model.id},
+                          );
+                        },
+                        model: model,
+                      );
+                    },
+                  ),
           ),
         ],
       ),

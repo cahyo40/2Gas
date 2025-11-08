@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project_create/presentation/view/screen/field_assigns_project_screen.dart';
 import 'package:twogass/apps/features/project_create/presentation/view/screen/field_category_project_screen.dart';
@@ -19,7 +20,7 @@ class ProjectCreateView extends GetView<ProjectCreateController> {
     final orgColor = Get.find<OrganizationController>().org.value.color;
     return Scaffold(
       appBar: AppBar(
-        title: YoText.titleMedium('Create Project'),
+        title: YoText.titleMedium(L10n.t.create_project),
         centerTitle: true,
       ),
       body: Obx(
@@ -39,7 +40,7 @@ class ProjectCreateView extends GetView<ProjectCreateController> {
                       FieldDeadlineProjectScreen(),
 
                       YoButton.custom(
-                        text: "Submit",
+                        text: L10n.t.submit,
                         backgroundColor: Color(
                           orgColor ?? context.primaryColor.toARGB32(),
                         ),

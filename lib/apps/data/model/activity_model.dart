@@ -38,6 +38,17 @@ enum ActivityType {
   labelDeleted,
 }
 
+enum ActivityTypeCategory {
+  all,
+  task,
+  project,
+  member,
+  organization,
+  comment,
+  attachment,
+  label,
+}
+
 extension ActivityCategory on ActivityType {
   String get category {
     if (name.startsWith('task')) return 'Task';

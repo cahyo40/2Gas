@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+enum MemberRole { owner, admin, member }
+
 class MemberModel {
   final String id;
   final String uid;
   final String name;
   final String email;
   final String orgId;
-  final String role;
+  final MemberRole role; // ← ubah dari String ke enum
   final String imageUrl;
   final bool isPending;
   final DateTime? joinedAt;
@@ -29,7 +31,7 @@ class MemberModel {
     name: '',
     email: '',
     orgId: '',
-    role: 'member',
+    role: MemberRole.member, // ← enum
     imageUrl: '',
     isPending: true,
     joinedAt: null,
@@ -44,7 +46,7 @@ class MemberModel {
     name: json['name'] as String,
     email: json['email'] as String,
     orgId: json['orgId'] as String,
-    role: json['role'] as String,
+    role: _roleFromString(json['role'] as String), // ← konversi
     imageUrl: json['imageUrl'] as String,
     isPending: json['isPending'] as bool,
     joinedAt: json['joinedAt'] == null ? null : _dtFromJson(json['joinedAt']),
@@ -56,7 +58,7 @@ class MemberModel {
     'name': name,
     'email': email,
     'orgId': orgId,
-    'role': role,
+    'role': role.name, // ← enum → String
     'imageUrl': imageUrl,
     'isPending': isPending,
     'joinedAt': joinedAt == null ? null : _dtToJson(joinedAt!),
@@ -68,7 +70,7 @@ class MemberModel {
     name: map['name'] as String,
     email: map['email'] as String,
     orgId: map['orgId'] as String,
-    role: map['role'] as String,
+    role: _roleFromString(map['role'] as String),
     imageUrl: map['imageUrl'] as String,
     isPending: map['isPending'] as bool,
     joinedAt: map['joinedAt'] == null
@@ -82,7 +84,7 @@ class MemberModel {
     'name': name,
     'email': email,
     'orgId': orgId,
-    'role': role,
+    'role': role.name,
     'imageUrl': imageUrl,
     'isPending': isPending,
     'joinedAt': joinedAt?.millisecondsSinceEpoch,
@@ -93,13 +95,18 @@ class MemberModel {
       ? DateTime.fromMillisecondsSinceEpoch(json)
       : (json as Timestamp).toDate();
 
+  static MemberRole _roleFromString(String val) => MemberRole.values.firstWhere(
+    (e) => e.name == val,
+    orElse: () => MemberRole.member,
+  );
+
   MemberModel copyWith({
     String? id,
     String? uid,
     String? name,
     String? email,
     String? orgId,
-    String? role,
+    MemberRole? role,
     String? imageUrl,
     bool? isPending,
     DateTime? joinedAt,
@@ -145,5 +152,5 @@ class MemberModel {
 
   @override
   String toString() =>
-      'MemberModel(id: $id, uid: $uid, name: $name, isPending: $isPending)';
+      'MemberModel(id: $id, uid: $uid, name: $name, isPending: $isPending, role: $role)';
 }

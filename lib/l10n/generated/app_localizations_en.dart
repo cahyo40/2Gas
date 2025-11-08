@@ -306,4 +306,204 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get select_members => 'Select members';
+
+  @override
+  String get nav_overview => 'Overview';
+
+  @override
+  String get nav_project => 'Projects';
+
+  @override
+  String get nav_schedule => 'Schedule';
+
+  @override
+  String get nav_activity => 'Activity';
+
+  @override
+  String get all_members => 'All Members';
+
+  @override
+  String get active_member => 'Active Member';
+
+  @override
+  String get pending_member => 'Pending Member';
+
+  @override
+  String get dialog_acc_member_title => 'Accept Member';
+
+  @override
+  String get dialog_acc_member_content => 'Do you want to accept this member?';
+
+  @override
+  String get accept => 'Accept';
+
+  @override
+  String get decline => 'Decline';
+
+  @override
+  String get activity_org => 'Organization Activity';
+
+  @override
+  String get member => 'Member';
+
+  @override
+  String get today_schedule => 'Today\'s Schedule';
+
+  @override
+  String get project_summary => 'Project Summary';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get completed => 'Completed';
+
+  @override
+  String get overdue => 'Overdue';
+
+  @override
+  String get task_summary => 'Task Summary';
+
+  @override
+  String get latest_activity => 'Latest Activity';
+
+  @override
+  String get msg_success_create_project => 'Project created successfully';
+
+  @override
+  String get search_project => 'Search projects';
+
+  @override
+  String get back_to_home => 'Back to Home';
+
+  @override
+  String get msg_success_create_task => 'Task created successfully';
+
+  @override
+  String get setting_project => 'Project Settings';
+
+  @override
+  String get change_prioriy => 'Change Priority';
+
+  @override
+  String get select_priority => 'Select Priority';
+
+  @override
+  String get change_deadline => 'Change Deadline';
+
+  @override
+  String get delete_project => 'Delete Project';
+
+  @override
+  String get assign => 'Assign';
+
+  @override
+  String get org_member_list => 'Organization Members';
+
+  @override
+  String get dialog_list_assign_project_title => 'Assign Project';
+
+  @override
+  String get dialog_list_assign_project_context =>
+      'Select members to assign this project to';
+
+  @override
+  String get creator => 'Creator';
+
+  @override
+  String get priority => 'Priority';
+
+  @override
+  String get deadline => 'Deadline';
+
+  @override
+  String get categories => 'Categories';
+
+  @override
+  String get project_info => 'Project Info';
+
+  @override
+  String get created_by => 'Created by';
+
+  @override
+  String get created_at => 'Created at';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get task => 'Task';
+
+  @override
+  String get no_description => 'No description';
+
+  @override
+  String get see_all => 'See All';
+
+  @override
+  String get msg_task_empty => 'No tasks yet';
+
+  @override
+  String get msg_cannot_change_data => 'You cannot change this data';
+
+  @override
+  String get create_project => 'Create Project';
+
+  @override
+  String get submit => 'Submit';
+
+  @override
+  String get select_category => 'Select Category';
+
+  @override
+  String get pending_approval => 'Pending Approval';
+
+  @override
+  String get category_has_been_added => 'Category has been added';
+
+  @override
+  String overdue_by(Object day) {
+    return 'Overdue by $day days';
+  }
+
+  @override
+  String overdue_in(Object day) {
+    return 'Due in $day days';
+  }
+
+  @override
+  String get please_wait => 'Please wait';
+
+  @override
+  String get my_org => 'My Organization';
+
+  @override
+  String get create_org => 'Create Organization';
+
+  @override
+  String get join_org => 'Join Organization';
+
+  @override
+  String get add_org => 'Add Organization';
+
+  @override
+  String get joined => 'Joined';
+
+  @override
+  String get join => 'Join';
+
+  @override
+  String get wait_for_approval => 'Please wait for approval';
+
+  @override
+  String get color_org => 'Organization Color';
+
+  @override
+  String get change_color => 'Change Color';
+
+  @override
+  String get org => 'Organization';
+
+  @override
+  String get create_task => 'Create Task';
 }

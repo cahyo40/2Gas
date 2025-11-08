@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/features/organization_create_update/domain/repositories/organization_create_update_repository.dart';
+import 'package:twogass/apps/features/home/domain/usecase/get_organization_by_code_usecase.dart';
+import 'package:twogass/apps/features/home/domain/usecase/join_organization_usecase.dart';
 import 'package:twogass/apps/features/organization_create_update/domain/usecase/organization_create_update_usecase.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -12,6 +14,10 @@ class OrganizationCreateUpdateController extends GetxController {
   OrganizationCreateUpdateUsecase createOrg = OrganizationCreateUpdateUsecase(
     Get.find<OrganizationCreateUpdateRepository>(),
   );
+  GetOrganizationByCodeUsecase getOrgByCode = GetOrganizationByCodeUsecase(
+    Get.find(),
+  );
+  JoinOrganizationUsecase joinOrg = JoinOrganizationUsecase(Get.find());
 
   final uid = Get.find<AuthController>().uid;
   final RxBool isLoading = false.obs;
@@ -27,6 +33,8 @@ class OrganizationCreateUpdateController extends GetxController {
   final imagesUrl = "".obs;
   final Rxn<File> imageFile = Rxn<File>();
   final Rx<Color> colors = Get.context!.primaryColor.obs;
+
+  final RxList<OrganizationModel> orgs = <OrganizationModel>[].obs;
 
   onSubmit() async {
     if (formKey.currentState!.validate()) {
@@ -61,6 +69,21 @@ class OrganizationCreateUpdateController extends GetxController {
         isLoading.value = false;
       }
     }
+  }
+
+  onGetOrgByCode(String orgCode) async {
+    isLoading.value = true;
+    try {
+      orgs.value = await getOrgByCode(orgCode);
+      orgs.refresh();
+    } catch (_) {
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  onJoinOrg(String orgId) async {
+    await joinOrg(orgId);
   }
 
   @override

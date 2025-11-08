@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/organization_create_update_controller.dart';
@@ -14,7 +15,7 @@ class OrganizationFieldPictureScreen
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        YoText.titleMedium("Logo Organization"),
+        YoText.titleMedium("Logo ${L10n.t.org}"),
         SizedBox(height: YoSpacing.sm),
         InkWell(
           onTap: () async {},

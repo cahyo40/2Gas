@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 import '../../controller/project_create_controller.dart';
@@ -25,7 +26,7 @@ class FieldDeadlineProjectScreen extends GetView<ProjectCreateController> {
           },
           controller: controller.deadlineCtrl,
           readOnly: true,
-          labelText: "Deadline",
+          labelText: L10n.t.deadline,
           inputStyle: YoInputStyle.modern,
         ),
 

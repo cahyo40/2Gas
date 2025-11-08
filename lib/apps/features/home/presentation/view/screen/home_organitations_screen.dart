@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/widget/card_home_org_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -18,12 +19,12 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            YoText.titleLarge('My Organization'),
+            YoText.titleLarge(L10n.t.my_org),
             TextButton(
               onPressed: () {
                 YoBottomSheet.show(
                   context: context,
-                  title: "Add Organization",
+                  title: L10n.t.create_org,
                   isScrollControlled: true,
                   maxHeight: Get.width * 0.75,
                   child: Column(
@@ -31,6 +32,7 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       YoCard(
+                        shadows: YoBoxShadow.apple(color: context.textColor),
                         onTap: controller.addOrganization,
                         backgroundColor: context.backgroundColor,
                         child: ListTile(
@@ -45,7 +47,7 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                               color: context.backgroundColor,
                             ),
                           ),
-                          title: YoText.titleMedium("Create Organization"),
+                          title: YoText.titleMedium(L10n.t.add_org),
                         ),
                       ),
                       YoCard(
@@ -63,7 +65,7 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                               color: context.backgroundColor,
                             ),
                           ),
-                          title: YoText.titleMedium("Join Organization"),
+                          title: YoText.titleMedium(L10n.t.join_org),
                         ),
                       ),
                     ],
@@ -71,7 +73,7 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                 );
               },
               child: YoText.bodyMedium(
-                "Tambah Organisasi",
+                L10n.t.create_org,
                 color: context.primaryColor,
               ),
             ),

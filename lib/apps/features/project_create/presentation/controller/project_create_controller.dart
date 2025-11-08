@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/project_category_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
@@ -13,7 +14,7 @@ import 'package:yo_ui/yo_ui_base.dart';
 class ProjectCreateController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxnString error = RxnString();
-  final user = Get.find<AuthController>();
+  AuthController get user => Get.find<AuthController>();
   final id = YoIdGenerator.alphanumericId();
   final formKey = GlobalKey<FormState>();
   final RxString orgId = "".obs;
@@ -57,13 +58,29 @@ class ProjectCreateController extends GetxController {
       orgId: orgId.value,
       name: value.trim(),
     );
+    initialCategory.add(data);
+    initialCategory.refresh();
     category.add(data);
     category.refresh();
   }
 
   onSelectCategory(ProjectCategoryModel model) {
-    category.add(model);
-    category.refresh();
+    if (category.any((e) => e.id == model.id)) {
+      YoSnackBar.show(
+        context: Get.context!,
+        message: L10n.t.category_has_been_added,
+        type: YoSnackBarType.error,
+      );
+    } else {
+      category.add(model);
+      category.refresh();
+    }
+
+    Get.back();
+  }
+
+  bool isExistCategory(ProjectCategoryModel model) {
+    return category.any((e) => e.id == model.id);
   }
 
   onAssignMember(MemberModel member) {

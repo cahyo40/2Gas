@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -45,7 +46,7 @@ class CardProjectWidget extends StatelessWidget {
       child: YoCard(
         onTap: onTap,
         backgroundColor: context.backgroundColor,
-        shadows: YoBoxShadow.apple(),
+        shadows: YoBoxShadow.apple(color: context.textColor),
         padding: EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,10 +55,69 @@ class CardProjectWidget extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: YoText.titleMedium(
-                    model.name,
-                    fontWeight: FontWeight.w600,
-                    maxLines: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      YoText.titleMedium(
+                        model.name,
+                        fontWeight: FontWeight.w600,
+                        maxLines: 1,
+                      ),
+                      // Categories
+                      if (model.categories.isNotEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(top: 4),
+                          child: Wrap(
+                            spacing: 6,
+                            runSpacing: 4,
+                            children: [
+                              // Tampilkan maksimal 2 kategori
+                              ...model.categories
+                                  .take(2)
+                                  .map(
+                                    (category) => Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: context.primaryColor.withOpacity(
+                                          0.1,
+                                        ),
+                                        borderRadius: BorderRadius.circular(4),
+                                        border: Border.all(
+                                          color: context.primaryColor
+                                              .withOpacity(0.3),
+                                        ),
+                                      ),
+                                      child: YoText.bodySmall(
+                                        category.name,
+                                        color: context.primaryColor,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                              // Tambah chip "+X" jika ada lebih dari 2 kategori
+                              if (model.categories.length > 2)
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 2,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: context.backgroundColor,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: YoText.bodySmall(
+                                    "+${model.categories.length - 2}",
+                                    color: context.onBackgroundColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                    ],
                   ),
                 ),
                 SizedBox(width: 8),
@@ -125,7 +185,10 @@ class CardProjectWidget extends StatelessWidget {
                     builder: (context, snapshot) => Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        YoText.bodySmall("Tasks", fontWeight: FontWeight.w500),
+                        YoText.bodySmall(
+                          L10n.t.task,
+                          fontWeight: FontWeight.w500,
+                        ),
                         SizedBox(height: 2),
                         YoText.titleSmall(
                           "${snapshot.data ?? 0}",
@@ -167,12 +230,14 @@ class CardProjectWidget extends StatelessWidget {
                   color: Colors.grey.shade600,
                 ),
                 SizedBox(width: 2),
-                YoText.bodySmall(
-                  YoDateFormatter.formatDate(model.deadline),
-                  color: Colors.grey.shade600,
+                Expanded(
+                  child: YoText.bodySmall(
+                    YoDateFormatter.formatDate(model.deadline),
+                    color: Colors.grey.shade600,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-
-                Spacer(),
 
                 // Members
                 AvatarOverlappingWidget(

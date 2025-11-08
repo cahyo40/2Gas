@@ -10,7 +10,7 @@ import 'package:yo_ui/yo_ui.dart';
 
 class OrganizationCreateUpdateNetworkDatasource
     implements OrganizationCreateUpdateRepository {
-  final user = Get.find<AuthController>();
+  AuthController get user => Get.find<AuthController>();
   @override
   Future<bool> createOrganization(OrganizationModel model) async {
     try {
@@ -27,7 +27,7 @@ class OrganizationCreateUpdateNetworkDatasource
         id: memberId,
         uid: model.createdBy,
         orgId: model.id,
-        role: "owner",
+        role: MemberRole.owner,
         isPending: false,
         imageUrl: user.photoUrl,
         joinedAt: now,

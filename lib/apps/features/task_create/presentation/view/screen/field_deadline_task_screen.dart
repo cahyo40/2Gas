@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/features/project/presentation/controller/project_controller.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -28,7 +29,7 @@ class FieldDeadlineTaskScreen extends GetView<TaskCreateController> {
           },
           controller: controller.deadlineCtrl,
           readOnly: true,
-          labelText: "Deadline",
+          labelText: L10n.t.deadline,
           inputStyle: YoInputStyle.modern,
           prefixIcon: Icon(Iconsax.calendar_2_outline),
         ),

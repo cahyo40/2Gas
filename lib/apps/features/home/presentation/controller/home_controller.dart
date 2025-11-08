@@ -1,9 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
+import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
 import 'package:twogass/apps/features/home/domain/repositories/home_repository.dart';
+import 'package:twogass/apps/features/home/domain/usecase/get_organization_by_code_usecase.dart';
 import 'package:twogass/apps/features/home/domain/usecase/home_org_usecase.dart';
 import 'package:twogass/apps/features/home/domain/usecase/home_task_usecase.dart';
+import 'package:twogass/apps/features/home/domain/usecase/is_joined_organization_usecase.dart';
+import 'package:twogass/apps/features/home/domain/usecase/join_organization_usecase.dart';
+import 'package:twogass/apps/features/home/presentation/view/screen/organization_join_screen.dart';
 import 'package:twogass/apps/routes/route_names.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -15,6 +22,17 @@ class HomeController extends GetxController {
 
   HomeOrgUsecase homeOrgUsecase = HomeOrgUsecase(Get.find<HomeRepository>());
   HomeTaskUsecase getUserTask = HomeTaskUsecase(Get.find<HomeRepository>());
+  GetOrganizationByCodeUsecase getOrgByCode = GetOrganizationByCodeUsecase(
+    Get.find(),
+  );
+  JoinOrganizationUsecase joinOrg = JoinOrganizationUsecase(Get.find());
+  IsJoinedOrganizationUsecase isJoinOrg = IsJoinedOrganizationUsecase(
+    Get.find(),
+  );
+
+  final RxList<OrganizationModel> orgs = <OrganizationModel>[].obs;
+  final key = GlobalKey<FormState>();
+  final code = TextEditingController();
 
   initOrg() async {
     orgHome.value = await homeOrgUsecase();
@@ -27,8 +45,37 @@ class HomeController extends GetxController {
     Get.toNamed(RouteNames.ORGANIZATION_CREATE_UPDATE);
   }
 
+  onGetOrgByCode(String orgCode) async {
+    YoLogger.info("onGetOrgByCode");
+    isLoading.value = true;
+    try {
+      YoLogger.info("Run");
+      orgs.value = await getOrgByCode(orgCode.toUpperCase().trim());
+      orgs.refresh();
+    } catch (e, s) {
+      YoLogger.error("$e - > $s");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  onJoinOrg(String orgId) async {
+    try {
+      await joinOrg(orgId);
+    } catch (_) {
+    } finally {
+      Get.back();
+      YoSnackBar.show(
+        context: Get.context!,
+        message: L10n.t.wait_for_approval,
+        type: YoSnackBarType.success,
+      );
+    }
+  }
+
   joinOrganization() {
-    YoLogger.warning("Join Org");
+    Get.back();
+    Get.to(OrganizationJoinScreen());
   }
 
   detailOrganization(String orgId) {

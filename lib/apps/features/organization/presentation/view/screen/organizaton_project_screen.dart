@@ -95,7 +95,7 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                         child: YoText.bodyMedium(
                           controller.filtersProject[i].capitalize!,
                           color: controller.currentFilterProject.value == i
-                              ? context.onPrimaryBW
+                              ? context.onPrimaryColor
                               : Colors.grey.shade700,
                           fontWeight: controller.currentFilterProject.value == i
                               ? FontWeight.w600

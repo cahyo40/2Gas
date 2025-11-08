@@ -158,4 +158,29 @@ class ProjectNetworkDatasource implements ProjectRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> updateProject(ProjectModel model) async {
+    try {
+      final idActivity = YoIdGenerator.alphanumericId();
+      final now = DateTime.now();
+
+      final activity = ActivityModel(
+        id: idActivity,
+        orgId: model.orgId,
+        title: "Update Project",
+        description: "",
+        type: ActivityType.projectUpdated,
+        createdAt: now,
+        meta: ActivityMeta(
+          projectName: model.name,
+          organizationName: user.name,
+        ),
+      );
+      await FirebaseServices.project.doc(model.id).update(model.toJson());
+      await FirebaseServices.activity.doc(idActivity).set(activity.toJson());
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

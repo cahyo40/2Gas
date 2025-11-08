@@ -4,6 +4,7 @@ import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
+import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/presentation/controller/home_controller.dart';
 import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
@@ -12,7 +13,9 @@ import 'package:twogass/apps/features/organization/domain/usecase/detail_activit
 import 'package:twogass/apps/features/organization/domain/usecase/detail_organization_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_member_org_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_project_org_usecase.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/fetch_schedule_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_task_org_usecase.dart';
+import 'package:twogass/apps/routes/route_names.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -26,6 +29,9 @@ class OrganizationController extends GetxController {
   final orgId = "".obs;
   final org = OrganizationModel.initial().obs;
   final activity = <ActivityModel>[].obs;
+  final activityShow = <ActivityModel>[].obs;
+  final schedule = <ScheduleModel>[].obs;
+  final scheduleShow = <ScheduleModel>[].obs;
 
   final project = <ProjectModel>[].obs;
   final projectShow = <ProjectModel>[].obs;
@@ -34,6 +40,9 @@ class OrganizationController extends GetxController {
   final membersShow = <MemberModel>[].obs;
   final myRole = MemberRole.member.obs;
   final isMemberPending = false.obs;
+
+  final activityFilter = ActivityTypeCategory.all.obs;
+  final scheduleFilter = ScheduleType.all.obs;
 
   final colorIcon = Get.theme.primaryColor.toARGB32().obs;
 
@@ -55,23 +64,50 @@ class OrganizationController extends GetxController {
   );
 
   FetchMemberOrgUsecase getMember = FetchMemberOrgUsecase(Get.find());
+  FetchScheduleUsecase getSchedule = FetchScheduleUsecase(Get.find());
 
   void changeTab(int i) {
     initialTab.value = i;
+    if (i == 3) {
+      resetActivityFilter();
+    }
+    if (i == 2) {
+      resetScheduleFilter();
+    }
   }
 
-  initOrg(String orgId, {bool useLoading = true}) async {
+  Future<void> initOrg(String orgId, {bool useLoading = true}) async {
     isLoading.value = useLoading;
     try {
-      org.value = await getOrganizationUsecase(orgId);
-      activity.value = await getActivity(orgId);
-      project.value = await getProject(orgId);
-      projectShow.value = project;
-      task.value = await getTask(orgId, "");
-      members.value = await getMember(orgId);
+      // 1. Semua request dipicu sekaligus
+      final res = await (
+        getOrganizationUsecase(orgId),
+        getActivity(orgId),
+        getProject(orgId),
+        getMember(orgId),
+        getSchedule(orgId),
+        getTask(orgId, ""),
+      ).wait;
 
-      myRole.value = members.where((d) => d.uid == uid).first.role;
+      // 2. unpacking hasil
+      final (orgData, actData, projData, memData, schedData, taskData) = res;
+
+      // 3. assign ke Rx / ValueNotifier
+      org.value = orgData;
+      activity.value = actData;
+      activityShow.value = actData;
+      project.value = projData;
+      projectShow.value = projData;
+      task.value = taskData;
+      members.value = memData;
+      schedule.value = schedData;
+      scheduleShow.value = schedData;
+
+      // 4. derivasi role
+      myRole.value = memData.firstWhere((m) => m.uid == uid).role;
     } catch (_) {
+      // error handling tetap di luar try, tetap masuk sini
+      rethrow; // atau handle sesuai kebutuhan
     } finally {
       isLoading.value = false;
     }
@@ -128,6 +164,45 @@ class OrganizationController extends GetxController {
     }
 
     projectShow.refresh();
+  }
+
+  changeActivityFilter(ActivityTypeCategory category) {
+    activityFilter.value = category;
+    if (category == ActivityTypeCategory.all) {
+      activityShow.value = activity;
+    } else {
+      activityShow.value = activity
+          .where((e) => e.type.name.startsWith(category.name))
+          .toList();
+    }
+    activityShow.refresh();
+  }
+
+  resetActivityFilter() {
+    activityFilter.value = ActivityTypeCategory.all;
+    activityShow.value = activity;
+  }
+
+  changeScheduleFilter(ScheduleType filter) {
+    scheduleFilter.value = filter;
+    if (filter == ScheduleType.all) {
+      scheduleShow.value = schedule;
+    } else {
+      scheduleShow.value = schedule.where((e) => e.type == filter).toList();
+    }
+    scheduleShow.refresh();
+  }
+
+  resetScheduleFilter() {
+    scheduleFilter.value = ScheduleType.all;
+    scheduleShow.value = schedule;
+  }
+
+  goToDetail(ScheduleModel schedule) async {
+    await Get.toNamed(
+      RouteNames.PROJECT,
+      arguments: {'orgId': schedule.orgId, 'id': schedule.projectId},
+    );
   }
 
   @override

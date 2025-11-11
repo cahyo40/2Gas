@@ -937,6 +937,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Task'**
   String get create_task;
+
+  /// No description provided for @notif_org_access_request_approved.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been approved to join the {orgName} organization.'**
+  String notif_org_access_request_approved(String orgName);
+
+  /// No description provided for @notif_org_user_joined.
+  ///
+  /// In en, this message translates to:
+  /// **'{userName} has joined the {orgName} organization.'**
+  String notif_org_user_joined(String userName, String orgName);
+
+  /// No description provided for @notif_org_role_changed_to_admin.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been made an admin in the {orgName} organization.'**
+  String notif_org_role_changed_to_admin(String orgName);
+
+  /// No description provided for @notif_org_user_removed.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been removed from the {orgName} organization.'**
+  String notif_org_user_removed(String orgName);
+
+  /// No description provided for @notif_project_user_added.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been added to the {projectName} project.'**
+  String notif_project_user_added(String projectName);
+
+  /// No description provided for @notif_project_user_removed.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been removed from the {projectName} project.'**
+  String notif_project_user_removed(String projectName);
+
+  /// No description provided for @notif_project_data_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'The {projectName} project data has been updated.'**
+  String notif_project_data_updated(String projectName);
+
+  /// No description provided for @notif_task_assigned.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been assigned a new task: {taskName} in the {projectName} project.'**
+  String notif_task_assigned(String taskName, String projectName);
+
+  /// No description provided for @notif_task_user_unassigned.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been unassigned from the task {taskName}.'**
+  String notif_task_user_unassigned(String taskName);
+
+  /// No description provided for @notif_task_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'The task {taskName} has been updated.'**
+  String notif_task_updated(String taskName);
+
+  /// No description provided for @task_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get task_done;
+
+  /// No description provided for @task_in_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'In Progress'**
+  String get task_in_progress;
+
+  /// No description provided for @task_not_started.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Started'**
+  String get task_not_started;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get logout;
+
+  /// No description provided for @msg_logout_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Logout'**
+  String get msg_logout_title;
+
+  /// No description provided for @msg_logout_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get msg_logout_content;
+
+  /// No description provided for @owner.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get owner;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @dark_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get dark_mode;
+
+  /// No description provided for @light_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Light Mode'**
+  String get light_mode;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @overdue_by_day.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue by {day} day'**
+  String overdue_by_day(int day);
+
+  /// No description provided for @due_tomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Due tomorrow'**
+  String get due_tomorrow;
+
+  /// No description provided for @due_in_days.
+  ///
+  /// In en, this message translates to:
+  /// **'{day} days left'**
+  String due_in_days(int day);
 }
 
 class _AppLocalizationsDelegate

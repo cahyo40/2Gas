@@ -506,4 +506,103 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get create_task => 'Create Task';
+
+  @override
+  String notif_org_access_request_approved(String orgName) {
+    return 'You have been approved to join the $orgName organization.';
+  }
+
+  @override
+  String notif_org_user_joined(String userName, String orgName) {
+    return '$userName has joined the $orgName organization.';
+  }
+
+  @override
+  String notif_org_role_changed_to_admin(String orgName) {
+    return 'You have been made an admin in the $orgName organization.';
+  }
+
+  @override
+  String notif_org_user_removed(String orgName) {
+    return 'You have been removed from the $orgName organization.';
+  }
+
+  @override
+  String notif_project_user_added(String projectName) {
+    return 'You have been added to the $projectName project.';
+  }
+
+  @override
+  String notif_project_user_removed(String projectName) {
+    return 'You have been removed from the $projectName project.';
+  }
+
+  @override
+  String notif_project_data_updated(String projectName) {
+    return 'The $projectName project data has been updated.';
+  }
+
+  @override
+  String notif_task_assigned(String taskName, String projectName) {
+    return 'You have been assigned a new task: $taskName in the $projectName project.';
+  }
+
+  @override
+  String notif_task_user_unassigned(String taskName) {
+    return 'You have been unassigned from the task $taskName.';
+  }
+
+  @override
+  String notif_task_updated(String taskName) {
+    return 'The task $taskName has been updated.';
+  }
+
+  @override
+  String get task_done => 'Completed';
+
+  @override
+  String get task_in_progress => 'In Progress';
+
+  @override
+  String get task_not_started => 'Not Started';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get logout => 'Log Out';
+
+  @override
+  String get msg_logout_title => 'Confirm Logout';
+
+  @override
+  String get msg_logout_content => 'Are you sure you want to log out?';
+
+  @override
+  String get owner => 'Owner';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get dark_mode => 'Dark Mode';
+
+  @override
+  String get light_mode => 'Light Mode';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String overdue_by_day(int day) {
+    return 'Overdue by $day day';
+  }
+
+  @override
+  String get due_tomorrow => 'Due tomorrow';
+
+  @override
+  String due_in_days(int day) {
+    return '$day days left';
+  }
 }

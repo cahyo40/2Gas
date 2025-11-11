@@ -506,4 +506,103 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get create_task => 'Buat Tugas';
+
+  @override
+  String notif_org_access_request_approved(String orgName) {
+    return 'Anda telah disetujui bergabung dengan $orgName.';
+  }
+
+  @override
+  String notif_org_user_joined(String userName, String orgName) {
+    return '$userName telah bergabung dengan organisasi $orgName.';
+  }
+
+  @override
+  String notif_org_role_changed_to_admin(String orgName) {
+    return 'Anda telah dijadikan admin di organisasi $orgName.';
+  }
+
+  @override
+  String notif_org_user_removed(String orgName) {
+    return 'Anda telah dikeluarkan dari organisasi $orgName.';
+  }
+
+  @override
+  String notif_project_user_added(String projectName) {
+    return 'Anda telah ditambahkan ke proyek $projectName.';
+  }
+
+  @override
+  String notif_project_user_removed(String projectName) {
+    return 'Anda telah dikeluarkan dari proyek $projectName.';
+  }
+
+  @override
+  String notif_project_data_updated(String projectName) {
+    return 'Data proyek $projectName telah diperbarui.';
+  }
+
+  @override
+  String notif_task_assigned(String taskName, String projectName) {
+    return 'Anda mendapat tugas baru: $taskName di proyek $projectName.';
+  }
+
+  @override
+  String notif_task_user_unassigned(String taskName) {
+    return 'Anda dikeluarkan dari tugas $taskName.';
+  }
+
+  @override
+  String notif_task_updated(String taskName) {
+    return 'Tugas $taskName telah diperbarui.';
+  }
+
+  @override
+  String get task_done => 'Selesai';
+
+  @override
+  String get task_in_progress => 'Dalam Proses';
+
+  @override
+  String get task_not_started => 'Belum Dimulai';
+
+  @override
+  String get all => 'Semua';
+
+  @override
+  String get logout => 'Keluar';
+
+  @override
+  String get msg_logout_title => 'Konfirmasi Keluar';
+
+  @override
+  String get msg_logout_content => 'Yakin ingin keluar?';
+
+  @override
+  String get owner => 'Pemilik';
+
+  @override
+  String get theme => 'Tema';
+
+  @override
+  String get dark_mode => 'Mode Gelap';
+
+  @override
+  String get light_mode => 'Mode Terang';
+
+  @override
+  String get language => 'Bahasa';
+
+  @override
+  String overdue_by_day(int day) {
+    return 'Terlambat $day hari';
+  }
+
+  @override
+  String get due_tomorrow => 'Besok deadline';
+
+  @override
+  String due_in_days(int day) {
+    return '$day hari lagi';
+  }
 }

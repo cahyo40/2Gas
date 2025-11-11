@@ -3,19 +3,41 @@ import 'package:get/get.dart';
 import 'package:twogass/apps/core/services/storage.dart';
 
 class LocaleController extends GetxController {
-  Locale get locale {
-    final code = StorageService.locale.split('_');
-    return Locale(code[0], code.length > 1 ? code[1] : null);
+  /* ---------- konstanta ---------- */
+  static const String _en = 'en';
+  static const String _id = 'id_ID';
+
+  /* ---------- observable ---------- */
+  final lang = const Locale(_en).obs;
+
+  /* ---------- getter ---------- */
+  Locale get locale => lang.value;
+  bool get isIndonesia => lang.value.languageCode == 'id';
+
+  /* ---------- life-cycle ---------- */
+  @override
+  void onInit() {
+    _loadSaved();
+    super.onInit();
   }
 
-  void change(String newLocale) async {
-    await StorageService.saveLocale(newLocale);
-    Get.updateLocale(_parse(newLocale));
-    update();
+  /* ---------- privat ---------- */
+  void _loadSaved() {
+    final code = StorageService.locale; // baca storage
+    lang.value = _parse(code);
+    Get.updateLocale(lang.value);
   }
 
   Locale _parse(String code) {
     final split = code.split('_');
     return Locale(split[0], split.length > 1 ? split[1] : null);
+  }
+
+  /* ---------- toggle ---------- */
+  Future<void> toggle() async {
+    final newLocale = isIndonesia ? _en : _id;
+    await StorageService.saveLocale(newLocale);
+    lang.value = _parse(newLocale);
+    Get.updateLocale(lang.value);
   }
 }

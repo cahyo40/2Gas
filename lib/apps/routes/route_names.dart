@@ -14,5 +14,6 @@ abstract class RouteNames {
       '/organization_create_update';
   static const String PROJECT_CREATE = '/project_create';
   static const String PROJECT = '/project';  static const String TASK_CREATE = '/task_create';
+  static const String SCHEDULE = '/schedule';
 
 }

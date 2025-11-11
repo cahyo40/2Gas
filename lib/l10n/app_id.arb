@@ -138,6 +138,169 @@
     "wait_for_approval": "Tunggu persetujuan dahulu",
     "color_org": "Warna Organisasi",
     "change_color": "Ubah Warna",
+    "@change_color": {
+        "placeholders": {}
+    },
     "org": "Organisasi",
-    "create_task": "Buat Tugas"
+    "@org": {
+        "placeholders": {}
+    },
+    "create_task": "Buat Tugas",
+    "@create_task": {
+        "placeholders": {}
+    },
+    "notif_org_access_request_approved": "Anda telah disetujui bergabung dengan {orgName}.",
+    "@notif_org_access_request_approved": {
+        "placeholders": {
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_org_user_joined": "{userName} telah bergabung dengan organisasi {orgName}.",
+    "@notif_org_user_joined": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_org_role_changed_to_admin": "Anda telah dijadikan admin di organisasi {orgName}.",
+    "@notif_org_role_changed_to_admin": {
+        "placeholders": {
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_org_user_removed": "Anda telah dikeluarkan dari organisasi {orgName}.",
+    "@notif_org_user_removed": {
+        "placeholders": {
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_project_user_added": "Anda telah ditambahkan ke proyek {projectName}.",
+    "@notif_project_user_added": {
+        "placeholders": {
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_project_user_removed": "Anda telah dikeluarkan dari proyek {projectName}.",
+    "@notif_project_user_removed": {
+        "placeholders": {
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_project_data_updated": "Data proyek {projectName} telah diperbarui.",
+    "@notif_project_data_updated": {
+        "placeholders": {
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_task_assigned": "Anda mendapat tugas baru: {taskName} di proyek {projectName}.",
+    "@notif_task_assigned": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_task_user_unassigned": "Anda dikeluarkan dari tugas {taskName}.",
+    "@notif_task_user_unassigned": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_task_updated": "Tugas {taskName} telah diperbarui.",
+    "@notif_task_updated": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "task_done": "Selesai",
+    "@task_done": {
+        "placeholders": {}
+    },
+    "task_in_progress": "Dalam Proses",
+    "@task_in_progress": {
+        "placeholders": {}
+    },
+    "task_not_started": "Belum Dimulai",
+    "@task_not_started": {
+        "placeholders": {}
+    },
+    "all": "Semua",
+    "@all": {
+        "placeholders": {}
+    },
+    "logout": "Keluar",
+    "@logout": {
+        "placeholders": {}
+    },
+    "msg_logout_title": "Konfirmasi Keluar",
+    "@msg_logout_title": {
+        "placeholders": {}
+    },
+    "msg_logout_content": "Yakin ingin keluar?",
+    "@msg_logout_content": {
+        "placeholders": {}
+    },
+    "owner": "Pemilik",
+    "@owner": {
+        "placeholders": {}
+    },
+    "theme": "Tema",
+    "@theme": {
+        "placeholders": {}
+    },
+    "dark_mode": "Mode Gelap",
+    "@dark_mode": {
+        "placeholders": {}
+    },
+    "light_mode": "Mode Terang",
+    "@light_mode": {
+        "placeholders": {}
+    },
+    "language": "Bahasa",
+    "@language": {
+        "placeholders": {}
+    },
+    "overdue_by_day": "Terlambat {day} hari",
+    "@overdue_by_day": {
+        "placeholders": {
+            "day": {
+                "type": "int"
+            }
+        }
+    },
+    "due_tomorrow": "Besok deadline",
+    "@due_tomorrow": {
+        "placeholders": {}
+    },
+    "due_in_days": "{day} hari lagi",
+    "@due_in_days": {
+        "placeholders": {
+            "day": {
+                "type": "int"
+            }
+        }
+    }
 }

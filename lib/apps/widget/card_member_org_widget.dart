@@ -28,7 +28,7 @@ class CardMemberOrgWidget extends StatelessWidget {
       child: YoCard(
         padding: YoPadding.all16,
         backgroundColor: context.backgroundColor,
-        shadows: YoBoxShadow.apple(color: context.textColor),
+        shadows: YoBoxShadow.soft(context),
         child: Column(
           children: [
             // Header dengan avatar dan info

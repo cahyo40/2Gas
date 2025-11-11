@@ -138,6 +138,169 @@
     "wait_for_approval": "Please wait for approval",
     "color_org": "Organization Color",
     "change_color": "Change Color",
+    "@change_color": {
+        "placeholders": {}
+    },
     "org": "Organization",
-    "create_task": "Create Task"
+    "@org": {
+        "placeholders": {}
+    },
+    "create_task": "Create Task",
+    "@create_task": {
+        "placeholders": {}
+    },
+    "notif_org_access_request_approved": "You have been approved to join the {orgName} organization.",
+    "@notif_org_access_request_approved": {
+        "placeholders": {
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_org_user_joined": "{userName} has joined the {orgName} organization.",
+    "@notif_org_user_joined": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_org_role_changed_to_admin": "You have been made an admin in the {orgName} organization.",
+    "@notif_org_role_changed_to_admin": {
+        "placeholders": {
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_org_user_removed": "You have been removed from the {orgName} organization.",
+    "@notif_org_user_removed": {
+        "placeholders": {
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_project_user_added": "You have been added to the {projectName} project.",
+    "@notif_project_user_added": {
+        "placeholders": {
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_project_user_removed": "You have been removed from the {projectName} project.",
+    "@notif_project_user_removed": {
+        "placeholders": {
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_project_data_updated": "The {projectName} project data has been updated.",
+    "@notif_project_data_updated": {
+        "placeholders": {
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_task_assigned": "You have been assigned a new task: {taskName} in the {projectName} project.",
+    "@notif_task_assigned": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_task_user_unassigned": "You have been unassigned from the task {taskName}.",
+    "@notif_task_user_unassigned": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "notif_task_updated": "The task {taskName} has been updated.",
+    "@notif_task_updated": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "task_done": "Completed",
+    "@task_done": {
+        "placeholders": {}
+    },
+    "task_in_progress": "In Progress",
+    "@task_in_progress": {
+        "placeholders": {}
+    },
+    "task_not_started": "Not Started",
+    "@task_not_started": {
+        "placeholders": {}
+    },
+    "all": "All",
+    "@all": {
+        "placeholders": {}
+    },
+    "logout": "Log Out",
+    "@logout": {
+        "placeholders": {}
+    },
+    "msg_logout_title": "Confirm Logout",
+    "@msg_logout_title": {
+        "placeholders": {}
+    },
+    "msg_logout_content": "Are you sure you want to log out?",
+    "@msg_logout_content": {
+        "placeholders": {}
+    },
+    "owner": "Owner",
+    "@owner": {
+        "placeholders": {}
+    },
+    "theme": "Theme",
+    "@theme": {
+        "placeholders": {}
+    },
+    "dark_mode": "Dark Mode",
+    "@dark_mode": {
+        "placeholders": {}
+    },
+    "light_mode": "Light Mode",
+    "@light_mode": {
+        "placeholders": {}
+    },
+    "language": "Language",
+    "@language": {
+        "placeholders": {}
+    },
+    "overdue_by_day": "Overdue by {day} day",
+    "@overdue_by_day": {
+        "placeholders": {
+            "day": {
+                "type": "int"
+            }
+        }
+    },
+    "due_tomorrow": "Due tomorrow",
+    "@due_tomorrow": {
+        "placeholders": {}
+    },
+    "due_in_days": "{day} days left",
+    "@due_in_days": {
+        "placeholders": {
+            "day": {
+                "type": "int"
+            }
+        }
+    }
 }

@@ -208,6 +208,9 @@ class ProjectAssignModel {
     'imageUrl': imageUrl,
   };
 
+  factory ProjectAssignModel.fromFirestore(DocumentSnapshot doc) =>
+      ProjectAssignModel.fromJson(doc.data()! as Map<String, dynamic>);
+
   factory ProjectAssignModel.fromMap(Map<String, dynamic> map) =>
       ProjectAssignModel(
         id: map['id'] as String,

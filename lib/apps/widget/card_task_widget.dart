@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/color_helpers.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
@@ -33,7 +34,7 @@ class CardTaskWidget extends StatelessWidget {
             YoCard(
               onTap: onTap,
               backgroundColor: context.backgroundColor,
-              shadows: YoBoxShadow.apple(color: context.textColor),
+              shadows: YoBoxShadow.soft(context),
               padding: EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,14 +80,17 @@ class CardTaskWidget extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: _getPriorityColor(
-                            model.priority,
-                          ).withValues(alpha: 0.1),
+                          color: YoColors()
+                              .getPriority(context, model.priority)
+                              .withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: YoText.bodySmall(
                           model.priority.name.capitalize!,
-                          color: _getPriorityColor(model.priority),
+                          color: YoColors().getPriority(
+                            context,
+                            model.priority,
+                          ),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -174,14 +178,14 @@ class CardTaskWidget extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: _getStatusColor(
-                            model.status,
-                          ).withValues(alpha: 0.1),
+                          color: YoColors()
+                              .getStatus(context, model.status)
+                              .withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: YoText.bodySmall(
                           model.status.name.capitalize!,
-                          color: _getStatusColor(model.status),
+                          color: YoColors().getStatus(context, model.status),
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -232,28 +236,6 @@ class CardTaskWidget extends StatelessWidget {
       return Colors.orange; // Due in 2-3 days
     } else {
       return Colors.grey.shade600; // Normal
-    }
-  }
-
-  Color _getStatusColor(TaskStatus status) {
-    switch (status) {
-      case TaskStatus.todo:
-        return Colors.grey;
-      case TaskStatus.progress:
-        return Colors.orange;
-      case TaskStatus.done:
-        return Colors.green;
-    }
-  }
-
-  Color _getPriorityColor(Priority priority) {
-    switch (priority) {
-      case Priority.low:
-        return Colors.green;
-      case Priority.medium:
-        return Colors.orange;
-      case Priority.high:
-        return Colors.red;
     }
   }
 }

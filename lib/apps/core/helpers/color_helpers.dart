@@ -40,7 +40,7 @@ extension ColorHelpers on YoColors {
     }
   }
 
-  Color getStatus(TaskStatus status) {
+  Color getStatus(BuildContext context, TaskStatus status) {
     switch (status) {
       case TaskStatus.todo:
         return Colors.grey;
@@ -48,6 +48,8 @@ extension ColorHelpers on YoColors {
         return Colors.orange;
       case TaskStatus.done:
         return Colors.green;
+      default:
+        return context.primaryColor;
     }
   }
 

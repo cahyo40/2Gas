@@ -24,6 +24,13 @@ import 'package:twogass/apps/features/project_create/data/datasource/project_cre
 import 'package:twogass/apps/features/project_create/data/datasource/project_create_offline_datasource.dart';
 import 'package:twogass/apps/features/project_create/data/repositories/project_create_repository_impl.dart';
 import 'package:twogass/apps/features/project_create/domain/repositories/project_create_repository.dart';
+import 'package:twogass/apps/features/schedule/data/datasource/schedule_network_datasource.dart';
+import 'package:twogass/apps/features/schedule/data/repositories/schedule_repository_impl.dart';
+import 'package:twogass/apps/features/schedule/domain/repositories/schedule_repository.dart';
+import 'package:twogass/apps/features/task/data/datasource/task_network_datasource.dart';
+import 'package:twogass/apps/features/task/data/datasource/task_offline_datasource.dart';
+import 'package:twogass/apps/features/task/data/repositories/task_repository_impl.dart';
+import 'package:twogass/apps/features/task/domain/repositories/task_repository.dart';
 import 'package:twogass/apps/features/task_create/data/datasource/task_create_network_datasource.dart';
 import 'package:twogass/apps/features/task_create/data/datasource/task_create_offline_datasource.dart';
 import 'package:twogass/apps/features/task_create/data/repositories/task_create_repository_impl.dart';
@@ -131,5 +138,20 @@ class InitialBindings implements Bindings {
 
     Get.lazyPut(() => TaskCreateNetworkDatasource(), fenix: true);
     Get.lazyPut(() => TaskCreateOfflineDatasource(), fenix: true);
+    // TASK USER
+    Get.lazyPut<TaskRepository>(
+      () => TaskRepositoryImpl(Get.find<TaskNetworkDatasource>()),
+      fenix: true,
+    );
+
+    Get.lazyPut(() => TaskNetworkDatasource(), fenix: true);
+    Get.lazyPut(() => TaskOfflineDatasource(), fenix: true);
+    // SCHEDULE USER
+    Get.lazyPut<ScheduleRepository>(
+      () => ScheduleRepositoryImpl(Get.find<ScheduleNetworkDatasource>()),
+      fenix: true,
+    );
+
+    Get.lazyPut(() => ScheduleNetworkDatasource(), fenix: true);
   }
 }

@@ -31,50 +31,52 @@ class MyApp extends StatelessWidget {
     final tc = Get.put(ThemeController(), permanent: true);
     final lc = Get.put(LocaleController(), permanent: true);
     Get.put(AuthController(), permanent: true);
-    return GetMaterialApp(
-      title: '2Gas',
-      initialBinding: InitialBindings(),
-      localizationsDelegates: const [
-        AppLocalizations.delegate, // utama
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: AppLocalizations.supportedLocales,
-      locale: lc.locale,
-      // fallback supaya tidak merah saja
-      localeListResolutionCallback: (locales, supported) {
-        for (final l in locales ?? []) {
-          if (supported.contains(l)) return l;
-        }
-        return const Locale('en');
-      },
-      initialRoute: RouteNames.ONBOARD,
-      themeMode: tc.themeMode,
-      // themeMode: ThemeMode.system,
-      theme: YoTheme.lightTheme(context, YoColorScheme.codingDark).copyWith(
-        datePickerTheme: DatePickerThemeData().copyWith(
-          dayForegroundColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return context.backgroundColor;
-            }
+    return Obx(
+      () => GetMaterialApp(
+        title: '2Gas',
+        initialBinding: InitialBindings(),
+        localizationsDelegates: const [
+          AppLocalizations.delegate, // utama
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: lc.locale,
+        // fallback supaya tidak merah saja
+        localeListResolutionCallback: (locales, supported) {
+          for (final l in locales ?? []) {
+            if (supported.contains(l)) return l;
+          }
+          return lc.lang.value;
+        },
+        initialRoute: RouteNames.ONBOARD,
+        themeMode: tc.themeMode,
+        // themeMode: ThemeMode.system,
+        theme: YoTheme.lightTheme(context, YoColorScheme.codingDark).copyWith(
+          datePickerTheme: DatePickerThemeData().copyWith(
+            dayForegroundColor: WidgetStateProperty.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return context.backgroundColor;
+              }
 
-            return context.textColor;
-          }),
-        ),
-        timePickerTheme: TimePickerThemeData().copyWith(
-          hourMinuteTextColor: WidgetStateColor.resolveWith((states) {
-            if (states.contains(WidgetState.selected)) {
-              return context.backgroundColor; // font saat terpilih
-            }
-            return context.textColor; // font saat tidak terpilih
-          }),
+              return context.textColor;
+            }),
+          ),
+          timePickerTheme: TimePickerThemeData().copyWith(
+            hourMinuteTextColor: WidgetStateColor.resolveWith((states) {
+              if (states.contains(WidgetState.selected)) {
+                return context.backgroundColor; // font saat terpilih
+              }
+              return context.textColor; // font saat tidak terpilih
+            }),
 
-          dayPeriodColor: context.accentColor,
+            dayPeriodColor: context.accentColor,
+          ),
         ),
+        darkTheme: YoTheme.darkTheme(context, YoColorScheme.codingDark),
+        getPages: RouteApp.routes,
       ),
-      darkTheme: YoTheme.darkTheme(context, YoColorScheme.codingDark),
-      getPages: RouteApp.routes,
     );
   }
 }

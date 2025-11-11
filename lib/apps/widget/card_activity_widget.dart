@@ -19,8 +19,11 @@ class CardActivityWidget extends StatelessWidget {
       child: YoCard(
         elevation: 0,
         onTap: onTap,
-        shadows: YoBoxShadow.apple(color: context.textColor),
-        backgroundColor: context.backgroundColor,
+        shadows: YoBoxShadow.soft(context),
+        border: Border.all(
+          color: context.textColor.withValues(alpha: .2),
+          width: 1,
+        ),
         padding: EdgeInsets.all(12),
         child: Row(
           children: [

@@ -42,9 +42,7 @@ class FieldAssignsProjectScreen extends GetView<ProjectCreateController> {
                           padding: YoPadding.onlyBottom8,
                           child: YoCard(
                             backgroundColor: context.backgroundColor,
-                            shadows: YoBoxShadow.apple(
-                              color: context.textColor,
-                            ),
+                            shadows: YoBoxShadow.soft(context),
                             child: ListTile(
                               onTap: () {
                                 controller.onAssignMember(member);

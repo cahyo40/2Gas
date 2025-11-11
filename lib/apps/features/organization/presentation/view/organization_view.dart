@@ -16,33 +16,6 @@ class OrganizationView extends GetView<OrganizationController> {
 
   @override
   Widget build(BuildContext context) {
-    List<BottomBarItem> listBottomNavBarItem = [
-      BottomBarItem(
-        title: YoText.bodyMedium(tr.nav_overview),
-        icon: Icon(Iconsax.element_4_outline),
-        selectedColor: Color(controller.colorIcon.value),
-      ),
-      BottomBarItem(
-        title: YoText.bodyMedium(tr.nav_project),
-        icon: Icon(Iconsax.folder_open_outline),
-        selectedColor: Color(controller.colorIcon.value),
-      ),
-      BottomBarItem(
-        title: YoText.bodyMedium(tr.nav_schedule),
-        icon: Icon(Iconsax.calendar_2_outline),
-        selectedColor: Color(controller.colorIcon.value),
-      ),
-      BottomBarItem(
-        title: YoText.bodyMedium(tr.nav_activity),
-        icon: Icon(Iconsax.activity_outline),
-        selectedColor: Color(controller.colorIcon.value),
-      ),
-      BottomBarItem(
-        title: YoText.bodyMedium(tr.nav_settings),
-        icon: Icon(Iconsax.setting_2_outline),
-        selectedColor: Color(controller.colorIcon.value),
-      ),
-    ];
     return RefreshIndicator(
       onRefresh: () async {
         controller.initOrg(controller.orgId.value, useLoading: false);
@@ -55,9 +28,33 @@ class OrganizationView extends GetView<OrganizationController> {
                   backgroundColor: context.backgroundColor,
                   currentIndex: controller.initialTab.value,
                   onTap: (i) => controller.changeTab(i),
-                  items: listBottomNavBarItem.map((b) {
-                    return b;
-                  }).toList(),
+                  items: [
+                    BottomBarItem(
+                      title: YoText.bodyMedium(tr.nav_overview),
+                      icon: Icon(Iconsax.element_4_outline),
+                      selectedColor: Color(controller.colorIcon.value),
+                    ),
+                    BottomBarItem(
+                      title: YoText.bodyMedium(tr.nav_project),
+                      icon: Icon(Iconsax.folder_open_outline),
+                      selectedColor: Color(controller.colorIcon.value),
+                    ),
+                    BottomBarItem(
+                      title: YoText.bodyMedium(tr.nav_schedule),
+                      icon: Icon(Iconsax.calendar_2_outline),
+                      selectedColor: Color(controller.colorIcon.value),
+                    ),
+                    BottomBarItem(
+                      title: YoText.bodyMedium(tr.nav_activity),
+                      icon: Icon(Iconsax.activity_outline),
+                      selectedColor: Color(controller.colorIcon.value),
+                    ),
+                    BottomBarItem(
+                      title: YoText.bodyMedium(tr.nav_settings),
+                      icon: Icon(Iconsax.setting_2_outline),
+                      selectedColor: Color(controller.colorIcon.value),
+                    ),
+                  ],
                 )
               : SizedBox.shrink(),
         ),

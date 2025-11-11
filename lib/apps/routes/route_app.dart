@@ -8,6 +8,18 @@ import '../features/login/presentation/binding/login_binding.dart';
 import '../features/login/presentation/view/login_view.dart';
 import '../features/notifications/presentation/binding/notifications_binding.dart';
 import '../features/notifications/presentation/view/notifications_view.dart';
+import '../features/onboard/presentation/binding/onboard_binding.dart';
+import '../features/onboard/presentation/view/onboard_view.dart';
+import '../features/organization/presentation/binding/organization_binding.dart';
+import '../features/organization/presentation/view/organization_view.dart';
+import '../features/organization_create_update/presentation/binding/organization_create_update_binding.dart';
+import '../features/organization_create_update/presentation/view/organization_create_update_view.dart';
+import '../features/project/presentation/binding/project_binding.dart';
+import '../features/project/presentation/view/project_view.dart';
+import '../features/project_create/presentation/binding/project_create_binding.dart';
+import '../features/project_create/presentation/view/project_create_view.dart';
+import '../features/schedule/presentation/binding/schedule_binding.dart';
+import '../features/schedule/presentation/view/schedule_view.dart';
 import '../features/search/presentation/binding/search_binding.dart';
 import '../features/search/presentation/view/search_view.dart';
 import '../features/settings/presentation/binding/settings_binding.dart';
@@ -16,16 +28,6 @@ import '../features/splash_screen/presentation/binding/splash_screen_binding.dar
 import '../features/splash_screen/presentation/view/splash_screen_view.dart';
 import '../features/task/presentation/binding/task_binding.dart';
 import '../features/task/presentation/view/task_view.dart';
-import '../features/onboard/presentation/binding/onboard_binding.dart';
-import '../features/onboard/presentation/view/onboard_view.dart';
-import '../features/organization/presentation/binding/organization_binding.dart';
-import '../features/organization/presentation/view/organization_view.dart';
-import '../features/organization_create_update/presentation/binding/organization_create_update_binding.dart';
-import '../features/organization_create_update/presentation/view/organization_create_update_view.dart';
-import '../features/project_create/presentation/binding/project_create_binding.dart';
-import '../features/project_create/presentation/view/project_create_view.dart';
-import '../features/project/presentation/binding/project_binding.dart';
-import '../features/project/presentation/view/project_view.dart';
 import '../features/task_create/presentation/binding/task_create_binding.dart';
 import '../features/task_create/presentation/view/task_create_view.dart';
 import 'route_names.dart';
@@ -39,7 +41,7 @@ class RouteApp {
         BottomNavigationBarBinding(),
         HomeBinding(),
         TaskBinding(),
-        SearchBinding(),
+        ScheduleBinding(),
         NotificationsBinding(),
         SettingsBinding(),
       ],
@@ -81,35 +83,40 @@ class RouteApp {
       page: () => const SettingsView(),
       binding: SettingsBinding(),
     ),
-      GetPage(
+    GetPage(
       name: RouteNames.ONBOARD,
       page: () => const OnboardView(),
       binding: OnboardBinding(),
-      
-    ),    GetPage(
+    ),
+    GetPage(
       name: RouteNames.ORGANIZATION,
       page: () => const OrganizationView(),
       binding: OrganizationBinding(),
-      
-    ),    GetPage(
+    ),
+    GetPage(
       name: RouteNames.ORGANIZATION_CREATE_UPDATE,
       page: () => const OrganizationCreateUpdateView(),
       binding: OrganizationCreateUpdateBinding(),
-      
-    ),    GetPage(
+    ),
+    GetPage(
       name: RouteNames.PROJECT_CREATE,
       page: () => const ProjectCreateView(),
       binding: ProjectCreateBinding(),
-      
-    ),    GetPage(
+    ),
+    GetPage(
       name: RouteNames.PROJECT,
       page: () => const ProjectView(),
       binding: ProjectBinding(),
-      
-    ),    GetPage(
+    ),
+    GetPage(
       name: RouteNames.TASK_CREATE,
       page: () => const TaskCreateView(),
       binding: TaskCreateBinding(),
-      
-    ),];
+    ),
+    GetPage(
+      name: RouteNames.SCHEDULE,
+      page: () => const ScheduleView(),
+      binding: ScheduleBinding(),
+    ),
+  ];
 }

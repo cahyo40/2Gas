@@ -45,8 +45,11 @@ class CardProjectWidget extends StatelessWidget {
       padding: YoPadding.onlyBottom12,
       child: YoCard(
         onTap: onTap,
-        backgroundColor: context.backgroundColor,
-        shadows: YoBoxShadow.apple(color: context.textColor),
+        border: Border.all(
+          color: context.textColor.withValues(alpha: .2),
+          width: 1,
+        ),
+        shadows: YoBoxShadow.soft(context),
         padding: EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

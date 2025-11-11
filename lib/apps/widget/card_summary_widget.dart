@@ -13,8 +13,6 @@ class CardSummaryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return YoCard(
-      backgroundColor: context.backgroundColor,
-      shadows: YoBoxShadow.apple(color: context.textColor),
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

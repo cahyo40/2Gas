@@ -32,8 +32,8 @@ class CardHomeOrgWidget extends StatelessWidget {
 
     return YoCard(
       onTap: onTap,
-      backgroundColor: context.backgroundColor,
-      shadows: YoBoxShadow.apple(),
+      borderRadius: BorderRadius.circular(12),
+      shadows: YoBoxShadow.soft(context),
       padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +74,7 @@ class CardHomeOrgWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: YoText.bodySmall(
-                        role.name.capitalize!,
+                        _getRoleText(role),
                         color: _getRoleColor(role),
                         fontWeight: FontWeight.w600,
                       ),
@@ -169,6 +169,17 @@ class CardHomeOrgWidget extends StatelessWidget {
         return Colors.blue;
       case MemberRole.member:
         return Colors.green;
+    }
+  }
+
+  String _getRoleText(MemberRole role) {
+    switch (role) {
+      case MemberRole.owner:
+        return L10n.t.owner;
+      case MemberRole.admin:
+        return "Admin";
+      case MemberRole.member:
+        return L10n.t.member;
     }
   }
 }

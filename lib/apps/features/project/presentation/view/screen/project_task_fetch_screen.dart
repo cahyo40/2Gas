@@ -87,7 +87,9 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
         await controller.updateStatusTask(taskId, projectId, _getStatus(toId));
       },
       height: Get.height - 200,
-      columns: TaskStatus.values.map((status) {
+      columns: TaskStatus.values.where((e) => e != TaskStatus.all).map((
+        status,
+      ) {
         // Filter tasks by status
         final statusTasks = controller.taskNew
             .where((task) => task.status.name == status.name)
@@ -105,7 +107,7 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
               title: task.name,
               description: task.description,
               priority: _getPriorityValue(task.priority.name),
-              color: _getStatusColor(status, context),
+              color: YoColors().getStatus(context, status),
               customWidgets: [
                 UserListtileWidget(
                   uid: task.createdBy,
@@ -166,17 +168,6 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
         return 1;
       default:
         return 0;
-    }
-  }
-
-  Color _getStatusColor(TaskStatus status, BuildContext context) {
-    switch (status) {
-      case TaskStatus.todo:
-        return context.gray400;
-      case TaskStatus.progress:
-        return context.warningColor;
-      case TaskStatus.done:
-        return context.successColor;
     }
   }
 

@@ -32,9 +32,12 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       YoCard(
-                        shadows: YoBoxShadow.apple(color: context.textColor),
+                        border: Border.all(
+                          color: context.textColor.withValues(alpha: .2),
+                          width: 1,
+                        ),
                         onTap: controller.addOrganization,
-                        backgroundColor: context.backgroundColor,
+
                         child: ListTile(
                           leading: Container(
                             padding: YoPadding.all8,
@@ -51,7 +54,10 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                         ),
                       ),
                       YoCard(
-                        backgroundColor: context.backgroundColor,
+                        border: Border.all(
+                          color: context.textColor.withValues(alpha: .2),
+                          width: 1,
+                        ),
                         onTap: controller.joinOrganization,
                         child: ListTile(
                           leading: Container(

@@ -39,7 +39,9 @@ class ProjectTaskScreen extends GetView<ProjectController> {
           ),
           Row(
             spacing: YoSpacing.md,
-            children: TaskStatus.values.map((task) {
+            children: TaskStatus.values.where((e) => e != TaskStatus.all).map((
+              task,
+            ) {
               return Expanded(
                 child: CardSummaryWidget(
                   title: task.name.capitalize!,

@@ -4,7 +4,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:twogass/apps/features/home/presentation/view/home_view.dart';
 import 'package:twogass/apps/features/notifications/presentation/view/notifications_view.dart';
-import 'package:twogass/apps/features/search/presentation/view/search_view.dart';
+import 'package:twogass/apps/features/schedule/presentation/view/schedule_view.dart';
 import 'package:twogass/apps/features/settings/presentation/view/settings_view.dart';
 import 'package:twogass/apps/features/task/presentation/view/task_view.dart';
 import 'package:twogass/apps/widget/connectivity_widget.dart';
@@ -18,6 +18,7 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
 
   @override
   Widget build(BuildContext context) {
+    final tr = AppLocalizations.of(Get.context!)!;
     return Scaffold(
       bottomNavigationBar: Obx(
         () => StylishBottomBar(
@@ -25,9 +26,38 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
           backgroundColor: context.backgroundColor,
           currentIndex: controller.currentPage.value,
           onTap: (i) => controller.changePage(i),
-          items: listBottomNavBarItem.map((b) {
-            return b;
-          }).toList(),
+          items: [
+            BottomBarItem(
+              title: Text(tr.nav_home),
+              icon: Icon(Iconsax.home_1_outline),
+              selectedColor:
+                  Get.context?.primaryColor ?? Get.theme.primaryColor,
+            ),
+            BottomBarItem(
+              title: Text(tr.nav_task),
+              icon: Icon(Iconsax.task_outline),
+              selectedColor:
+                  Get.context?.primaryColor ?? Get.theme.primaryColor,
+            ),
+            BottomBarItem(
+              title: Text(tr.nav_schedule),
+              icon: Icon(Iconsax.calendar_2_outline),
+              selectedColor:
+                  Get.context?.primaryColor ?? Get.theme.primaryColor,
+            ),
+            BottomBarItem(
+              title: Text(tr.nav_notif),
+              icon: Icon(Iconsax.notification_outline),
+              selectedColor:
+                  Get.context?.primaryColor ?? Get.theme.primaryColor,
+            ),
+            BottomBarItem(
+              title: Text(tr.nav_settings),
+              icon: Icon(Iconsax.setting_4_outline),
+              selectedColor:
+                  Get.context?.primaryColor ?? Get.theme.primaryColor,
+            ),
+          ],
         ),
       ),
       body: SafeArea(
@@ -41,7 +71,7 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
                   children: [
                     HomeView(),
                     TaskView(),
-                    SearchView(),
+                    ScheduleView(),
                     NotificationsView(),
                     SettingsView(),
                   ],
@@ -54,33 +84,3 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
     );
   }
 }
-
-final tr = AppLocalizations.of(Get.context!)!;
-
-final List<BottomBarItem> listBottomNavBarItem = [
-  BottomBarItem(
-    title: Text(tr.nav_home),
-    icon: Icon(Iconsax.home_1_outline),
-    selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-  ),
-  BottomBarItem(
-    title: Text(tr.nav_task),
-    icon: Icon(Iconsax.task_outline),
-    selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-  ),
-  BottomBarItem(
-    title: Text(tr.nav_search),
-    icon: Icon(Iconsax.search_normal_1_outline),
-    selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-  ),
-  BottomBarItem(
-    title: Text(tr.nav_notif),
-    icon: Icon(Iconsax.notification_outline),
-    selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-  ),
-  BottomBarItem(
-    title: Text(tr.nav_settings),
-    icon: Icon(Iconsax.setting_4_outline),
-    selectedColor: Get.context?.primaryColor ?? Get.theme.primaryColor,
-  ),
-];

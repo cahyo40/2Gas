@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum Priority { low, medium, high }
 
-enum TaskStatus { todo, progress, done }
+enum TaskStatus { all, todo, progress, done }
 
 class TaskModel {
   final String id;

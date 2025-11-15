@@ -947,7 +947,7 @@ abstract class AppLocalizations {
   /// No description provided for @notif_org_user_joined.
   ///
   /// In en, this message translates to:
-  /// **'{userName} has joined the {orgName} organization.'**
+  /// **'{userName} wants to join the organization {orgName}.'**
   String notif_org_user_joined(String userName, String orgName);
 
   /// No description provided for @notif_org_role_changed_to_admin.
@@ -1087,6 +1087,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{day} days left'**
   String due_in_days(int day);
+
+  /// No description provided for @notif_org_access_request_approved_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Access Approved'**
+  String get notif_org_access_request_approved_title;
+
+  /// No description provided for @notif_org_user_request_joined_title.
+  ///
+  /// In en, this message translates to:
+  /// **'New Join Request'**
+  String get notif_org_user_request_joined_title;
+
+  /// No description provided for @notif_org_role_changed_to_admin_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Role Upgraded'**
+  String get notif_org_role_changed_to_admin_title;
+
+  /// No description provided for @notif_org_user_removed_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from Organization'**
+  String get notif_org_user_removed_title;
+
+  /// No description provided for @notif_project_user_added_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to Project'**
+  String get notif_project_user_added_title;
+
+  /// No description provided for @notif_project_user_removed_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from Project'**
+  String get notif_project_user_removed_title;
+
+  /// No description provided for @notif_project_data_updated_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Updated'**
+  String get notif_project_data_updated_title;
+
+  /// No description provided for @notif_task_assigned_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Assigned'**
+  String get notif_task_assigned_title;
+
+  /// No description provided for @notif_task_user_unassigned_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Unassigned'**
+  String get notif_task_user_unassigned_title;
+
+  /// No description provided for @notif_task_updated_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Updated'**
+  String get notif_task_updated_title;
+
+  /// No description provided for @notif_task_deleted_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Deleted'**
+  String get notif_task_deleted_title;
+
+  /// No description provided for @notif_task_deleted_description.
+  ///
+  /// In en, this message translates to:
+  /// **'Task \"{taskName}\" has been deleted.'**
+  String notif_task_deleted_description(String taskName);
+
+  /// No description provided for @msg_task_delete_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Task'**
+  String get msg_task_delete_title;
+
+  /// No description provided for @msg_task_delete_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this task?'**
+  String get msg_task_delete_content;
+
+  /// No description provided for @msg_task_deleted_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Task deleted successfully'**
+  String get msg_task_deleted_success;
 }
 
 class _AppLocalizationsDelegate

@@ -514,7 +514,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String notif_org_user_joined(String userName, String orgName) {
-    return '$userName has joined the $orgName organization.';
+    return '$userName wants to join the organization $orgName.';
   }
 
   @override
@@ -605,4 +605,53 @@ class AppLocalizationsEn extends AppLocalizations {
   String due_in_days(int day) {
     return '$day days left';
   }
+
+  @override
+  String get notif_org_access_request_approved_title =>
+      'Organization Access Approved';
+
+  @override
+  String get notif_org_user_request_joined_title => 'New Join Request';
+
+  @override
+  String get notif_org_role_changed_to_admin_title => 'Role Upgraded';
+
+  @override
+  String get notif_org_user_removed_title => 'Removed from Organization';
+
+  @override
+  String get notif_project_user_added_title => 'Added to Project';
+
+  @override
+  String get notif_project_user_removed_title => 'Removed from Project';
+
+  @override
+  String get notif_project_data_updated_title => 'Project Updated';
+
+  @override
+  String get notif_task_assigned_title => 'Task Assigned';
+
+  @override
+  String get notif_task_user_unassigned_title => 'Task Unassigned';
+
+  @override
+  String get notif_task_updated_title => 'Task Updated';
+
+  @override
+  String get notif_task_deleted_title => 'Task Deleted';
+
+  @override
+  String notif_task_deleted_description(String taskName) {
+    return 'Task \"$taskName\" has been deleted.';
+  }
+
+  @override
+  String get msg_task_delete_title => 'Delete Task';
+
+  @override
+  String get msg_task_delete_content =>
+      'Are you sure you want to delete this task?';
+
+  @override
+  String get msg_task_deleted_success => 'Task deleted successfully';
 }

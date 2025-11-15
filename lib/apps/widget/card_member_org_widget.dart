@@ -12,11 +12,13 @@ class CardMemberOrgWidget extends StatelessWidget {
   final MemberModel member;
   final bool isMember;
   final void Function()? onAcceptTap;
+  final void Function()? onTap;
   const CardMemberOrgWidget({
     super.key,
     required this.member,
     required this.isMember,
     this.onAcceptTap,
+    this.onTap,
   });
 
   @override
@@ -26,6 +28,7 @@ class CardMemberOrgWidget extends StatelessWidget {
     return Container(
       margin: YoPadding.onlyBottom16,
       child: YoCard(
+        onTap: onTap,
         padding: YoPadding.all16,
         backgroundColor: context.backgroundColor,
         shadows: YoBoxShadow.soft(context),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -16,6 +17,9 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
       final scheduleId = YoIdGenerator.alphanumericId();
+      List<String> uidAccess = task.assigns.map((e) => e.uid).toList();
+      final notifId = YoIdGenerator.alphanumericId();
+
       final projectSnap = await FirebaseServices.project
           .doc(task.projectId)
           .get();
@@ -28,6 +32,7 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         title: 'Task Created',
         type: ActivityType.taskCreated,
         description: "",
+
         meta: ActivityMeta(
           memberName: user.name,
           taskName: project.name,
@@ -51,7 +56,18 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
             "${task.name.capitalize!} at ${project.name.capitalize!} Project -> priority ${task.priority.name.capitalize}",
       );
 
-      await FirebaseServices.task.doc(task.id).set(task.toJson());
+      final notif = NotificationsModel(
+        id: notifId,
+        taskId: task.id,
+        projectId: project.id,
+        orgId: project.orgId,
+        uidShows: uidAccess,
+        type: NotificationType.taskAssigned,
+        createdAt: task.createdAt,
+        data: NotificationData(taskName: task.name, projectName: project.name),
+      );
+
+      await FirebaseServices.task.doc(task.id).set(task.toFirebase());
       await FirebaseServices.activity.doc(idActivity).set(activity.toJson());
       await Future.wait(
         task.assigns.map(
@@ -59,6 +75,7 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         ),
       );
       await FirebaseServices.schedule.doc(scheduleId).set(schedule.toJson());
+      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
 
       return true;
     } on FirebaseException catch (e, s) {

@@ -92,6 +92,7 @@ class ProjectCreateController extends GetxController {
         projectId: id,
         uid: member.uid,
         imageUrl: member.imageUrl,
+        orgId: orgId.value,
       );
       assigns.add(data);
     }
@@ -117,6 +118,16 @@ class ProjectCreateController extends GetxController {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
       try {
+        final creatorAssign = [
+          ProjectAssignModel(
+            id: YoIdGenerator.alphanumericId(),
+            projectId: id,
+            orgId: orgId.value,
+            uid: user.uid,
+            imageUrl: user.photoUrl,
+          ),
+        ];
+
         final now = DateTime.now();
         final project = ProjectModel(
           id: id,
@@ -127,7 +138,7 @@ class ProjectCreateController extends GetxController {
           deadline: deadline.value, // field
           createdAt: now, //default
           createdBy: user.uid, //default
-          assign: assigns, // field
+          assign: assigns.isEmpty ? creatorAssign : assigns, // field
           description: desc.text.trim(), // field
           categories: category,
         );

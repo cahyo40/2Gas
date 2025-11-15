@@ -11,23 +11,22 @@ class HomeScheduleScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            YoText.titleLarge(L10n.t.today_schedule),
-            TextButton(
-              onPressed: () {},
-              child: YoText.bodyMedium(
-                L10n.t.see_all,
-                color: context.primaryColor,
-              ),
-            ),
-          ],
-        ),
-        Column(children: [
-           
-          ],
+        YoText.titleLarge(L10n.t.today_schedule),
+        Obx(
+          () => controller.scheduleShow.isEmpty
+              ? YoEmptyState.noData()
+              : YoTimeline(
+                  events: controller.scheduleShow.map((schedule) {
+                    return YoTimelineEvent(
+                      title: schedule.title,
+                      date: schedule.date,
+
+                      description: schedule.description,
+                    );
+                  }).toList(),
+                ),
         ),
       ],
     );

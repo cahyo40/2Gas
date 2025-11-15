@@ -4,6 +4,7 @@ import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/data/model/user_model.dart';
@@ -85,6 +86,7 @@ class ProjectNetworkDatasource implements ProjectRepository {
   }) async {
     try {
       final activityId = YoIdGenerator.alphanumericId();
+      final notifId = YoIdGenerator.alphanumericId();
       final taskSnap = await FirebaseServices.task.doc(taskId).get();
       final taskData = TaskModel.fromFirestore(taskSnap);
 
@@ -130,9 +132,34 @@ class ProjectNetworkDatasource implements ProjectRepository {
         ),
       );
 
+      List<String> uidAccess = taskData.assigns.map((e) => e.uid).toList();
+      List<String> uidShow() {
+        if (uidAccess.contains(project.createdBy)) {
+          return uidAccess;
+        } else {
+          uidAccess.add(project.createdBy);
+          return uidAccess;
+        }
+      }
+
+      final notif = NotificationsModel(
+        id: notifId,
+        projectId: project.id,
+        taskId: taskData.id,
+        orgId: project.orgId,
+        uidShows: uidShow(),
+        type: NotificationType.taskUpdated,
+        createdAt: now,
+        data: NotificationData(
+          projectName: project.name,
+          taskName: taskData.name,
+        ),
+      );
+
       await FirebaseServices.project.doc(projectId).update({
         'status': projectStatus.name,
       });
+      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
       await FirebaseServices.activity.doc(activityId).set(activity.toJson());
     } on FirebaseException catch (e, s) {
       YoLogger.error('Firestore error $e -> $s');
@@ -146,15 +173,44 @@ class ProjectNetworkDatasource implements ProjectRepository {
   @override
   Future<void> addAssigner({required ProjectAssignModel model}) async {
     try {
+      /* ---------- 1. cek project ---------- */
+      final pRef = FirebaseServices.project.doc(model.projectId);
+      final pSnap = await pRef.get();
+      if (!pSnap.exists) throw Exception('Project not found');
+      final project = ProjectModel.fromFirestore(pSnap);
+
+      /* ---------- 2. cek duplikat ---------- */
+      final exist = await FirebaseServices.projectAssign
+          .where('projectId', isEqualTo: model.projectId)
+          .where('uid', isEqualTo: model.uid)
+          .limit(1)
+          .get();
+      if (exist.docs.isNotEmpty) return; // sudah ada, skip saja
+
+      /* ---------- 3. tulis data ---------- */
       await FirebaseServices.projectAssign.doc(model.id).set(model.toJson());
-      await FirebaseServices.project.doc(model.projectId).update({
-        "assign": FieldValue.arrayUnion([model.toJson()]),
+
+      // cukup simpan uid di array (bukan seluruh objek)
+      await pRef.update({
+        'assign': FieldValue.arrayUnion([model.toJson()]),
       });
+
+      /* ---------- 4. kirim notif ---------- */
+      final notif = NotificationsModel(
+        id: YoIdGenerator.alphanumericId(),
+        orgId: project.orgId,
+        projectId: project.id,
+        uidShows: [model.uid],
+        type: NotificationType.projectUserAdded,
+        createdAt: DateTime.now(),
+        data: NotificationData(projectName: project.name),
+      );
+      await FirebaseServices.notif.doc(notif.id).set(notif.toJson());
     } on FirebaseException catch (e, s) {
       YoLogger.error('Firestore error $e -> $s');
       rethrow;
     } catch (e, s) {
-      YoLogger.error('Unexpected error  $e-> $s');
+      YoLogger.error('Unexpected error  $e -> $s');
       rethrow;
     }
   }
@@ -163,6 +219,8 @@ class ProjectNetworkDatasource implements ProjectRepository {
   Future<void> updateProject(ProjectModel model) async {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
+      final notifId = YoIdGenerator.alphanumericId();
+      List<String> uidAccess = model.assign.map((e) => e.uid).toList();
       final now = DateTime.now();
 
       final activity = ActivityModel(
@@ -177,9 +235,65 @@ class ProjectNetworkDatasource implements ProjectRepository {
           organizationName: user.name,
         ),
       );
+      final notif = NotificationsModel(
+        id: notifId,
+        orgId: model.orgId,
+        projectId: model.id,
+        uidShows: uidAccess,
+        type: NotificationType.projectDataUpdated,
+        createdAt: now,
+        data: NotificationData(projectName: model.name),
+      );
+
+      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
       await FirebaseServices.project.doc(model.id).update(model.toJson());
       await FirebaseServices.activity.doc(idActivity).set(activity.toJson());
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteTask(TaskModel task) async {
+    try {
+      final idActivity = YoIdGenerator.alphanumericId();
+      final notifId = YoIdGenerator.alphanumericId();
+      final uidAccess = task.assigns.map((e) => e.uid).toList();
+      final now = DateTime.now();
+
+      final activity = ActivityModel(
+        id: idActivity,
+        orgId: task.orgId,
+        title: 'Delete Task',
+        description: '',
+        type: ActivityType.taskDeleted,
+        createdAt: now,
+        meta: ActivityMeta(taskName: task.name, memberName: user.name),
+      );
+
+      final notif = NotificationsModel(
+        id: notifId,
+        orgId: task.orgId,
+        projectId: task.id,
+        uidShows: uidAccess,
+        type: NotificationType.taskUpdated,
+        createdAt: now,
+        data: NotificationData(taskName: task.name),
+      );
+
+      await FirebaseServices.task.doc(task.id).delete();
+
+      final assignSnap = await FirebaseServices.taskAssign
+          .where('taskId', isEqualTo: task.id)
+          .get();
+
+      await Future.wait([
+        FirebaseServices.activity.doc(idActivity).set(activity.toJson()),
+        FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+        ...assignSnap.docs.map((doc) => doc.reference.delete()),
+      ]);
+    } catch (e, s) {
+      YoLogger.error('deleteTask error: $e\n$s');
       rethrow;
     }
   }

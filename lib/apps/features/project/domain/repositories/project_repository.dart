@@ -15,4 +15,5 @@ abstract class ProjectRepository {
 
   Future<void> addAssigner({required ProjectAssignModel model});
   Future<void> updateProject(ProjectModel model);
+  Future<void> deleteTask(TaskModel task);
 }

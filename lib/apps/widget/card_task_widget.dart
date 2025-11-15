@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:twogass/apps/core/helpers/color_helpers.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
-import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:twogass/apps/widget/user_listtile_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -193,13 +192,17 @@ class CardTaskWidget extends StatelessWidget {
                       Spacer(),
 
                       // Assignees
-                      AvatarOverlappingWidget(
-                        imagesUrl: model.assigns
+                      YoAvatarOverlap(
+                        direction: Axis.horizontal,
+                        imageUrls: model.assigns
                             .map((e) => e.imageUrl)
                             .toList(),
-                        width: .6,
-                        avatarRadius: 12,
+                        size: YoAvatarSize.xs,
+                        borderRadius: 12,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         maxDisplay: 3,
+                        overlap: .75,
+                        variant: YoAvatarVariant.circle,
                       ),
                     ],
                   ),

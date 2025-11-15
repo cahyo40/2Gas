@@ -23,4 +23,14 @@ class IconHelpers {
         return Iconsax.activity_outline;
     }
   }
+
+  static IconData getNotifiIcon(String notif) {
+    if (notif.contains("org")) {
+      return Iconsax.building_4_outline;
+    } else if (notif.contains("project")) {
+      return Iconsax.folder_2_outline;
+    } else {
+      return Iconsax.task_square_outline;
+    }
+  }
 }

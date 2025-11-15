@@ -15,6 +15,7 @@ class FieldDescProjectScreen extends GetView<ProjectCreateController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoTextFormField(
+          fillColor: context.cardColor,
           controller: controller.desc,
           labelText: tr.field_description,
           inputStyle: YoInputStyle.modern,

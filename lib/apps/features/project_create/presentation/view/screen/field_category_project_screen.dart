@@ -23,6 +23,7 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
           children: [
             Expanded(
               child: YoTextFormField(
+                fillColor: context.cardColor,
                 controller: controller.catCtrl,
                 inputStyle: YoInputStyle.modern,
                 labelText: tr.field_category,
@@ -116,6 +117,7 @@ class FieldCategoryProjectScreen extends GetView<ProjectCreateController> {
                   });
                 },
                 child: Chip(
+                  backgroundColor: context.cardColor,
                   label: YoText.bodySmall(f.name, color: context.textColor),
                 ),
               );

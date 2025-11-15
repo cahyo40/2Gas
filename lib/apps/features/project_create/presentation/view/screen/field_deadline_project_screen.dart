@@ -14,6 +14,7 @@ class FieldDeadlineProjectScreen extends GetView<ProjectCreateController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoTextFormField(
+          fillColor: context.cardColor,
           onTap: () async {
             final date = await showDatePicker(
               context: context,

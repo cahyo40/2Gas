@@ -16,6 +16,7 @@ class OrganizationFieldAddressScreen
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoTextFormField(
+          fillColor: context.cardColor,
           controller: controller.address,
           readOnly: controller.isEdit.value,
           labelText: tr.field_address,

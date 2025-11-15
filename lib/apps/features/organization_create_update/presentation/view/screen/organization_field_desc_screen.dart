@@ -16,6 +16,7 @@ class OrganizationFieldDescScreen
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoTextFormField(
+          fillColor: context.cardColor,
           controller: controller.desc,
           readOnly: controller.isEdit.value,
           labelText: tr.field_description,

@@ -23,6 +23,8 @@ class FieldPriorityTaskScreen extends GetView<TaskCreateController> {
             FocusScope.of(context).unfocus();
           },
           decoration: InputDecoration(
+            filled: true,
+            fillColor: context.cardColor,
             hintText: tr.field_priority_hint,
             hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),
           ),

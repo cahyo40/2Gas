@@ -16,6 +16,7 @@ class FieldTitleProjectScreen extends GetView<ProjectCreateController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoTextFormField(
+          fillColor: context.cardColor,
           controller: controller.name,
           labelText: tr.field_title,
           hintText: tr.field_title_hint,

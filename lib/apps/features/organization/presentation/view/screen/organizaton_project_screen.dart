@@ -43,6 +43,8 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                   style: context.yoBodyMedium,
                   textInputAction: TextInputAction.search,
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: context.cardColor,
                     hintText: L10n.t.search_project,
                     hintStyle: context.yoBodyMedium.copyWith(
                       color: context.gray500,
@@ -121,7 +123,8 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                     physics: BouncingScrollPhysics(),
                     itemCount: controller.projectShow.length,
                     itemBuilder: (_, i) {
-                      final model = controller.projectShow[i];
+                      final model = controller.projectShow[i].copyWith();
+
                       return CardProjectWidget(
                         onTap: () {
                           Get.toNamed(

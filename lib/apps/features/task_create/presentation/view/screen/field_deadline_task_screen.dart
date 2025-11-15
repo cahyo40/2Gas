@@ -29,6 +29,7 @@ class FieldDeadlineTaskScreen extends GetView<TaskCreateController> {
           },
           controller: controller.deadlineCtrl,
           readOnly: true,
+          fillColor: context.cardColor,
           labelText: L10n.t.deadline,
           inputStyle: YoInputStyle.modern,
           prefixIcon: Icon(Iconsax.calendar_2_outline),

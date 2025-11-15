@@ -49,4 +49,14 @@ class OrganizationRepositoryImpl implements OrganizationRepository {
   Future<List<ScheduleModel>> getSchedule(String orgId) async {
     return await _network.getSchedule(orgId);
   }
+
+  @override
+  Future<void> changeRoleMember(MemberModel member, MemberRole role) async {
+    return await _network.changeRoleMember(member, role);
+  }
+
+  @override
+  Future<void> memberOut(MemberModel member, {bool isKick = false}) async {
+    return _network.memberOut(member, isKick: isKick);
+  }
 }

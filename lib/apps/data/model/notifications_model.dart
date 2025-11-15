@@ -18,7 +18,8 @@ enum NotificationType {
   // Tugas
   taskAssigned,
   taskUserUnassigned,
-  taskUpdated;
+  taskUpdated,
+  taskDeleted;
 
   /// Key untuk file .arb (localization)
   /// Format: notif_[kategori]_[aksi]
@@ -49,13 +50,15 @@ enum NotificationType {
         return 'notif_task_user_unassigned';
       case NotificationType.taskUpdated:
         return 'notif_task_updated';
+      case NotificationType.taskDeleted:
+        return 'notif_task_deleted';
     }
   }
 }
 
 class NotificationsModel {
   final String id;
-  final String title;
+
   final List<String> uidShows;
   final NotificationType type;
   final DateTime createdAt;
@@ -66,7 +69,7 @@ class NotificationsModel {
 
   const NotificationsModel({
     required this.id,
-    required this.title,
+
     required this.uidShows,
     required this.type,
     required this.createdAt,
@@ -80,7 +83,7 @@ class NotificationsModel {
   factory NotificationsModel.fromJson(Map<String, dynamic> json) =>
       NotificationsModel(
         id: json['id'] as String,
-        title: json['title'] as String,
+
         uidShows: List<String>.from(json['uidShows'] as List),
         type: NotificationType.values.firstWhere(
           (e) => e.name == json['type'] as String,
@@ -94,7 +97,7 @@ class NotificationsModel {
 
   Map<String, dynamic> toJson() => {
     'id': id,
-    'title': title,
+
     'uidShows': uidShows,
     'type': type.name,
     'createdAt': createdAt.toIso8601String(),
@@ -129,7 +132,7 @@ class NotificationsModel {
     String? taskId,
   }) => NotificationsModel(
     id: id ?? this.id,
-    title: title ?? this.title,
+
     uidShows: uidShows ?? this.uidShows,
     type: type ?? this.type,
     createdAt: createdAt ?? this.createdAt,
@@ -150,12 +153,14 @@ class NotificationData {
   final String? orgName;
   final String? projectName;
   final String? taskName;
+  final String? description;
 
   const NotificationData({
     this.userName,
     this.orgName,
     this.projectName,
     this.taskName,
+    this.description,
   });
 
   // ---------- JSON ----------
@@ -165,6 +170,7 @@ class NotificationData {
         orgName: json['orgName'] as String?,
         projectName: json['projectName'] as String?,
         taskName: json['taskName'] as String?,
+        description: json['description'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -172,6 +178,7 @@ class NotificationData {
     'orgName': orgName,
     'projectName': projectName,
     'taskName': taskName,
+    'description': description,
   };
 
   // ---------- Map (Sembast) ----------
@@ -186,10 +193,12 @@ class NotificationData {
     String? orgName,
     String? projectName,
     String? taskName,
+    String? description,
   }) => NotificationData(
     userName: userName ?? this.userName,
     orgName: orgName ?? this.orgName,
     projectName: projectName ?? this.projectName,
     taskName: taskName ?? this.taskName,
+    description: description ?? this.description,
   );
 }

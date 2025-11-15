@@ -8,6 +8,10 @@ import 'package:twogass/apps/features/login/data/datasource/login_network_dataso
 import 'package:twogass/apps/features/login/data/datasource/login_offline_datasource.dart';
 import 'package:twogass/apps/features/login/data/repositories/login_repository_impl.dart';
 import 'package:twogass/apps/features/login/domain/repositories/login_repository.dart';
+import 'package:twogass/apps/features/notifications/data/datasource/notifications_network_datasource.dart';
+import 'package:twogass/apps/features/notifications/data/datasource/notifications_offline_datasource.dart';
+import 'package:twogass/apps/features/notifications/data/repositories/notifications_repository_impl.dart';
+import 'package:twogass/apps/features/notifications/domain/repositories/notifications_repository.dart';
 import 'package:twogass/apps/features/organization/data/datasource/organization_network_datasource.dart';
 import 'package:twogass/apps/features/organization/data/datasource/organization_offline_datasource.dart';
 import 'package:twogass/apps/features/organization/data/repositories/organization_repository_impl.dart';
@@ -25,6 +29,7 @@ import 'package:twogass/apps/features/project_create/data/datasource/project_cre
 import 'package:twogass/apps/features/project_create/data/repositories/project_create_repository_impl.dart';
 import 'package:twogass/apps/features/project_create/domain/repositories/project_create_repository.dart';
 import 'package:twogass/apps/features/schedule/data/datasource/schedule_network_datasource.dart';
+import 'package:twogass/apps/features/schedule/data/datasource/schedule_offline_datasource.dart';
 import 'package:twogass/apps/features/schedule/data/repositories/schedule_repository_impl.dart';
 import 'package:twogass/apps/features/schedule/domain/repositories/schedule_repository.dart';
 import 'package:twogass/apps/features/task/data/datasource/task_network_datasource.dart';
@@ -153,5 +158,17 @@ class InitialBindings implements Bindings {
     );
 
     Get.lazyPut(() => ScheduleNetworkDatasource(), fenix: true);
+    Get.lazyPut(() => ScheduleOfflineDatasource(), fenix: true);
+
+    // NOTIFICATION USER
+    Get.lazyPut<NotificationsRepository>(
+      () => NotificationsRepositoryImpl(
+        Get.find<NotificationsNetworkDatasource>(),
+      ),
+      fenix: true,
+    );
+
+    Get.lazyPut(() => NotificationsNetworkDatasource(), fenix: true);
+    Get.lazyPut(() => NotificationsOfflineDatasource(), fenix: true);
   }
 }

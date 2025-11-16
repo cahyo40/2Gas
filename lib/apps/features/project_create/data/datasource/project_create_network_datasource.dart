@@ -81,14 +81,10 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
       final activity = ActivityModel(
         id: idActivity,
         orgId: project.orgId,
-        title: "Create Project",
-        description: "",
+        projectId: project.id,
         type: ActivityType.projectCreated,
         createdAt: project.createdAt,
-        meta: ActivityMeta(
-          projectName: project.name,
-          organizationName: user.name,
-        ),
+        meta: ActivityMeta(projectName: project.name, user: user.name),
       );
 
       final schedule = ScheduleModel(

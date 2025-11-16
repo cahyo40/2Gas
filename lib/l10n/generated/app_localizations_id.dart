@@ -75,181 +75,6 @@ class AppLocalizationsId extends AppLocalizations {
   String get good_night => 'Selamat malam';
 
   @override
-  String taskCreated(Object project, Object task, Object user) {
-    return '$user membuat task $task di project $project';
-  }
-
-  @override
-  String taskUpdated(Object task, Object user) {
-    return '$user memperbarui task $task';
-  }
-
-  @override
-  String taskDeleted(Object task, Object user) {
-    return '$user menghapus task $task';
-  }
-
-  @override
-  String taskCompleted(Object task, Object user) {
-    return '$user menyelesaikan task $task';
-  }
-
-  @override
-  String taskReopened(Object task, Object user) {
-    return '$user membuka kembali task $task';
-  }
-
-  @override
-  String taskAssigned(Object assignee, Object task, Object user) {
-    return '$user menugaskan task $task ke $assignee';
-  }
-
-  @override
-  String taskUnassigned(Object task, Object user) {
-    return '$user melepas penugasan dari task $task';
-  }
-
-  @override
-  String taskMoved(Object column, Object task, Object user) {
-    return '$user memindahkan task $task ke kolom $column';
-  }
-
-  @override
-  String taskCommented(Object task, Object user) {
-    return '$user berkomentar pada task $task';
-  }
-
-  @override
-  String taskAttachmentAdded(Object task, Object user) {
-    return '$user menambahkan lampiran ke task $task';
-  }
-
-  @override
-  String taskAttachmentRemoved(Object task, Object user) {
-    return '$user menghapus lampiran dari task $task';
-  }
-
-  @override
-  String taskLabelAdded(Object label, Object task, Object user) {
-    return '$user menambahkan label $label pada task $task';
-  }
-
-  @override
-  String taskLabelRemoved(Object label, Object task, Object user) {
-    return '$user menghapus label $label dari task $task';
-  }
-
-  @override
-  String projectCreated(Object project, Object user) {
-    return '$user membuat project $project';
-  }
-
-  @override
-  String projectUpdated(Object project, Object user) {
-    return '$user memperbarui project $project';
-  }
-
-  @override
-  String projectDeleted(Object project, Object user) {
-    return '$user menghapus project $project';
-  }
-
-  @override
-  String projectArchived(Object project, Object user) {
-    return '$user mengarsipkan project $project';
-  }
-
-  @override
-  String projectRestored(Object project, Object user) {
-    return '$user memulihkan project $project';
-  }
-
-  @override
-  String memberInvited(Object org, Object target, Object user) {
-    return '$user mengundang $target ke $org';
-  }
-
-  @override
-  String memberJoined(Object org, Object user) {
-    return '$user bergabung ke $org';
-  }
-
-  @override
-  String memberRemoved(Object org, Object target, Object user) {
-    return '$user menghapus $target dari $org';
-  }
-
-  @override
-  String memberRoleUpdated(Object role, Object target, Object user) {
-    return '$user memperbarui peran $target menjadi $role';
-  }
-
-  @override
-  String organizationCreated(Object org, Object user) {
-    return '$user membuat organisasi baru $org';
-  }
-
-  @override
-  String organizationUpdated(Object org, Object user) {
-    return '$user memperbarui profil organisasi $org';
-  }
-
-  @override
-  String organizationDeleted(Object org, Object user) {
-    return '$user menghapus organisasi $org';
-  }
-
-  @override
-  String organizationJoined(Object org, Object user) {
-    return '$user bergabung ke organisasi $org';
-  }
-
-  @override
-  String organizationLeft(Object org, Object user) {
-    return '$user keluar dari organisasi $org';
-  }
-
-  @override
-  String commentAdded(Object user) {
-    return '$user menambahkan komentar';
-  }
-
-  @override
-  String commentEdited(Object user) {
-    return '$user memperbarui komentar';
-  }
-
-  @override
-  String commentDeleted(Object user) {
-    return '$user menghapus komentar';
-  }
-
-  @override
-  String attachmentAdded(Object file, Object user) {
-    return '$user menambahkan lampiran $file';
-  }
-
-  @override
-  String attachmentRemoved(Object file, Object user) {
-    return '$user menghapus lampiran $file';
-  }
-
-  @override
-  String labelCreated(Object label, Object user) {
-    return '$user membuat label baru $label';
-  }
-
-  @override
-  String labelUpdated(Object label, Object user) {
-    return '$user memperbarui label $label';
-  }
-
-  @override
-  String labelDeleted(Object label, Object user) {
-    return '$user menghapus label $label';
-  }
-
-  @override
   String get field_title => 'Judul';
 
   @override
@@ -653,4 +478,180 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get msg_task_deleted_success => 'Tugas berhasil dihapus';
+
+  @override
+  String get activity_task_created_title => 'Task Baru';
+
+  @override
+  String get activity_task_updated_title => 'Task Diperbarui';
+
+  @override
+  String get activity_task_deleted_title => 'Task Dihapus';
+
+  @override
+  String get activity_task_moved_title => 'Task Berubah Status';
+
+  @override
+  String get activity_project_created_title => 'Project Baru';
+
+  @override
+  String get activity_project_updated_title => 'Project Diperbarui';
+
+  @override
+  String get activity_project_deleted_title => 'Project Dihapus';
+
+  @override
+  String get activity_project_completed_title => 'Project Selesai';
+
+  @override
+  String get activity_member_join_title => 'Anggota Baru';
+
+  @override
+  String get activity_member_remove_title => 'Anggota Dikeluarkan';
+
+  @override
+  String get activity_member_left_title => 'Anggota Keluar';
+
+  @override
+  String get activity_member_change_role => 'Anggota Berubah Jabatan';
+
+  @override
+  String get activity_project_comment_title => 'Komentar Baru';
+
+  @override
+  String get activity_schedule_created_title => 'Jadwal Baru';
+
+  @override
+  String get activity_schedule_edited_title => 'Jadwal Berubah';
+
+  @override
+  String get activity_schedule_deleted_title => 'Jadwal Dibatalkan';
+
+  @override
+  String get activity_org_created_title => 'Organisasi Baru';
+
+  @override
+  String get activity_org_updated_title => 'Organisasi Diperbarui';
+
+  @override
+  String activity_task_created_desc(
+    String user,
+    String taskName,
+    String projectName,
+  ) {
+    return '$user membuat task $taskName pada project $projectName';
+  }
+
+  @override
+  String activity_task_updated_desc(String user, String taskName, String info) {
+    return '$user mengubah data task $taskName -> \"$info\"';
+  }
+
+  @override
+  String activity_task_deleted_desc(
+    String user,
+    String taskName,
+    String projectName,
+  ) {
+    return '$user menghapus task $taskName dari project $projectName';
+  }
+
+  @override
+  String activity_task_move_desc(String user, String taskName, String info) {
+    return '$user memperbarui status task $taskName -> $info';
+  }
+
+  @override
+  String activity_project_created_desc(String user, String projectName) {
+    return '$user membuat project $projectName';
+  }
+
+  @override
+  String activity_project_updated_desc(String user, String info) {
+    return '$user mengubah data project -> $info';
+  }
+
+  @override
+  String activity_project_deleted_desc(String user, String info) {
+    return '$user menghapus project pada $info';
+  }
+
+  @override
+  String activity_project_completed_desc(String info) {
+    return 'project sudah selesai pada $info';
+  }
+
+  @override
+  String activity_member_join_desc(String user, String orgName) {
+    return '$user bergabung dengan $orgName';
+  }
+
+  @override
+  String activity_member_remove_desc(String user, String info) {
+    return '$user mengeluarkan $info';
+  }
+
+  @override
+  String activity_member_left_desc(String user) {
+    return '$user meninggalkan organisasi';
+  }
+
+  @override
+  String activity_member_change_role_desc(String user, String info) {
+    return '$user berubah jabatan menjadi $info';
+  }
+
+  @override
+  String activity_project_comment_desc(
+    String user,
+    String project,
+    String info,
+  ) {
+    return '$user memberi komentar pada project $project -> \"$info\"';
+  }
+
+  @override
+  String activity_schedule_created_desc(String user, String scheduleName) {
+    return '$user membuat jadwal $scheduleName';
+  }
+
+  @override
+  String activity_schedule_edited_desc(
+    String user,
+    String scheduleName,
+    String info,
+  ) {
+    return '$user mengubah jadwal $scheduleName -> $info';
+  }
+
+  @override
+  String activity_schedule_deleted_desc(String user, String scheduleName) {
+    return '$user membatalkan jadwal $scheduleName';
+  }
+
+  @override
+  String activity_org_created_desc(String user, String orgName) {
+    return '$user membuat organisasi $orgName';
+  }
+
+  @override
+  String activity_org_updated_desc(String user, String info) {
+    return '$user mengubah data organisasi -> $info';
+  }
+
+  @override
+  String get make_admin => 'Jadikan Admin';
+
+  @override
+  String get demote_to_member => 'Kembalikan Jadi Member';
+
+  @override
+  String get remove_member => 'Keluarkan Member';
+
+  @override
+  String get dialog_remove_member_title => 'Keluarkan Member';
+
+  @override
+  String get dialog_remove_member_content =>
+      'Yakin ingin mengeluarkan member ini?';
 }

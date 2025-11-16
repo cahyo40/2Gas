@@ -21,41 +21,6 @@
     "good_afternoon": "Good afternoon",
     "good_evening": "Good evening",
     "good_night": "Good night",
-    "taskCreated": "{user} created task {task} in project {project}",
-    "taskUpdated": "{user} updated task {task}",
-    "taskDeleted": "{user} deleted task {task}",
-    "taskCompleted": "{user} completed task {task}",
-    "taskReopened": "{user} reopened task {task}",
-    "taskAssigned": "{user} assigned task {task} to {assignee}",
-    "taskUnassigned": "{user} unassigned task {task}",
-    "taskMoved": "{user} moved task {task} to column {column}",
-    "taskCommented": "{user} commented on task {task}",
-    "taskAttachmentAdded": "{user} added attachment to task {task}",
-    "taskAttachmentRemoved": "{user} removed attachment from task {task}",
-    "taskLabelAdded": "{user} added label {label} to task {task}",
-    "taskLabelRemoved": "{user} removed label {label} from task {task}",
-    "projectCreated": "{user} created project {project}",
-    "projectUpdated": "{user} updated project {project}",
-    "projectDeleted": "{user} deleted project {project}",
-    "projectArchived": "{user} archived project {project}",
-    "projectRestored": "{user} restored project {project}",
-    "memberInvited": "{user} invited {target} to {org}",
-    "memberJoined": "{user} joined {org}",
-    "memberRemoved": "{user} removed {target} from {org}",
-    "memberRoleUpdated": "{user} updated {target}'s role to {role}",
-    "organizationCreated": "{user} created new organization {org}",
-    "organizationUpdated": "{user} updated organization {org}",
-    "organizationDeleted": "{user} deleted organization {org}",
-    "organizationJoined": "{user} joined organization {org}",
-    "organizationLeft": "{user} left organization {org}",
-    "commentAdded": "{user} added a comment",
-    "commentEdited": "{user} edited a comment",
-    "commentDeleted": "{user} deleted a comment",
-    "attachmentAdded": "{user} added attachment {file}",
-    "attachmentRemoved": "{user} removed attachment {file}",
-    "labelCreated": "{user} created new label {label}",
-    "labelUpdated": "{user} updated label {label}",
-    "labelDeleted": "{user} deleted label {label}",
     "field_title": "Title",
     "field_title_hint": "Enter a title",
     "field_description": "Description",
@@ -365,6 +330,308 @@
     },
     "msg_task_deleted_success": "Task deleted successfully",
     "@msg_task_deleted_success": {
+        "placeholders": {}
+    },
+    "activity_task_created_title": "New Task",
+    "@activity_task_created_title": {
+        "placeholders": {}
+    },
+    "activity_task_updated_title": "Task Updated",
+    "@activity_task_updated_title": {
+        "placeholders": {}
+    },
+    "activity_task_deleted_title": "Task Deleted",
+    "@activity_task_deleted_title": {
+        "placeholders": {}
+    },
+    "activity_task_moved_title": "Task Status Changed",
+    "@activity_task_moved_title": {
+        "placeholders": {}
+    },
+    "activity_project_created_title": "New Project",
+    "@activity_project_created_title": {
+        "placeholders": {}
+    },
+    "activity_project_updated_title": "Project Updated",
+    "@activity_project_updated_title": {
+        "placeholders": {}
+    },
+    "activity_project_deleted_title": "Project Deleted",
+    "@activity_project_deleted_title": {
+        "placeholders": {}
+    },
+    "activity_project_completed_title": "Project Completed",
+    "@activity_project_completed_title": {
+        "placeholders": {}
+    },
+    "activity_member_join_title": "New Member",
+    "@activity_member_join_title": {
+        "placeholders": {}
+    },
+    "activity_member_remove_title": "Member Removed",
+    "@activity_member_remove_title": {
+        "placeholders": {}
+    },
+    "activity_member_left_title": "Member Left",
+    "@activity_member_left_title": {
+        "placeholders": {}
+    },
+    "activity_member_change_role": "Member Role Changed",
+    "@activity_member_change_role": {
+        "placeholders": {}
+    },
+    "activity_project_comment_title": "New Comment",
+    "@activity_project_comment_title": {
+        "placeholders": {}
+    },
+    "activity_schedule_created_title": "New Schedule",
+    "@activity_schedule_created_title": {
+        "placeholders": {}
+    },
+    "activity_schedule_edited_title": "Schedule Changed",
+    "@activity_schedule_edited_title": {
+        "placeholders": {}
+    },
+    "activity_schedule_deleted_title": "Schedule Cancelled",
+    "@activity_schedule_deleted_title": {
+        "placeholders": {}
+    },
+    "activity_org_created_title": "New Organization",
+    "@activity_org_created_title": {
+        "placeholders": {}
+    },
+    "activity_org_updated_title": "Organization Updated",
+    "@activity_org_updated_title": {
+        "placeholders": {}
+    },
+    "activity_task_created_desc": "{user} created task {taskName} in project {projectName}",
+    "@activity_task_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_task_updated_desc": "{user} updated task {taskName} -> \"{info}\"",
+    "@activity_task_updated_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_task_deleted_desc": "{user} deleted task {taskName} from project {projectName}",
+    "@activity_task_deleted_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_task_move_desc": "{user} updated task {taskName} status -> {info}",
+    "@activity_task_move_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_created_desc": "{user} created project {projectName}",
+    "@activity_project_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_updated_desc": "{user} updated project data -> {info}",
+    "@activity_project_updated_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_deleted_desc": "{user} deleted project on {info}",
+    "@activity_project_deleted_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_completed_desc": "Project completed on {info}",
+    "@activity_project_completed_desc": {
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_join_desc": "{user} joined {orgName}",
+    "@activity_member_join_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_remove_desc": "{user} removed {info}",
+    "@activity_member_remove_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_left_desc": "{user} left the organization",
+    "@activity_member_left_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_change_role_desc": "{user} role changed to {info}",
+    "@activity_member_change_role_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_comment_desc": "{user} commented on project {project} -> \"{info}\"",
+    "@activity_project_comment_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "project": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_schedule_created_desc": "{user} created schedule {scheduleName}",
+    "@activity_schedule_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "scheduleName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_schedule_edited_desc": "{user} edited schedule {scheduleName} -> {info}",
+    "@activity_schedule_edited_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "scheduleName": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_schedule_deleted_desc": "{user} cancelled schedule {scheduleName}",
+    "@activity_schedule_deleted_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "scheduleName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_org_created_desc": "{user} created organization {orgName}",
+    "@activity_org_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_org_updated_desc": "{user} updated organization data -> {info}",
+    "@activity_org_updated_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "make_admin": "Make Admin",
+    "@make_admin": {
+        "placeholders": {}
+    },
+    "demote_to_member": "Demote to Member",
+    "@demote_to_member": {
+        "placeholders": {}
+    },
+    "remove_member": "Remove Member",
+    "@remove_member": {
+        "placeholders": {}
+    },
+    "dialog_remove_member_title": "Remove Member",
+    "@dialog_remove_member_title": {
+        "placeholders": {}
+    },
+    "dialog_remove_member_content": "Are you sure you want to remove this member?",
+    "@dialog_remove_member_content": {
         "placeholders": {}
     }
 }

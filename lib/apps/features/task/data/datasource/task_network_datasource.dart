@@ -44,20 +44,23 @@ class TaskNetworkDatasource implements TaskRepository {
 
       if (assignSnap.docs.isEmpty) return [];
 
-      // 2. daftar task-id (pastikan field-nya benar: taskId atau id?)
       final taskIds = assignSnap.docs
-          .map((d) => TaskAssignModel.fromFirestore(d).taskId) // <-- sesuaikan
+          .map((d) => d['taskId'] as String)
+          .toSet()
           .toList();
 
-      // 3. ambil semua dokumen task secara paralel
-      final taskFutures = taskIds
-          .map((id) => FirebaseServices.task.doc(id).get())
+      if (taskIds.isEmpty) return [];
+
+      final snaps = await Future.wait(
+        taskIds.map((id) => FirebaseServices.task.doc(id).get()),
+      );
+
+      final tasks = snaps
+          .where((s) => s.exists)
+          .map((s) => TaskModel.fromFirestore(s))
           .toList();
 
-      final taskDocs = await Future.wait(taskFutures);
-
-      // 4. mapping ke model
-      return taskDocs.map((doc) => TaskModel.fromFirestore(doc)).toList();
+      return tasks;
     } catch (_) {
       return []; // atau rethrow;
     }

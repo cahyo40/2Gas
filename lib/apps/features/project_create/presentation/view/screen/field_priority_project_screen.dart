@@ -23,6 +23,8 @@ class FieldPriorityProjectScreen extends GetView<ProjectCreateController> {
             FocusScope.of(context).unfocus();
           },
           decoration: InputDecoration(
+            fillColor: context.cardColor,
+            filled: true,
             hintText: tr.field_priority_hint,
             hintStyle: context.yoBodyMedium.copyWith(color: context.gray500),
           ),

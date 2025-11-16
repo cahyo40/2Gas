@@ -17,13 +17,23 @@ class OrganizatonSettingsScreen extends GetView<OrganizationController> {
         padding: YoPadding.all20,
         child: Column(
           children: [
-            ListTile(
-              title: YoText(L10n.t.member),
-              leading: Icon(Iconsax.profile_2user_outline),
-              onTap: () {
-                controller.membersFilter();
-                Get.to(() => OrgSettingsMemberScreen());
-              },
+            Obx(
+              () => YoListTile(
+                title: L10n.t.member,
+                leading: Icon(Iconsax.profile_2user_outline),
+                onTap: () {
+                  controller.membersFilter();
+                  Get.to(() => OrgSettingsMemberScreen());
+                },
+                trailing: Visibility(
+                  visible: controller.members
+                      .where((e) => e.isPending == true)
+                      .isNotEmpty,
+                  child: YoText.bodyMedium(
+                    "${controller.members.where((e) => e.isPending == true).length} Member pending",
+                  ),
+                ),
+              ),
             ),
             Spacer(),
             ListTile(

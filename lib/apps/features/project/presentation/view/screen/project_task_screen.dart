@@ -55,16 +55,16 @@ class ProjectTaskScreen extends GetView<ProjectController> {
           ),
 
           SizedBox(height: YoSpacing.md),
-          controller.task.isEmpty
+          controller.taskNew.isEmpty
               ? Center(child: YoEmptyState.noData(title: L10n.t.msg_task_empty))
               : ListView.builder(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),
-                  itemCount: controller.task.length > 3
+                  itemCount: controller.taskNew.length > 3
                       ? 3
-                      : controller.task.length,
+                      : controller.taskNew.length,
                   itemBuilder: (context, index) {
-                    final model = controller.task[index];
+                    final model = controller.taskNew[index];
                     return CardTaskWidget(model: model);
                   },
                 ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
+import 'package:twogass/apps/data/model/schedule_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
 import 'package:twogass/apps/features/home/domain/repositories/home_repository.dart';
@@ -11,6 +12,7 @@ import 'package:twogass/apps/features/home/domain/usecase/home_task_usecase.dart
 import 'package:twogass/apps/features/home/domain/usecase/is_joined_organization_usecase.dart';
 import 'package:twogass/apps/features/home/domain/usecase/join_organization_usecase.dart';
 import 'package:twogass/apps/features/home/presentation/view/screen/organization_join_screen.dart';
+import 'package:twogass/apps/features/schedule/domain/usecase/schedule_usecase.dart';
 import 'package:twogass/apps/routes/route_names.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -29,15 +31,36 @@ class HomeController extends GetxController {
   IsJoinedOrganizationUsecase isJoinOrg = IsJoinedOrganizationUsecase(
     Get.find(),
   );
+  FetchScheduleUserUsecase fetchSchedule = FetchScheduleUserUsecase(Get.find());
 
   final RxList<OrganizationModel> orgs = <OrganizationModel>[].obs;
+  final RxList<ScheduleModel> schedules = <ScheduleModel>[].obs;
+  final RxList<ScheduleModel> scheduleShow = <ScheduleModel>[].obs;
   final key = GlobalKey<FormState>();
   final code = TextEditingController();
 
-  initOrg() async {
-    orgHome.value = await homeOrgUsecase();
-    task.value = await getUserTask();
-    YoLogger.info(orgHome.toJson().toString());
+  initOrg({bool useLoading = true}) async {
+    isLoading.value = useLoading;
+    try {
+      final res = await Future.wait([
+        homeOrgUsecase(),
+        getUserTask(),
+        fetchSchedule(),
+      ]);
+      orgHome.value = res[0] as List<OrganizationHomeResponseModel>;
+      task.value = res[1] as List<TaskModel>;
+      schedules.value = res[2] as List<ScheduleModel>;
+
+      scheduleShow.value = schedules
+          .where((e) => YoDateFormatter.isToday(e.date))
+          .take(3)
+          .toList();
+      scheduleShow.refresh();
+    } catch (e, s) {
+      YoLogger.error("$e - $s");
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   addOrganization() {

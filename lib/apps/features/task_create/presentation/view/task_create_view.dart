@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/task_create/presentation/view/screen/field_assigns_task_screen.dart';
@@ -18,7 +19,16 @@ class TaskCreateView extends GetView<TaskCreateController> {
   Widget build(BuildContext context) {
     final org = Get.find<OrganizationController>();
     return Scaffold(
-      appBar: AppBar(title: Text(L10n.t.create_task), centerTitle: true),
+      appBar: YoAppBar(
+        title: L10n.t.create_task,
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Get.back(result: false);
+          },
+          icon: Icon(Iconsax.arrow_left_2_outline),
+        ),
+      ),
       body: SafeArea(
         child: Form(
           key: controller.form,

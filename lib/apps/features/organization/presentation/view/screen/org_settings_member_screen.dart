@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/widget/card_member_org_widget.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
@@ -129,6 +130,72 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                       return CardMemberOrgWidget(
                         member: member,
                         isMember: isMember,
+                        onTap:
+                            controller.myRole.value != MemberRole.member &&
+                                member.role != MemberRole.owner
+                            ? () {
+                                YoBottomSheet.show(
+                                  context: context,
+                                  title: "title",
+                                  maxHeight: 300,
+                                  child: Column(
+                                    spacing: YoSpacing.sm,
+                                    children: [
+                                      member.role == MemberRole.member
+                                          ? YoListTile(
+                                              title: "Jadikan Admin",
+                                              onTap: () {
+                                                Get.back();
+                                                controller.onChangeRoleMember(
+                                                  member,
+                                                  MemberRole.admin,
+                                                );
+                                              },
+                                            )
+                                          : YoListTile(
+                                              title: "Cabut hak admin",
+                                              onTap: () {
+                                                Get.back();
+                                                controller.onChangeRoleMember(
+                                                  member,
+                                                  MemberRole.member,
+                                                );
+                                              },
+                                            ),
+                                      Visibility(
+                                        visible:
+                                            member.role == MemberRole.member,
+                                        child: YoCard(
+                                          backgroundColor: context.errorColor
+                                              .withOpacity(.075),
+                                          padding: EdgeInsets.zero,
+                                          child: YoListTile(
+                                            onTap: () {
+                                              Get.back();
+                                              YoAdvancedConfirmDialog.show(
+                                                context: context,
+                                                title: "Keluarkan Member",
+                                                content: "Yaking",
+                                                confirmText: L10n.t.yes,
+                                                cancelText: L10n.t.no,
+                                              ).then((confirm) {
+                                                if (confirm == true &&
+                                                    context.mounted) {
+                                                  controller.onKickMember(
+                                                    member,
+                                                  );
+                                                }
+                                              });
+                                            },
+                                            title: "Keluarkan dia",
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            : null,
                         onAcceptTap: () {
                           YoConfirmDialog.show(
                             context: context,

@@ -45,8 +45,9 @@ class ProjectModel {
     assign: const [],
   );
 
+  // 1. fromFirestore / fromJson → tetap pakai versi lama (dengan categories & assign)
   factory ProjectModel.fromFirestore(DocumentSnapshot doc) =>
-      ProjectModel.fromJson(doc.data()! as Map<String, dynamic>);
+      ProjectModel.fromFirebase(doc.data()! as Map<String, dynamic>);
 
   factory ProjectModel.fromJson(Map<String, dynamic> json) => ProjectModel(
     id: json['id'] as String,
@@ -58,15 +59,43 @@ class ProjectModel {
     deadline: _dtFromJson(json['deadline']),
     createdAt: _dtFromJson(json['createdAt']),
     createdBy: json['createdBy'] as String,
-    categories: (json['categories'] as List<dynamic>)
-        .map((e) => ProjectCategoryModel.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    assign: (json['assign'] as List<dynamic>)
-        .map((e) => ProjectAssignModel.fromJson(e as Map<String, dynamic>))
-        .toList(),
+    categories:
+        (json['categories'] as List<dynamic>?)
+            ?.map(
+              (e) => ProjectCategoryModel.fromJson(e as Map<String, dynamic>),
+            )
+            .toList() ??
+        const [],
+    assign:
+        (json['assign'] as List<dynamic>?)
+            ?.map((e) => ProjectAssignModel.fromJson(e as Map<String, dynamic>))
+            .toList() ??
+        const [],
   );
 
-  Map<String, dynamic> toJson() => {
+  // 2. fromFirebase → khusus baca dokumen Firestore yang tidak punya categories & assign
+  factory ProjectModel.fromFirebase(Map<String, dynamic> json) => ProjectModel(
+    id: json['id'] as String,
+    name: json['name'] as String,
+    orgId: json['orgId'] as String,
+    priority: Priority.values.firstWhere((e) => e.name == json['priority']),
+    status: ProjectStatus.values.firstWhere((e) => e.name == json['status']),
+    description: json['description'] as String?,
+    deadline: _dtFromJson(json['deadline']),
+    createdAt: _dtFromJson(json['createdAt']),
+    createdBy: json['createdBy'] as String,
+    categories:
+        (json['categories'] as List<dynamic>?)
+            ?.map(
+              (e) => ProjectCategoryModel.fromJson(e as Map<String, dynamic>),
+            )
+            .toList() ??
+        const [],
+    assign: const [], // selalu kosong
+  );
+
+  // 3. toFirebase → kirim tanpa categories & assign
+  Map<String, dynamic> toFirebase() => {
     'id': id,
     'name': name,
     'orgId': orgId,
@@ -77,6 +106,13 @@ class ProjectModel {
     'createdAt': _dtToJson(createdAt),
     'createdBy': createdBy,
     'categories': categories.map((e) => e.toJson()).toList(),
+    // categories & assign tidak disertakan
+  };
+
+  // 4. toJson → tetap lengkap (kalau dibutuhkan untuk encode lokal)
+  Map<String, dynamic> toJson() => {
+    ...toFirebase(),
+
     'assign': assign.map((e) => e.toJson()).toList(),
   };
 
@@ -183,12 +219,14 @@ class ProjectModel {
 class ProjectAssignModel {
   final String id;
   final String projectId;
+  final String orgId;
   final String uid;
   final String imageUrl;
 
   const ProjectAssignModel({
     required this.id,
     required this.projectId,
+    required this.orgId,
     required this.uid,
     required this.imageUrl,
   });
@@ -196,6 +234,7 @@ class ProjectAssignModel {
   factory ProjectAssignModel.fromJson(Map<String, dynamic> json) =>
       ProjectAssignModel(
         id: json['id'] as String,
+        orgId: json['orgId'] as String,
         projectId: json['projectId'] as String,
         uid: json['uid'] as String,
         imageUrl: json['imageUrl'] as String,
@@ -204,6 +243,7 @@ class ProjectAssignModel {
   Map<String, dynamic> toJson() => {
     'id': id,
     'projectId': projectId,
+    'orgId': orgId,
     'uid': uid,
     'imageUrl': imageUrl,
   };
@@ -215,6 +255,7 @@ class ProjectAssignModel {
       ProjectAssignModel(
         id: map['id'] as String,
         projectId: map['projectId'] as String,
+        orgId: map['orgId'] as String,
         uid: map['uid'] as String,
         imageUrl: map['imageUrl'] as String,
       );
@@ -222,6 +263,7 @@ class ProjectAssignModel {
   Map<String, dynamic> toMap() => {
     'id': id,
     'projectId': projectId,
+    'orgId': orgId,
     'uid': uid,
     'imageUrl': imageUrl,
   };
@@ -229,11 +271,13 @@ class ProjectAssignModel {
   ProjectAssignModel copyWith({
     String? id,
     String? projectId,
+    String? orgId,
     String? uid,
     String? imageUrl,
   }) => ProjectAssignModel(
     id: id ?? this.id,
     projectId: projectId ?? this.projectId,
+    orgId: orgId ?? this.orgId,
     uid: uid ?? this.uid,
     imageUrl: imageUrl ?? this.imageUrl,
   );
@@ -245,6 +289,7 @@ class ProjectAssignModel {
           runtimeType == other.runtimeType &&
           id == other.id &&
           projectId == other.projectId &&
+          orgId == other.orgId &&
           imageUrl == other.imageUrl &&
           uid == other.uid;
 

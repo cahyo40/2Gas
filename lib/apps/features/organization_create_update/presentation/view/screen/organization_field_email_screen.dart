@@ -16,15 +16,15 @@ class OrganizationFieldEmailScreen
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
         YoTextFormField(
+          fillColor: context.cardColor,
           inputStyle: YoInputStyle.modern,
           inputType: YoInputType.email,
           controller: controller.email,
           readOnly: controller.isEdit.value,
           labelText: "Email",
           validator: (value) => YoFormValidation.email(value),
-          hintText:tr.field_email_hint ,
+          hintText: tr.field_email_hint,
         ),
         SizedBox(height: YoSpacing.md),
       ],

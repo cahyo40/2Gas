@@ -16,6 +16,7 @@ class FieldTitleTaskScreen extends GetView<TaskCreateController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoTextFormField(
+          fillColor: context.cardColor,
           controller: controller.title,
           labelText: tr.field_title,
           hintText: tr.field_title_hint,

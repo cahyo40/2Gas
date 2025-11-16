@@ -10,6 +10,7 @@ import 'package:twogass/apps/features/organization/domain/usecase/fetch_member_o
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/domain/repositories/project_repository.dart';
 import 'package:twogass/apps/features/project/domain/usecase/add_assigner_usecase.dart';
+import 'package:twogass/apps/features/project/domain/usecase/delete_task_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/project_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/update_project_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/update_task_status_usecase.dart';
@@ -40,19 +41,10 @@ class ProjectController extends GetxController {
   FetchMemberOrgUsecase getMember = FetchMemberOrgUsecase(Get.find());
   AddAssignerUsecase addAssign = AddAssignerUsecase(Get.find());
   UpdateProjectUsecase updateProject = UpdateProjectUsecase(Get.find());
+  DeleteTaskUsecase deleteTask = DeleteTaskUsecase(Get.find());
 
   final filtersTask = ["all", "todo", "progress", 'done'];
   final currentFilterTask = 0.obs;
-  changeFilterTask(int index) {
-    currentFilterTask.value = index;
-    if (index == 0) {
-      taskNew.value = task;
-    } else {
-      taskNew.value = task
-          .where((d) => d.status.name == filtersTask[index])
-          .toList();
-    }
-  }
 
   updateStatusTask(String taskId, String projectId, TaskStatus status) async {
     await updateTaskStatus.call(
@@ -73,7 +65,9 @@ class ProjectController extends GetxController {
       final data = await projectUsecase(id.value, orgId.value);
       project.value = data[key.project];
       task.value = data[key.task];
-      taskNew.value = task;
+      taskNew.value = task.where((e) => e.status != TaskStatus.done).toList()
+        ..sort((a, b) => (a.deadline).compareTo(b.deadline));
+
       assignProject.value = data[key.projectAssign];
       createdBy.value = data["createdBy"];
 
@@ -87,7 +81,8 @@ class ProjectController extends GetxController {
   }
 
   goToAssignProject() async {
-    members.value = await getMember(orgId.value);
+    final allMember = await getMember(orgId.value);
+    members.value = allMember.where((e) => e.isPending == false).toList();
     Get.back();
     Get.to(() => ProjectAssignScreen());
   }
@@ -98,6 +93,7 @@ class ProjectController extends GetxController {
       id: assignId,
       projectId: id.value,
       uid: model.uid,
+      orgId: orgId.value,
       imageUrl: model.imageUrl,
     );
     await addAssign(data);
@@ -134,6 +130,11 @@ class ProjectController extends GetxController {
         type: YoSnackBarType.error,
       );
     }
+  }
+
+  onDeleteTask(TaskModel task) async {
+    await deleteTask(task);
+    initData(useLoading: true);
   }
 
   @override

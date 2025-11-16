@@ -7,8 +7,6 @@ import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/presentation/controller/project_controller.dart';
 import 'package:twogass/apps/routes/route_names.dart';
-import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
-import 'package:twogass/apps/widget/user_listtile_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 class OrganizatonTaskScreen extends GetView<ProjectController> {
@@ -49,7 +47,7 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
       appBar: AppBar(
         title: Obx(
           () => YoText.titleLarge(
-            "${L10n.t.task} ${controller.project.value.name} (${controller.taskNew.length})",
+            "${L10n.t.task} ${controller.project.value.name} (${controller.task.length})",
           ),
         ),
       ),
@@ -59,7 +57,7 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
         },
         child: Obx(() {
           final kanbanKey = ValueKey(
-            'kanban_${controller.taskNew.length}_${YoIdGenerator.alphanumericId()}',
+            'kanban_${controller.task.length}_${YoIdGenerator.alphanumericId()}',
           );
           return SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
@@ -91,7 +89,7 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
         status,
       ) {
         // Filter tasks by status
-        final statusTasks = controller.taskNew
+        final statusTasks = controller.task
             .where((task) => task.status.name == status.name)
             .toList();
 
@@ -109,39 +107,81 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
               priority: _getPriorityValue(task.priority.name),
               color: YoColors().getStatus(context, status),
               customWidgets: [
-                UserListtileWidget(
-                  uid: task.createdBy,
-                  size: UserListTileSize.small,
-                ),
                 Visibility(
                   visible: task.status != TaskStatus.done,
-                  child: Row(
+                  child: Column(
+                    spacing: YoSpacing.md,
                     children: [
-                      Expanded(
-                        child: AvatarOverlappingWidget(
-                          imagesUrl: task.assigns
-                              .map((e) => e.imageUrl)
-                              .toList(),
-                          width: .6,
-                          avatarRadius: 12,
-                          maxDisplay: 3,
-                        ),
-                      ),
-                      SizedBox(width: 4),
                       Row(
+                        spacing: context.yoSpacingSm,
+
                         children: [
-                          Icon(
-                            Icons.calendar_today_outlined,
-                            size: 12,
-                            color: YoColors().getDeadlineColor(daysLeft),
+                          Expanded(
+                            child: YoAvatarOverlap.horizontal(
+                              imageUrls: task.assigns
+                                  .map((e) => e.imageUrl)
+                                  .toList(),
+                              overlap: .6,
+                              size: YoAvatarSize.xs,
+                              maxDisplay: 3,
+                            ),
                           ),
                           SizedBox(width: 4),
-                          YoText.bodySmall(
-                            "${YoDateFormatter.formatDate(task.deadline)} (${YoDateFormatter.daysBetween(DateTime.now(), task.deadline)} Days)",
-                            color: YoColors().getDeadlineColor(daysLeft),
-                            fontWeight: isOverdue || isUrgent
-                                ? FontWeight.w600
-                                : FontWeight.normal,
+                          YoButtonIcon.primary(
+                            size: YoIconButtonSize.small,
+                            icon: Icon(Iconsax.user_add_outline),
+                            onPressed: () {},
+
+                            iconColor: context.onPrimaryColor,
+                          ),
+                          YoButtonIcon.custom(
+                            size: YoIconButtonSize.small,
+                            icon: Icon(Iconsax.trash_outline),
+                            onPressed: () {
+                              YoAdvancedConfirmDialog.show(
+                                context: context,
+                                title: L10n.t.msg_task_delete_title,
+                                content: L10n.t.msg_task_delete_content,
+                                confirmText: L10n.t.yes,
+                                cancelText: L10n.t.no,
+
+                                cancelColor: context.errorColor,
+                              ).then((confirm) {
+                                if (confirm == true && context.mounted) {
+                                  controller.onDeleteTask(task);
+                                  YoSnackBar.show(
+                                    context: context,
+                                    message: L10n.t.msg_task_deleted_success,
+                                    type: YoSnackBarType.success,
+                                  );
+                                }
+                              });
+                            },
+                            backgroundColor: context.errorColor,
+                            iconColor: context.onPrimaryColor,
+                          ),
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Spacer(),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.calendar_today_outlined,
+                                size: 12,
+                                color: YoColors().getDeadlineColor(daysLeft),
+                              ),
+                              SizedBox(width: 4),
+                              YoText.bodySmall(
+                                "${YoDateFormatter.formatDate(task.deadline)} (${YoDateFormatter.daysBetween(DateTime.now(), task.deadline)} Days)",
+                                color: YoColors().getDeadlineColor(daysLeft),
+                                fontWeight: isOverdue || isUrgent
+                                    ? FontWeight.w600
+                                    : FontWeight.normal,
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -187,7 +227,7 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
     List getId = itemId.split("_");
     final taskId = getId[0];
 
-    final task = controller.taskNew.firstWhere(
+    final task = controller.task.firstWhere(
       (task) => task.id == taskId,
       orElse: () => TaskModel.initial(),
     );
@@ -198,10 +238,13 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
         AlertDialog(
           title: YoText.titleLarge(task.name),
           content: YoText.bodyMedium(task.description ?? L10n.t.no_description),
+
           actions: [
-            TextButton(
-              onPressed: () => Get.back(),
-              child: YoText.bodyMedium(L10n.t.close),
+            YoButton.ghost(
+              text: L10n.t.close,
+              onPressed: () {
+                Get.back();
+              },
             ),
           ],
         ),

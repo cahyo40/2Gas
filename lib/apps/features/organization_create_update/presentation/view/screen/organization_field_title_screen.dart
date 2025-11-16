@@ -17,6 +17,7 @@ class OrganizationFieldTitleScreen
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         YoTextFormField(
+          fillColor: context.cardColor,
           controller: controller.title,
           readOnly: controller.isEdit.value,
           labelText: tr.field_title,

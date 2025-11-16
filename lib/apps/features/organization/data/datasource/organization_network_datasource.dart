@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
+import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/schedule_model.dart';
@@ -83,10 +84,24 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
   Future<void> acceptMember(MemberModel member) async {
     try {
       final activityId = YoIdGenerator.alphanumericId();
+      final notifId = YoIdGenerator.alphanumericId();
+      final now = DateTime.now();
       final updateData = {"isPending": false, "joinedAt": DateTime.now()};
 
+      final notif = NotificationsModel(
+        id: notifId,
+
+        uidShows: [member.uid],
+        type: NotificationType.orgAccessRequestApproved,
+        createdAt: now,
+        orgId: Get.find<OrganizationController>().org.value.id,
+        data: NotificationData(
+          orgName: Get.find<OrganizationController>().org.value.name,
+        ),
+      );
+
       final activity = ActivityModel(
-        createdAt: DateTime.now(),
+        createdAt: now,
         orgId: Get.find<OrganizationController>().orgId.value,
         id: activityId,
         title: 'New Member',
@@ -97,7 +112,7 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
           memberName: member.name,
         ),
       );
-
+      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
       await FirebaseServices.activity.doc(activityId).set(activity.toJson());
       await FirebaseServices.member.doc(member.id).update(updateData);
     } catch (e, s) {
@@ -121,6 +136,99 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
     } catch (e) {
       YoLogger.error(e.toString());
       return [];
+    }
+  }
+
+  @override
+  Future<void> changeRoleMember(MemberModel member, MemberRole role) async {
+    try {
+      final notifId = YoIdGenerator.alphanumericId();
+      final now = DateTime.now();
+      final updateData = {"role": role.name};
+
+      final notif = NotificationsModel(
+        id: notifId,
+        uidShows: [member.uid],
+        type: NotificationType.orgRoleChangedToAdmin,
+        createdAt: now,
+        orgId: Get.find<OrganizationController>().org.value.id,
+        data: NotificationData(
+          orgName: Get.find<OrganizationController>().org.value.name,
+        ),
+      );
+
+      Future.wait([
+        FirebaseServices.member.doc(member.id).update(updateData),
+        FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+      ]);
+    } catch (e) {
+      YoLogger.error("Change Role Member Error $e");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> memberOut(MemberModel member, {bool isKick = false}) async {
+    try {
+      // Notification
+      final notifId = YoIdGenerator.alphanumericId();
+      final now = DateTime.now();
+      var uidShow = <String>[];
+
+      final memberSnap = await FirebaseServices.member
+          .where("orgId", isEqualTo: member.orgId)
+          .where("role", isNotEqualTo: MemberRole.member.name)
+          .get();
+
+      if (isKick == true) {
+        uidShow = [member.uid];
+      } else {
+        uidShow = memberSnap.docs
+            .map((data) => data['uid'] as String)
+            .toSet()
+            .toList();
+      }
+
+      final notif = NotificationsModel(
+        id: notifId,
+        uidShows: uidShow,
+        type: NotificationType.orgUserRemoved,
+        createdAt: now,
+        orgId: Get.find<OrganizationController>().org.value.id,
+        data: NotificationData(
+          orgName: Get.find<OrganizationController>().org.value.name,
+        ),
+      );
+      //Project
+      final project = await FirebaseServices.projectAssign
+          .where("uid", isEqualTo: member.uid)
+          .get();
+      final projectId = project.docs.map((d) => d.id).toSet().toList();
+      // Task
+      final task = await FirebaseServices.taskAssign
+          .where("uid", isEqualTo: member.uid)
+          .get();
+      final taskId = task.docs.map((id) => id.id).toSet().toList();
+
+      if (projectId.isNotEmpty) {
+        await Future.wait(
+          projectId.map(
+            (id) => FirebaseServices.projectAssign.doc(id).delete(),
+          ),
+        );
+      }
+      if (taskId.isNotEmpty) {
+        await Future.wait(
+          taskId.map((id) => FirebaseServices.taskAssign.doc(id).delete()),
+        );
+      }
+      Future.wait([
+        FirebaseServices.member.doc(member.id).delete(),
+        FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+      ]);
+    } catch (e) {
+      YoLogger.error("Kick Member Error $e");
+      rethrow;
     }
   }
 }

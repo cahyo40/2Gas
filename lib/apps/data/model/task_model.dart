@@ -46,8 +46,21 @@ class TaskModel {
   );
 
   factory TaskModel.fromFirestore(DocumentSnapshot doc) =>
-      TaskModel.fromJson(doc.data()! as Map<String, dynamic>);
+      TaskModel.fromFirebase(doc.data()! as Map<String, dynamic>);
 
+  factory TaskModel.fromFirebase(Map<String, dynamic> json) => TaskModel(
+    id: json['id'] as String,
+    projectId: json['projectId'] as String,
+    orgId: json['orgId'] as String,
+    name: json['name'] as String,
+    description: json['description'] as String?,
+    priority: Priority.values.firstWhere((e) => e.name == json['priority']),
+    status: TaskStatus.values.firstWhere((e) => e.name == json['status']),
+    deadline: _dtFromJson(json['deadline']),
+    createdAt: _dtFromJson(json['createdAt']),
+    createdBy: json['createdBy'] as String,
+    assigns: [],
+  );
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
     id: json['id'] as String,
     projectId: json['projectId'] as String,
@@ -64,7 +77,7 @@ class TaskModel {
         .toList(),
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toFirebase() => {
     'id': id,
     'projectId': projectId,
     'orgId': orgId,
@@ -75,6 +88,10 @@ class TaskModel {
     'deadline': _dtToJson(deadline),
     'createdAt': _dtToJson(createdAt),
     'createdBy': createdBy,
+    'assigns': assigns.map((e) => e.toJson()).toList(),
+  };
+  Map<String, dynamic> toJson() => {
+    ...toFirebase(),
     'assigns': assigns.map((e) => e.toJson()).toList(),
   };
 
@@ -181,7 +198,8 @@ class TaskAssignModel {
   final String uid;
   final String imageUrl;
   final String name;
-  final String? projectId;
+  final String projectId;
+  final String orgId;
   final String taskId;
 
   const TaskAssignModel({
@@ -189,7 +207,8 @@ class TaskAssignModel {
     required this.uid,
     required this.imageUrl,
     required this.name,
-    this.projectId,
+    required this.projectId,
+    required this.orgId,
     required this.taskId,
   });
 
@@ -198,7 +217,8 @@ class TaskAssignModel {
     uid: '',
     imageUrl: '',
     name: '',
-    projectId: null,
+    projectId: '',
+    orgId: '',
     taskId: '',
   );
 
@@ -210,8 +230,9 @@ class TaskAssignModel {
         id: json['id'] as String,
         uid: json['uid'] as String,
         imageUrl: json['imageUrl'] as String,
+        orgId: json['orgId'] as String,
         name: json['name'] as String,
-        projectId: json['projectId'] as String?,
+        projectId: json['projectId'] as String,
         taskId: json['taskId'] as String,
       );
 
@@ -220,6 +241,7 @@ class TaskAssignModel {
     'uid': uid,
     'imageUrl': imageUrl,
     'name': name,
+    'orgId': orgId,
     'projectId': projectId,
     'taskId': taskId,
   };
@@ -229,7 +251,8 @@ class TaskAssignModel {
     uid: map['uid'] as String,
     imageUrl: map['imageUrl'] as String,
     name: map['name'] as String,
-    projectId: map['projectId'] as String?,
+    projectId: map['projectId'] as String,
+    orgId: map['orgId'] as String,
     taskId: map['taskId'] as String,
   );
 
@@ -248,6 +271,7 @@ class TaskAssignModel {
     String? imageUrl,
     String? name,
     String? projectId,
+    String? orgId,
     String? taskId,
   }) => TaskAssignModel(
     id: id ?? this.id,
@@ -255,6 +279,7 @@ class TaskAssignModel {
     imageUrl: imageUrl ?? this.imageUrl,
     name: name ?? this.name,
     projectId: projectId ?? this.projectId,
+    orgId: orgId ?? this.orgId,
     taskId: taskId ?? this.taskId,
   );
 
@@ -268,6 +293,7 @@ class TaskAssignModel {
           imageUrl == other.imageUrl &&
           name == other.name &&
           projectId == other.projectId &&
+          orgId == other.orgId &&
           taskId == other.taskId;
 
   @override

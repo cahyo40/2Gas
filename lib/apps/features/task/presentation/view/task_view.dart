@@ -135,8 +135,10 @@ class TaskView extends GetView<TaskController> {
                         ),
                       ),
                       YoButtonIcon.custom(
-                        backgroundColor: context.errorColor,
-                        icon: Icon(Iconsax.filter_remove_outline),
+                        icon: Icon(
+                          Iconsax.filter_remove_outline,
+                          color: context.onPrimaryColor,
+                        ),
                         onPressed: controller.resetFilter,
                       ),
                     ],

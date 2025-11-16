@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
+import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -11,7 +12,7 @@ import 'package:twogass/apps/features/home/domain/repositories/home_repository.d
 import 'package:yo_ui/yo_ui.dart';
 
 class HomeNetworkDatasource implements HomeRepository {
-  AuthController get user  => Get.find<AuthController>();
+  AuthController get user => Get.find<AuthController>();
   @override
   Future<List<OrganizationHomeResponseModel>> homeOrganization() async {
     try {
@@ -72,17 +73,24 @@ class HomeNetworkDatasource implements HomeRepository {
       final myTask = await FirebaseServices.taskAssign
           .where("uid", isEqualTo: user.uid)
           .get();
-      final taskId = myTask.docs
+
+      final taskIds = myTask.docs
           .map((d) => d['taskId'] as String)
           .toSet()
           .toList();
-      if (taskId.isEmpty) return [];
-      final data = taskId.map((id) async {
-        final taskSnap = await FirebaseServices.task.doc(id).get();
-        final taskModel = TaskModel.fromFirestore(taskSnap);
-        return taskModel;
-      });
-      return Future.wait(data);
+
+      if (taskIds.isEmpty) return [];
+
+      final snaps = await Future.wait(
+        taskIds.map((id) => FirebaseServices.task.doc(id).get()),
+      );
+
+      final tasks = snaps
+          .where((s) => s.exists)
+          .map((s) => TaskModel.fromFirestore(s))
+          .toList();
+
+      return tasks;
     } on FirebaseException catch (e, s) {
       YoLogger.error('Firestore error $e -> $s');
       rethrow;
@@ -117,6 +125,28 @@ class HomeNetworkDatasource implements HomeRepository {
   Future<void> joinOrganization(String orgId) async {
     try {
       final memberId = YoIdGenerator.alphanumericId();
+      final notifId = YoIdGenerator.alphanumericId();
+      final orgSnap = await FirebaseServices.org.doc(orgId).get();
+      final org = OrganizationModel.fromFirestore(orgSnap);
+
+      final memberSnap = await FirebaseServices.member
+          .where("orgId", isEqualTo: orgId)
+          .where("role", isNotEqualTo: MemberRole.member.name)
+          .get();
+      final uid = memberSnap.docs
+          .map((doc) => MemberModel.fromFirestore(doc).uid)
+          .toList();
+
+      final notif = NotificationsModel(
+        id: notifId,
+        orgId: org.id,
+
+        uidShows: uid,
+        type: NotificationType.orgUserJoined,
+        createdAt: DateTime.now(),
+        data: NotificationData(userName: user.name, orgName: org.name),
+      );
+
       final member = MemberModel(
         id: memberId,
         uid: user.uid,
@@ -127,6 +157,7 @@ class HomeNetworkDatasource implements HomeRepository {
         imageUrl: user.photoUrl,
       );
       await FirebaseServices.member.doc(memberId).set(member.toJson());
+      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
     } on FirebaseException catch (e, s) {
       YoLogger.error('Firestore error $e -> $s');
       rethrow;

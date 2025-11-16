@@ -9,12 +9,14 @@ import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/home/presentation/controller/home_controller.dart';
 import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/accept_member_usecase.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/change_role_member_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_activity_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_organization_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_member_org_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_project_org_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_schedule_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_task_org_usecase.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/kick_member_usecase.dart';
 import 'package:twogass/apps/routes/route_names.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -62,6 +64,11 @@ class OrganizationController extends GetxController {
   AcceptMemberUsecase acceptMember = AcceptMemberUsecase(
     Get.find<OrganizationRepository>(),
   );
+
+  ChangeRoleMemberUsecase changeRoleMember = ChangeRoleMemberUsecase(
+    Get.find(),
+  );
+  KickMemberUsecase kickMember = KickMemberUsecase(Get.find());
 
   FetchMemberOrgUsecase getMember = FetchMemberOrgUsecase(Get.find());
   FetchScheduleUsecase getSchedule = FetchScheduleUsecase(Get.find());
@@ -133,11 +140,34 @@ class OrganizationController extends GetxController {
   onAcceptMember(MemberModel model) async {
     await acceptMember(model);
     members.value = await getMember(orgId.value);
+    membersFilter();
     initOrg(orgId.value, useLoading: false);
     YoSnackBar.show(
       context: Get.context!,
       message: "${model.name} join ${org.value.name}",
       type: YoSnackBarType.success,
+    );
+  }
+
+  onChangeRoleMember(MemberModel model, MemberRole role) async {
+    await changeRoleMember(model, role);
+    members.value = await getMember(orgId.value);
+    membersFilter();
+    initOrg(orgId.value, useLoading: false);
+    YoSnackBar.show(
+      context: Get.context!,
+      message: "${model.name} sekarang jadi ${role.name}",
+    );
+  }
+
+  onKickMember(MemberModel model) async {
+    await kickMember(model, isKick: true);
+    members.value = await getMember(orgId.value);
+    membersFilter();
+    initOrg(orgId.value, useLoading: false);
+    YoSnackBar.show(
+      context: Get.context!,
+      message: "${model.name} sudah keluar",
     );
   }
 

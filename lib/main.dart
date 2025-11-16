@@ -53,28 +53,8 @@ class MyApp extends StatelessWidget {
         initialRoute: RouteNames.ONBOARD,
         themeMode: tc.themeMode,
         // themeMode: ThemeMode.system,
-        theme: YoTheme.lightTheme(context, YoColorScheme.codingDark).copyWith(
-          datePickerTheme: DatePickerThemeData().copyWith(
-            dayForegroundColor: WidgetStateProperty.resolveWith((states) {
-              if (states.contains(WidgetState.selected)) {
-                return context.backgroundColor;
-              }
-
-              return context.textColor;
-            }),
-          ),
-          timePickerTheme: TimePickerThemeData().copyWith(
-            hourMinuteTextColor: WidgetStateColor.resolveWith((states) {
-              if (states.contains(WidgetState.selected)) {
-                return context.backgroundColor; // font saat terpilih
-              }
-              return context.textColor; // font saat tidak terpilih
-            }),
-
-            dayPeriodColor: context.accentColor,
-          ),
-        ),
-        darkTheme: YoTheme.darkTheme(context, YoColorScheme.codingDark),
+        theme: YoTheme.lightTheme(context, YoColorScheme.productivityGreen),
+        darkTheme: YoTheme.darkTheme(context, YoColorScheme.productivityGreen),
         getPages: RouteApp.routes,
       ),
     );

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/assigners_helpers.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
-import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:twogass/apps/widget/priority_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -15,6 +15,11 @@ class CardProjectWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<List<String>> getAssign() async {
+      final data = await AssignersHelpers.project(projectId: model.id);
+      return data.map((e) => e.imageUrl).toList();
+    }
+
     Future<double> getPercentage() async {
       final data = await FirebaseServices.task
           .where("orgId", isEqualTo: model.orgId)
@@ -243,11 +248,23 @@ class CardProjectWidget extends StatelessWidget {
                 ),
 
                 // Members
-                AvatarOverlappingWidget(
-                  imagesUrl: model.assign.map((e) => e.imageUrl).toList(),
-                  width: .5,
-                  avatarRadius: 10,
-                  maxDisplay: 3,
+                FutureBuilder(
+                  future: getAssign(),
+                  builder: (context, asyncSnapshot) {
+                    if (!asyncSnapshot.hasData) {
+                      return SizedBox();
+                    }
+                    return YoAvatarOverlap(
+                      direction: Axis.horizontal,
+                      imageUrls: asyncSnapshot.data!,
+                      size: YoAvatarSize.xs,
+                      borderRadius: 10,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      maxDisplay: 3,
+                      overlap: .75,
+                      variant: YoAvatarVariant.circle,
+                    );
+                  },
                 ),
               ],
             ),

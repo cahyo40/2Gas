@@ -7,7 +7,6 @@ import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/services/storage.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/features/home/data/models/organization_home_response.dart';
-import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
 String get uid => Get.find<AuthController>().uid;
@@ -32,6 +31,7 @@ class CardHomeOrgWidget extends StatelessWidget {
 
     return YoCard(
       onTap: onTap,
+      backgroundColor: context.cardColor,
       borderRadius: BorderRadius.circular(12),
       shadows: YoBoxShadow.soft(context),
       padding: EdgeInsets.all(16),
@@ -125,11 +125,15 @@ class CardHomeOrgWidget extends StatelessWidget {
                 ),
                 SizedBox(width: 8),
                 Expanded(
-                  child: AvatarOverlappingWidget(
-                    imagesUrl: images,
-                    width: .8,
-                    avatarRadius: 14,
+                  child: YoAvatarOverlap(
+                    direction: Axis.horizontal,
+                    imageUrls: images,
+                    size: YoAvatarSize.xs,
+                    borderRadius: 14,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     maxDisplay: 6,
+                    overlap: 1,
+                    variant: YoAvatarVariant.circle,
                   ),
                 ),
               ],

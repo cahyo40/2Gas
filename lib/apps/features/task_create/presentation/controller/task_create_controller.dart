@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
+import 'package:twogass/apps/core/helpers/assigners_helpers.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/features/project/presentation/controller/project_controller.dart';
@@ -22,6 +23,7 @@ class TaskCreateController extends GetxController {
   final Rx<Priority> priority = Priority.low.obs;
   final Rx<TaskStatus> status = TaskStatus.todo.obs;
   final Rx<DateTime> deadline = DateTime.now().obs;
+  final RxList<ProjectAssignModel> projectAssign = <ProjectAssignModel>[].obs;
 
   final RxList<TaskAssignModel> assigns = <TaskAssignModel>[].obs;
 
@@ -48,6 +50,8 @@ class TaskCreateController extends GetxController {
         uid: user.uid,
         imageUrl: user.imageUrl,
         name: "",
+        orgId: user.orgId,
+        projectId: user.projectId,
         taskId: taskId,
       );
 
@@ -64,6 +68,15 @@ class TaskCreateController extends GetxController {
     if (form.currentState!.validate()) {
       isLoading.value = true;
       try {
+        final initAssign = TaskAssignModel(
+          id: YoIdGenerator.alphanumericId(),
+          uid: user.uid,
+          imageUrl: user.photoUrl,
+          name: user.name,
+          taskId: taskId,
+          projectId: projectId.value,
+          orgId: orgId.value,
+        );
         final now = DateTime.now();
         final data = TaskModel(
           id: taskId,
@@ -76,7 +89,7 @@ class TaskCreateController extends GetxController {
           createdAt: now,
           description: desc.text,
           createdBy: Get.find<AuthController>().uid,
-          assigns: assigns,
+          assigns: assigns.isNotEmpty ? assigns : [initAssign],
         );
         createTask(data);
         Get.back(result: true);
@@ -93,9 +106,12 @@ class TaskCreateController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     projectId.value = Get.arguments['projectId'];
     orgId.value = Get.arguments['orgId'];
+    projectAssign.value = await AssignersHelpers.project(
+      projectId: Get.arguments['projectId'],
+    );
     super.onInit();
   }
 

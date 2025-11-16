@@ -514,7 +514,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String notif_org_user_joined(String userName, String orgName) {
-    return '$userName telah bergabung dengan organisasi $orgName.';
+    return '$userName ingin bergabung dengan organisasi $orgName.';
   }
 
   @override
@@ -605,4 +605,52 @@ class AppLocalizationsId extends AppLocalizations {
   String due_in_days(int day) {
     return '$day hari lagi';
   }
+
+  @override
+  String get notif_org_access_request_approved_title =>
+      'Akses Organisasi Disetujui';
+
+  @override
+  String get notif_org_user_request_joined_title => 'Permintaan Bergabung Baru';
+
+  @override
+  String get notif_org_role_changed_to_admin_title => 'Jabatan Diperbarui';
+
+  @override
+  String get notif_org_user_removed_title => 'Dikeluarkan dari Organisasi';
+
+  @override
+  String get notif_project_user_added_title => 'Ditambahkan ke Proyek';
+
+  @override
+  String get notif_project_user_removed_title => 'Dihapus dari Proyek';
+
+  @override
+  String get notif_project_data_updated_title => 'Proyek Diperbarui';
+
+  @override
+  String get notif_task_assigned_title => 'Tugas Ditugaskan';
+
+  @override
+  String get notif_task_user_unassigned_title => 'Tugas Dibatalkan Penugasan';
+
+  @override
+  String get notif_task_updated_title => 'Tugas Diperbarui';
+
+  @override
+  String get notif_task_deleted_title => 'Tugas Dihapus';
+
+  @override
+  String notif_task_deleted_description(String taskName) {
+    return 'Tugas \"$taskName\" telah dihapus.';
+  }
+
+  @override
+  String get msg_task_delete_title => 'Hapus Tugas';
+
+  @override
+  String get msg_task_delete_content => 'Yakin ingin menghapus tugas ini?';
+
+  @override
+  String get msg_task_deleted_success => 'Tugas berhasil dihapus';
 }

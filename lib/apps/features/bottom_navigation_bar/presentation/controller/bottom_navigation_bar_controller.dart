@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:twogass/apps/features/notifications/presentation/controller/notifications_controller.dart';
 import 'package:twogass/apps/features/schedule/presentation/controller/schedule_controller.dart';
 import 'package:twogass/apps/features/task/presentation/controller/task_controller.dart';
 
@@ -16,6 +17,9 @@ class BottomNavigationBarController extends GetxController {
     }
     if (i == 2) {
       Get.find<ScheduleController>().iniData();
+    }
+    if (i == 3) {
+      Get.find<NotificationsController>().initData();
     }
   }
 }

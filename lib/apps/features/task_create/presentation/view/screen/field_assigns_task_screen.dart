@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:twogass/apps/features/project/presentation/controller/project_controller.dart';
-import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
+import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/widget/user_listtile_widget.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -14,7 +13,10 @@ class FieldAssignsTaskScreen extends GetView<TaskCreateController> {
 
   @override
   Widget build(BuildContext context) {
-    final project = Get.find<ProjectController>();
+    final orgColor = Color(
+      Get.find<OrganizationController>().org.value.color ??
+          context.primaryColor.toARGB32(),
+    );
     final tr = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,7 +26,8 @@ class FieldAssignsTaskScreen extends GetView<TaskCreateController> {
         Row(
           spacing: YoSpacing.md,
           children: [
-            IconButton.filled(
+            YoButtonIcon(
+              backgroundColor: orgColor,
               onPressed: () {
                 YoBottomSheet.show(
                   context: context,
@@ -32,9 +35,9 @@ class FieldAssignsTaskScreen extends GetView<TaskCreateController> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
-                    itemCount: project.project.value.assign.length,
+                    itemCount: controller.projectAssign.length,
                     itemBuilder: (_, i) {
-                      final member = project.project.value.assign[i];
+                      final member = controller.projectAssign[i];
                       return UserListtileWidget(
                         uid: member.uid,
                         isSelected: controller.isAssignMember(member),
@@ -53,8 +56,8 @@ class FieldAssignsTaskScreen extends GetView<TaskCreateController> {
               child: Obx(
                 () => controller.assigns.isEmpty
                     ? SizedBox.shrink()
-                    : AvatarOverlappingWidget(
-                        imagesUrl: controller.assigns
+                    : YoAvatarOverlap.horizontal(
+                        imageUrls: controller.assigns
                             .map((e) => e.imageUrl)
                             .toList(),
                       ),

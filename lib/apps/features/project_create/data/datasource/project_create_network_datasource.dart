@@ -5,6 +5,7 @@ import 'package:twogass/apps/core/constants/database.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
+import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/project_category_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/schedule_model.dart';
@@ -63,7 +64,20 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
       final scheduleId = YoIdGenerator.alphanumericId();
+      final notifId = YoIdGenerator.alphanumericId();
+
       List<String> uidAccess = project.assign.map((e) => e.uid).toList();
+
+      final notif = NotificationsModel(
+        id: notifId,
+        orgId: project.orgId,
+        projectId: project.id,
+        uidShows: uidAccess,
+        type: NotificationType.projectUserAdded,
+        createdAt: project.createdAt,
+        data: NotificationData(projectName: project.name),
+      );
+
       final activity = ActivityModel(
         id: idActivity,
         orgId: project.orgId,
@@ -93,14 +107,14 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
             "${project.name.capitalize} -> priority ${project.priority.name.capitalize}",
       );
 
-      await FirebaseServices.project.doc(project.id).set(project.toJson());
-
+      await FirebaseServices.project.doc(project.id).set(project.toFirebase());
+      // create new assigner
       await Future.wait(
         project.assign.map(
           (a) => FirebaseServices.projectAssign.doc(a.id).set(a.toJson()),
         ),
       );
-
+      // create new category
       await Future.wait(
         project.categories.map((cat) async {
           final snap = await FirebaseServices.category.doc(cat.id).get();
@@ -109,6 +123,7 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
           }
         }),
       );
+      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
       await FirebaseServices.activity.doc(activity.id).set(activity.toJson());
       await FirebaseServices.schedule.doc(scheduleId).set(schedule.toJson());
 

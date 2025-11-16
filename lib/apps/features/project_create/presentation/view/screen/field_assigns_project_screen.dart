@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
-import 'package:twogass/apps/widget/avatar_overlapping_widget.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -79,10 +78,11 @@ class FieldAssignsProjectScreen extends GetView<ProjectCreateController> {
               child: Obx(
                 () => controller.assigns.isEmpty
                     ? SizedBox.shrink()
-                    : AvatarOverlappingWidget(
-                        imagesUrl: controller.assigns
+                    : YoAvatarOverlap.horizontal(
+                        imageUrls: controller.assigns
                             .map((e) => e.imageUrl)
                             .toList(),
+                        size: YoAvatarSize.sm,
                       ),
               ),
             ),

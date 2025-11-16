@@ -1,3 +1,5 @@
+import 'package:twogass/apps/data/model/notifications_model.dart';
+
 abstract class NotificationsRepository {
-  // TODO: define contract
+  Future<List<NotificationsModel>> getNotification();
 }

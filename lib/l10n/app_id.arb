@@ -157,7 +157,7 @@
             }
         }
     },
-    "notif_org_user_joined": "{userName} telah bergabung dengan organisasi {orgName}.",
+    "notif_org_user_joined": "{userName} ingin bergabung dengan organisasi {orgName}.",
     "@notif_org_user_joined": {
         "placeholders": {
             "userName": {
@@ -302,5 +302,69 @@
                 "type": "int"
             }
         }
+    },
+    "notif_org_access_request_approved_title": "Akses Organisasi Disetujui",
+    "@notif_org_access_request_approved_title": {
+        "placeholders": {}
+    },
+    "notif_org_user_request_joined_title": "Permintaan Bergabung Baru",
+    "@notif_org_user_request_joined_title": {
+        "placeholders": {}
+    },
+    "notif_org_role_changed_to_admin_title": "Jabatan Diperbarui",
+    "@notif_org_role_changed_to_admin_title": {
+        "placeholders": {}
+    },
+    "notif_org_user_removed_title": "Dikeluarkan dari Organisasi",
+    "@notif_org_user_removed_title": {
+        "placeholders": {}
+    },
+    "notif_project_user_added_title": "Ditambahkan ke Proyek",
+    "@notif_project_user_added_title": {
+        "placeholders": {}
+    },
+    "notif_project_user_removed_title": "Dihapus dari Proyek",
+    "@notif_project_user_removed_title": {
+        "placeholders": {}
+    },
+    "notif_project_data_updated_title": "Proyek Diperbarui",
+    "@notif_project_data_updated_title": {
+        "placeholders": {}
+    },
+    "notif_task_assigned_title": "Tugas Ditugaskan",
+    "@notif_task_assigned_title": {
+        "placeholders": {}
+    },
+    "notif_task_user_unassigned_title": "Tugas Dibatalkan Penugasan",
+    "@notif_task_user_unassigned_title": {
+        "placeholders": {}
+    },
+    "notif_task_updated_title": "Tugas Diperbarui",
+    "@notif_task_updated_title": {
+        "placeholders": {}
+    },
+    "notif_task_deleted_title": "Tugas Dihapus",
+    "@notif_task_deleted_title": {
+        "placeholders": {}
+    },
+    "notif_task_deleted_description": "Tugas \"{taskName}\" telah dihapus.",
+    "@notif_task_deleted_description": {
+        "placeholders": {
+            "taskName": {
+                "type": "String"
+            }
+        }
+    },
+    "msg_task_delete_title": "Hapus Tugas",
+    "@msg_task_delete_title": {
+        "placeholders": {}
+    },
+    "msg_task_delete_content": "Yakin ingin menghapus tugas ini?",
+    "@msg_task_delete_content": {
+        "placeholders": {}
+    },
+    "msg_task_deleted_success": "Tugas berhasil dihapus",
+    "@msg_task_deleted_success": {
+        "placeholders": {}
     }
 }

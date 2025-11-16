@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
-import 'package:twogass/apps/features/organization_create_update/domain/repositories/organization_create_update_repository.dart';
 import 'package:twogass/apps/features/home/domain/usecase/get_organization_by_code_usecase.dart';
 import 'package:twogass/apps/features/home/domain/usecase/join_organization_usecase.dart';
+import 'package:twogass/apps/features/organization_create_update/domain/repositories/organization_create_update_repository.dart';
 import 'package:twogass/apps/features/organization_create_update/domain/usecase/organization_create_update_usecase.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -42,7 +42,7 @@ class OrganizationCreateUpdateController extends GetxController {
       try {
         final id = YoIdGenerator.alphanumericId(length: 16);
         final inviteCode = YoIdGenerator.alphanumericId(
-          length: 8,
+          length: 6,
         ).toUpperCase();
 
         final model = OrganizationModel(

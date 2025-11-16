@@ -12,6 +12,7 @@ class HomeScheduleScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: context.yoSpacingMd,
       children: [
         YoText.titleLarge(L10n.t.today_schedule),
         Obx(

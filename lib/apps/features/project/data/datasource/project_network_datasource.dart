@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/notifications_model.dart';
@@ -111,6 +112,17 @@ class ProjectNetworkDatasource implements ProjectRepository {
       ProjectStatus projectStatus;
       if (progress == 100) {
         projectStatus = ProjectStatus.completed;
+        final activityIdCompleted = YoIdGenerator.alphanumericId();
+        final activityCompleted = ActivityModel(
+          id: activityIdCompleted,
+          orgId: Get.find<OrganizationController>().orgId.value,
+          type: ActivityType.projectCompleted,
+          createdAt: now,
+          meta: ActivityMeta(info: YoDateFormatter.formatDateTime(now)),
+        );
+        await FirebaseServices.activity
+            .doc(activityIdCompleted)
+            .set(activityCompleted.toJson());
       } else if (now.isAfter(deadline)) {
         projectStatus = ProjectStatus.overdue;
       } else {
@@ -121,14 +133,15 @@ class ProjectNetworkDatasource implements ProjectRepository {
         createdAt: DateTime.now(),
         orgId: Get.find<OrganizationController>().orgId.value,
         projectId: projectId,
+        taskId: taskData.id,
         id: activityId,
-        title: 'Task Change Status',
+
         type: ActivityType.taskMoved,
-        description: "",
+
         meta: ActivityMeta(
           taskName: status.name,
-          memberName: user.name,
-          projectName: taskData.name,
+          user: user.name,
+          info: "${taskData.status.name} -> ${status.name}",
         ),
       );
 
@@ -222,18 +235,15 @@ class ProjectNetworkDatasource implements ProjectRepository {
       final notifId = YoIdGenerator.alphanumericId();
       List<String> uidAccess = model.assign.map((e) => e.uid).toList();
       final now = DateTime.now();
+      final projectSnap = await FirebaseServices.project.doc(model.id).get();
+      final project = ProjectModel.fromFirestore(projectSnap);
 
       final activity = ActivityModel(
         id: idActivity,
         orgId: model.orgId,
-        title: "Update Project",
-        description: "",
         type: ActivityType.projectUpdated,
         createdAt: now,
-        meta: ActivityMeta(
-          projectName: model.name,
-          organizationName: user.name,
-        ),
+        meta: ActivityMeta(user: user.name, info: diffProject(project, model)),
       );
       final notif = NotificationsModel(
         id: notifId,
@@ -259,16 +269,23 @@ class ProjectNetworkDatasource implements ProjectRepository {
       final idActivity = YoIdGenerator.alphanumericId();
       final notifId = YoIdGenerator.alphanumericId();
       final uidAccess = task.assigns.map((e) => e.uid).toList();
+      final projectSnap = await FirebaseServices.project
+          .doc(task.projectId)
+          .get();
+      final project = ProjectModel.fromFirestore(projectSnap);
       final now = DateTime.now();
 
       final activity = ActivityModel(
         id: idActivity,
         orgId: task.orgId,
-        title: 'Delete Task',
-        description: '',
+        projectId: task.projectId,
         type: ActivityType.taskDeleted,
         createdAt: now,
-        meta: ActivityMeta(taskName: task.name, memberName: user.name),
+        meta: ActivityMeta(
+          taskName: task.name,
+          user: user.name,
+          projectName: project.name,
+        ),
       );
 
       final notif = NotificationsModel(
@@ -296,5 +313,34 @@ class ProjectNetworkDatasource implements ProjectRepository {
       YoLogger.error('deleteTask error: $e\n$s');
       rethrow;
     }
+  }
+
+  // Fungsi untuk mengetahui perbedaan yang ada pada 2 buah class Model Project
+
+  String diffProject(ProjectModel a, ProjectModel b) {
+    final buf = StringBuffer();
+
+    void addIfDiff(String label, dynamic oldVal, dynamic newVal) {
+      if (oldVal != newVal) {
+        buf.write('• $label:');
+        buf.write('  $oldVal');
+        buf.write('  -> $newVal');
+      }
+    }
+
+    addIfDiff(
+      L10n.t.priority,
+      a.priority.name.capitalize,
+      b.priority.name.capitalize,
+    );
+    addIfDiff('Status', a.status.name, b.status.name);
+    addIfDiff(L10n.t.description, a.description, b.description);
+    addIfDiff(
+      L10n.t.deadline,
+      YoDateFormatter.formatDate(a.deadline),
+      YoDateFormatter.formatDate(b.deadline),
+    );
+
+    return buf.isEmpty ? 'Tidak ada perbedaan.' : buf.toString();
   }
 }

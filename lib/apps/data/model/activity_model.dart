@@ -4,38 +4,21 @@ enum ActivityType {
   taskCreated,
   taskUpdated,
   taskDeleted,
-  taskCompleted,
-  taskReopened,
-  taskAssigned,
-  taskUnassigned,
   taskMoved,
-  taskCommented,
-  taskAttachmentAdded,
-  taskAttachmentRemoved,
-  taskLabelAdded,
-  taskLabelRemoved,
   projectCreated,
   projectUpdated,
   projectDeleted,
-  projectArchived,
-  projectRestored,
-  memberInvited,
-  memberJoined,
+  projectCompleted,
+  projectComment,
+  memberJoin,
   memberRemoved,
-  memberRoleUpdated,
+  memberLeft,
+  memberChangeRole,
+  scheduleCreated,
+  scheduleEdited,
+  scheduleCanceled,
   organizationCreated,
   organizationUpdated,
-  organizationDeleted,
-  organizationJoined,
-  organizationLeft,
-  commentAdded,
-  commentEdited,
-  commentDeleted,
-  attachmentAdded,
-  attachmentRemoved,
-  labelCreated,
-  labelUpdated,
-  labelDeleted,
 }
 
 enum ActivityTypeCategory {
@@ -54,10 +37,10 @@ extension ActivityCategory on ActivityType {
     if (name.startsWith('task')) return 'Task';
     if (name.startsWith('project')) return 'Project';
     if (name.startsWith('member')) return 'Member';
+
+    if (name.startsWith('schedule')) return 'Schedule';
     if (name.startsWith('organization')) return 'Organization';
-    if (name.startsWith('comment')) return 'Comment';
-    if (name.startsWith('attachment')) return 'Attachment';
-    if (name.startsWith('label')) return 'Label';
+
     return 'Other';
   }
 }
@@ -68,8 +51,7 @@ class ActivityModel {
   final String? projectId;
   final String? taskId;
   final String? createdBy;
-  final String title;
-  final String description;
+
   final ActivityType type;
   final DateTime createdAt;
   final ActivityMeta? meta;
@@ -80,8 +62,7 @@ class ActivityModel {
     this.projectId,
     this.taskId,
     this.createdBy,
-    required this.title,
-    required this.description,
+
     required this.type,
     required this.createdAt,
     this.meta,
@@ -90,9 +71,8 @@ class ActivityModel {
   factory ActivityModel.initial() => ActivityModel(
     id: '',
     orgId: '',
-    title: '',
-    description: '',
-    type: ActivityType.organizationCreated,
+
+    type: ActivityType.memberJoin,
     createdAt: DateTime.now(),
   );
 
@@ -105,8 +85,7 @@ class ActivityModel {
     projectId: json['projectId'] as String?,
     taskId: json['taskId'] as String?,
     createdBy: json['createdBy'] as String?,
-    title: json['title'] as String,
-    description: json['description'] as String,
+
     type: ActivityType.values.firstWhere((e) => e.name == json['type']),
     createdAt: _dtFromJson(json['createdAt']),
     meta: json['meta'] != null
@@ -120,8 +99,7 @@ class ActivityModel {
     'projectId': projectId,
     'taskId': taskId,
     'createdBy': createdBy,
-    'title': title,
-    'description': description,
+
     'type': type.name,
     'createdAt': _dtToJson(createdAt),
     'meta': meta?.toMap(),
@@ -133,8 +111,7 @@ class ActivityModel {
     projectId: map['projectId'] as String?,
     taskId: map['taskId'] as String?,
     createdBy: map['createdBy'] as String?,
-    title: map['title'] as String,
-    description: map['description'] as String,
+
     type: ActivityType.values.firstWhere((e) => e.name == map['type']),
     createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
     meta: map['meta'] != null
@@ -148,8 +125,7 @@ class ActivityModel {
     'projectId': projectId,
     'taskId': taskId,
     'createdBy': createdBy,
-    'title': title,
-    'description': description,
+
     'type': type.name,
     'createdAt': createdAt.millisecondsSinceEpoch,
     'meta': meta?.toMap(),
@@ -177,8 +153,7 @@ class ActivityModel {
     projectId: projectId ?? this.projectId,
     taskId: taskId ?? this.taskId,
     createdBy: createdBy ?? this.createdBy,
-    title: title ?? this.title,
-    description: description ?? this.description,
+
     type: type ?? this.type,
     createdAt: createdAt ?? this.createdAt,
     meta: meta ?? this.meta,
@@ -194,8 +169,6 @@ class ActivityModel {
           projectId == other.projectId &&
           taskId == other.taskId &&
           createdBy == other.createdBy &&
-          title == other.title &&
-          description == other.description &&
           type == other.type &&
           createdAt == other.createdAt &&
           meta == other.meta;
@@ -207,8 +180,7 @@ class ActivityModel {
     projectId,
     taskId,
     createdBy,
-    title,
-    description,
+
     type,
     createdAt,
     meta,
@@ -220,60 +192,84 @@ class ActivityModel {
 }
 
 class ActivityMeta {
+  final String? user;
   final String? taskName;
   final String? projectName;
-  final String? organizationName;
-  final String? memberName;
-  final String? commentPreview;
-  final String? labelName;
-  final String? attachmentName;
+  final String? orgName;
+  final String? info;
+  final String? scheduleName;
 
   const ActivityMeta({
+    this.user,
     this.taskName,
     this.projectName,
-    this.organizationName,
-    this.memberName,
-    this.commentPreview,
-    this.labelName,
-    this.attachmentName,
+    this.orgName,
+    this.info,
+    this.scheduleName,
   });
 
+  factory ActivityMeta.initial() => const ActivityMeta(
+    user: null,
+    taskName: null,
+    projectName: null,
+    orgName: null,
+    info: null,
+    scheduleName: null,
+  );
+
+  factory ActivityMeta.fromFirestore(DocumentSnapshot doc) =>
+      ActivityMeta.fromJson(doc.data()! as Map<String, dynamic>);
+
+  factory ActivityMeta.fromJson(Map<String, dynamic> json) => ActivityMeta(
+    user: json['user'] as String?,
+    taskName: json['taskName'] as String?,
+    projectName: json['projectName'] as String?,
+    orgName: json['orgName'] as String?,
+    info: json['info'] as String?,
+    scheduleName: json['scheduleName'] as String?,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'user': user,
+    'taskName': taskName,
+    'projectName': projectName,
+    'orgName': orgName,
+    'info': info,
+    'scheduleName': scheduleName,
+  };
+
   factory ActivityMeta.fromMap(Map<String, dynamic> map) => ActivityMeta(
+    user: map['user'] as String?,
     taskName: map['taskName'] as String?,
     projectName: map['projectName'] as String?,
-    organizationName: map['organizationName'] as String?,
-    memberName: map['memberName'] as String?,
-    commentPreview: map['commentPreview'] as String?,
-    labelName: map['labelName'] as String?,
-    attachmentName: map['attachmentName'] as String?,
+    orgName: map['orgName'] as String?,
+    info: map['info'] as String?,
+    scheduleName: map['scheduleName'] as String?,
   );
 
   Map<String, dynamic> toMap() => {
+    'user': user,
     'taskName': taskName,
     'projectName': projectName,
-    'organizationName': organizationName,
-    'memberName': memberName,
-    'commentPreview': commentPreview,
-    'labelName': labelName,
-    'attachmentName': attachmentName,
+    'orgName': orgName,
+    'info': info,
+    'scheduleName': scheduleName,
   };
 
   ActivityMeta copyWith({
+    String? user,
     String? taskName,
     String? projectName,
-    String? organizationName,
-    String? memberName,
-    String? commentPreview,
-    String? labelName,
-    String? attachmentName,
+    String? orgName,
+    String? info,
+    String? scheduleName,
   }) => ActivityMeta(
+    user: user ?? this.user,
     taskName: taskName ?? this.taskName,
     projectName: projectName ?? this.projectName,
-    organizationName: organizationName ?? this.organizationName,
-    memberName: memberName ?? this.memberName,
-    commentPreview: commentPreview ?? this.commentPreview,
-    labelName: labelName ?? this.labelName,
-    attachmentName: attachmentName ?? this.attachmentName,
+    orgName: orgName ?? this.orgName,
+    info: info ?? this.info,
+    scheduleName: scheduleName ?? this.scheduleName,
   );
 
   @override
@@ -281,26 +277,18 @@ class ActivityMeta {
       identical(this, other) ||
       other is ActivityMeta &&
           runtimeType == other.runtimeType &&
+          user == other.user &&
           taskName == other.taskName &&
           projectName == other.projectName &&
-          organizationName == other.organizationName &&
-          memberName == other.memberName &&
-          commentPreview == other.commentPreview &&
-          labelName == other.labelName &&
-          attachmentName == other.attachmentName;
+          orgName == other.orgName &&
+          info == other.info &&
+          scheduleName == other.scheduleName;
 
   @override
-  int get hashCode => Object.hash(
-    taskName,
-    projectName,
-    organizationName,
-    memberName,
-    commentPreview,
-    labelName,
-    attachmentName,
-  );
+  int get hashCode =>
+      Object.hash(user, taskName, projectName, orgName, info, scheduleName);
 
   @override
   String toString() =>
-      'ActivityMeta(taskName: $taskName, projectName: $projectName, organizationName: $organizationName)';
+      'ActivityMeta(user: $user, taskName: $taskName, projectName: $projectName, orgName: $orgName, info: $info, scheduleName: $scheduleName)';
 }

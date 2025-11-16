@@ -1,119 +1,157 @@
-import 'package:flutter/material.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
-import 'package:twogass/l10n/generated/app_localizations.dart';
 
 class ActivityMessageHelper {
-  static String getActivityMessage(
-    BuildContext context,
-    ActivityType type,
-    ActivityMeta meta,
-  ) {
-    final l10n = AppLocalizations.of(context)!;
-
+  static String title({required ActivityType type}) {
     switch (type) {
-      // 🟦 TASK
-      case ActivityType.taskCreated:
-        return l10n.taskCreated(
-          meta.taskName ?? '',
-          meta.projectName ?? '',
-          meta.memberName ?? '',
-        );
-      case ActivityType.taskUpdated:
-        return l10n.taskUpdated(meta.taskName ?? '', meta.projectName ?? '');
-      case ActivityType.taskCompleted:
-        return l10n.taskCompleted(meta.taskName ?? '', meta.projectName ?? '');
-      case ActivityType.taskDeleted:
-        return l10n.taskDeleted(meta.taskName ?? '', meta.projectName ?? '');
-      case ActivityType.taskAssigned:
-        return l10n.taskAssigned(
-          meta.taskName ?? '',
-          meta.memberName ?? '',
-          meta.projectName ?? '',
-        );
-      case ActivityType.taskMoved:
-        return l10n.taskMoved(
-          meta.taskName ?? '',
-          meta.projectName ?? '',
-          meta.memberName ?? '',
-        );
-      case ActivityType.taskCommented:
-        return l10n.taskCommented(meta.taskName ?? '', meta.memberName ?? '');
-
-      case ActivityType.projectCreated:
-        return l10n.projectCreated(
-          meta.projectName ?? '',
-          meta.organizationName ?? '',
-        );
-      case ActivityType.projectUpdated:
-        return l10n.projectUpdated(
-          meta.projectName ?? '',
-          meta.organizationName ?? '',
-        );
-      case ActivityType.projectDeleted:
-        return l10n.projectDeleted(
-          meta.projectName ?? '',
-          meta.organizationName ?? '',
-        );
-
-      case ActivityType.memberInvited:
-        return l10n.memberInvited(
-          meta.memberName ?? '',
-          meta.projectName ?? '',
-          meta.organizationName ?? '',
-        );
+      // MEMBER
+      case ActivityType.memberChangeRole:
+        return L10n.t.activity_member_change_role;
+      case ActivityType.memberJoin:
+        return L10n.t.activity_member_join_title;
+      case ActivityType.memberLeft:
+        return L10n.t.activity_member_left_title;
       case ActivityType.memberRemoved:
-        return l10n.memberRemoved(
-          meta.memberName ?? '',
-          meta.projectName ?? '',
-          meta.organizationName ?? '',
+        return L10n.t.activity_member_remove_title;
+
+      // ORG
+      case ActivityType.organizationCreated:
+        return L10n.t.activity_org_created_title;
+      case ActivityType.organizationUpdated:
+        return L10n.t.activity_org_updated_title;
+      // Project
+      case ActivityType.projectComment:
+        return L10n.t.activity_project_comment_title;
+      case ActivityType.projectCompleted:
+        return L10n.t.activity_project_completed_title;
+      case ActivityType.projectCreated:
+        return L10n.t.activity_project_created_title;
+      case ActivityType.projectDeleted:
+        return L10n.t.activity_project_deleted_title;
+      case ActivityType.projectUpdated:
+        return L10n.t.activity_project_updated_title;
+
+      // TASK
+      case ActivityType.taskCreated:
+        return L10n.t.activity_task_created_title;
+      case ActivityType.taskDeleted:
+        return L10n.t.activity_task_deleted_title;
+      case ActivityType.taskMoved:
+        return L10n.t.activity_task_moved_title;
+      case ActivityType.taskUpdated:
+        return L10n.t.activity_task_updated_title;
+      // SCHEDULE
+      case ActivityType.scheduleCanceled:
+        return L10n.t.activity_schedule_deleted_title;
+      case ActivityType.scheduleCreated:
+        return L10n.t.activity_schedule_created_title;
+      case ActivityType.scheduleEdited:
+        return L10n.t.activity_schedule_edited_title;
+    }
+  }
+
+  static String description({
+    required ActivityType type,
+    required ActivityMeta data,
+  }) {
+    switch (type) {
+      // MEMBER
+      case ActivityType.memberChangeRole:
+        return L10n.t.activity_member_change_role_desc(
+          data.user ?? "User",
+          data.info ?? "",
+        );
+      case ActivityType.memberJoin:
+        return L10n.t.activity_member_join_desc(
+          data.user ?? "User",
+          data.orgName ?? "",
+        );
+      case ActivityType.memberLeft:
+        return L10n.t.activity_member_left_desc(data.user ?? "User");
+      case ActivityType.memberRemoved:
+        return L10n.t.activity_member_remove_desc(
+          data.user ?? "User",
+          data.info ?? "",
         );
 
-      // 🟪 ORGANIZATION
+      // ORG
       case ActivityType.organizationCreated:
-        return l10n.organizationCreated(
-          meta.organizationName ?? '',
-          meta.memberName ?? '',
+        return L10n.t.activity_org_created_desc(
+          data.user ?? "User",
+          data.orgName ?? "",
         );
       case ActivityType.organizationUpdated:
-        return l10n.organizationUpdated(
-          meta.organizationName ?? '',
-          meta.memberName ?? '',
+        return L10n.t.activity_org_updated_desc(
+          data.user ?? "User",
+          data.info ?? "",
         );
-      case ActivityType.organizationJoined:
-        return l10n.organizationJoined(
-          meta.organizationName ?? '',
-          meta.memberName ?? '',
+      // Project
+      case ActivityType.projectComment:
+        return L10n.t.activity_project_comment_desc(
+          data.user ?? "User",
+          data.projectName ?? "",
+          data.info ?? "",
         );
-      case ActivityType.organizationLeft:
-        return l10n.organizationLeft(
-          meta.organizationName ?? '',
-          meta.memberName ?? '',
+      case ActivityType.projectCompleted:
+        return L10n.t.activity_project_completed_desc(data.info ?? "");
+      case ActivityType.projectCreated:
+        return L10n.t.activity_project_created_desc(
+          data.user ?? "User",
+          data.projectName ?? "",
         );
-
-      // 🟦 COMMENT
-      case ActivityType.commentAdded:
-        return l10n.commentAdded(meta.memberName ?? '');
-
-      // 🟨 ATTACHMENT
-      case ActivityType.attachmentAdded:
-        return l10n.attachmentAdded(
-          meta.attachmentName ?? '',
-          meta.taskName ?? '',
+      case ActivityType.projectDeleted:
+        return L10n.t.activity_project_deleted_desc(
+          data.user ?? "User",
+          data.info ?? "",
         );
-      case ActivityType.attachmentRemoved:
-        return l10n.attachmentRemoved(
-          meta.attachmentName ?? '',
-          meta.taskName ?? '',
+      case ActivityType.projectUpdated:
+        return L10n.t.activity_project_updated_desc(
+          data.user ?? "User",
+          data.info ?? "",
         );
 
-      // 🟧 LABEL
-      case ActivityType.labelCreated:
-        return l10n.labelCreated(meta.labelName ?? '', meta.projectName ?? '');
-      case ActivityType.labelDeleted:
-        return l10n.labelDeleted(meta.labelName ?? '', meta.projectName ?? '');
-
-      default:
-        return "No Activity";
+      // TASK
+      case ActivityType.taskCreated:
+        return L10n.t.activity_task_created_desc(
+          data.user ?? "User",
+          data.taskName ?? "",
+          data.projectName ?? "",
+        );
+      case ActivityType.taskDeleted:
+        return L10n.t.activity_task_deleted_desc(
+          data.user ?? "User",
+          data.taskName ?? "",
+          data.projectName ?? "",
+        );
+      case ActivityType.taskMoved:
+        return L10n.t.activity_task_move_desc(
+          data.user ?? "User",
+          data.taskName ?? "",
+          data.info ?? "",
+        );
+      case ActivityType.taskUpdated:
+        return L10n.t.activity_task_updated_desc(
+          data.user ?? "User",
+          data.taskName ?? "",
+          data.info ?? "",
+        );
+      // SCHEDULE
+      case ActivityType.scheduleCanceled:
+        return L10n.t.activity_schedule_deleted_desc(
+          data.user ?? "User",
+          data.scheduleName ?? "",
+        );
+      case ActivityType.scheduleCreated:
+        return L10n.t.activity_schedule_created_desc(
+          data.user ?? "User",
+          data.scheduleName ?? "",
+        );
+      case ActivityType.scheduleEdited:
+        return L10n.t.activity_schedule_edited_desc(
+          data.user ?? "User",
+          data.scheduleName ?? "",
+          data.info ?? "",
+        );
     }
   }
 }

@@ -29,14 +29,11 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         orgId: task.orgId,
         projectId: task.projectId,
         id: idActivity,
-        title: 'Task Created',
         type: ActivityType.taskCreated,
-        description: "",
-
         meta: ActivityMeta(
-          memberName: user.name,
-          taskName: project.name,
-          projectName: task.name,
+          taskName: task.name,
+          projectName: project.name,
+          user: user.name,
         ),
       );
 

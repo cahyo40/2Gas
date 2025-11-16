@@ -17,10 +17,7 @@ class OrganizationCreateUpdateNetworkDatasource
       final memberId = YoIdGenerator.alphanumericId(length: 16);
       final activityId = YoIdGenerator.alphanumericId(length: 16);
       final now = DateTime.now();
-      final meta = ActivityMeta(
-        organizationName: model.name,
-        memberName: user.name,
-      );
+      final meta = ActivityMeta(user: user.name, orgName: model.name);
       final member = MemberModel(
         name: user.name,
         email: user.email,
@@ -35,8 +32,7 @@ class OrganizationCreateUpdateNetworkDatasource
       final activity = ActivityModel(
         id: activityId,
         orgId: model.id,
-        title: "Created Organization",
-        description: "",
+
         type: ActivityType.organizationCreated,
         createdAt: now,
         meta: meta,

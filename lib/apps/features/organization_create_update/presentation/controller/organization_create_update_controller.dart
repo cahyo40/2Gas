@@ -58,7 +58,7 @@ class OrganizationCreateUpdateController extends GetxController {
         );
 
         await createOrg(model);
-        Get.back();
+        Get.back(result: true);
       } catch (e, s) {
         YoSnackBar.show(
           context: Get.context!,

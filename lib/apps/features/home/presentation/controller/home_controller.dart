@@ -63,9 +63,16 @@ class HomeController extends GetxController {
     }
   }
 
-  addOrganization() {
+  addOrganization() async {
     Get.back();
-    Get.toNamed(RouteNames.ORGANIZATION_CREATE_UPDATE);
+    final result = await Get.toNamed(RouteNames.ORGANIZATION_CREATE_UPDATE);
+    if (result == true) {
+      YoSnackBar.show(
+        context: Get.context!,
+        message: "Berhasil membuat organisasi",
+      );
+      await initOrg(useLoading: true);
+    }
   }
 
   onGetOrgByCode(String orgCode) async {
@@ -87,6 +94,7 @@ class HomeController extends GetxController {
       await joinOrg(orgId);
     } catch (_) {
     } finally {
+      code.clear();
       Get.back();
       YoSnackBar.show(
         context: Get.context!,

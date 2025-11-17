@@ -10,6 +10,7 @@ import 'package:twogass/apps/features/home/presentation/controller/home_controll
 import 'package:twogass/apps/features/organization/domain/repositories/organization_repository.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/accept_member_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/change_role_member_usecase.dart';
+import 'package:twogass/apps/features/organization/domain/usecase/delete_org_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_activity_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/detail_organization_usecase.dart';
 import 'package:twogass/apps/features/organization/domain/usecase/fetch_member_org_usecase.dart';
@@ -72,6 +73,7 @@ class OrganizationController extends GetxController {
 
   FetchMemberOrgUsecase getMember = FetchMemberOrgUsecase(Get.find());
   FetchScheduleUsecase getSchedule = FetchScheduleUsecase(Get.find());
+  DeleteOrgUsecase deleteOrg = DeleteOrgUsecase(Get.find());
 
   void changeTab(int i) {
     initialTab.value = i;
@@ -233,6 +235,11 @@ class OrganizationController extends GetxController {
       RouteNames.PROJECT,
       arguments: {'orgId': schedule.orgId, 'id': schedule.projectId},
     );
+  }
+
+  onDeleteOrg() async {
+    await deleteOrg(org.value);
+    Get.back();
   }
 
   @override

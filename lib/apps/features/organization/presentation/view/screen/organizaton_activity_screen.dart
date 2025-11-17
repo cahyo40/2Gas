@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/widget/card_activity_widget.dart';
 import 'package:twogass/l10n/generated/app_localizations.dart';
@@ -56,7 +57,17 @@ class OrganizatonActivityScreen extends GetView<OrganizationController> {
           Expanded(
             child: Obx(
               () => controller.activityShow.isEmpty
-                  ? SizedBox(child: Center(child: YoEmptyState.noData()))
+                  ? SizedBox(
+                      child: Center(
+                        child: YoEmptyState.noData(
+                          title: L10n.t.no_activity_title,
+                          description: L10n.t.no_activity_desc,
+                          actionText: L10n.t.refresh,
+                          onAction: () =>
+                              controller.initOrg(controller.orgId.value),
+                        ),
+                      ),
+                    )
                   : ListView.builder(
                       padding: YoPadding.all20,
                       shrinkWrap: true,

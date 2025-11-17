@@ -181,6 +181,10 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                                                     .t
                                                     .dialog_remove_member_content,
                                                 confirmText: L10n.t.yes,
+                                                confirmVariant:
+                                                    YoButtonVariant.custom,
+                                                confirmColor:
+                                                    context.primaryColor,
                                                 cancelText: L10n.t.no,
                                               ).then((confirm) {
                                                 if (confirm == true &&

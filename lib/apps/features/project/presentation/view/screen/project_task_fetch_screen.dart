@@ -144,7 +144,8 @@ class OrganizatonTaskScreen extends GetView<ProjectController> {
                                 content: L10n.t.msg_task_delete_content,
                                 confirmText: L10n.t.yes,
                                 cancelText: L10n.t.no,
-
+                                confirmVariant: YoButtonVariant.custom,
+                                confirmColor: context.primaryColor,
                                 cancelColor: context.errorColor,
                               ).then((confirm) {
                                 if (confirm == true && context.mounted) {

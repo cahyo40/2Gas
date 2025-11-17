@@ -136,14 +136,14 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                             ? () {
                                 YoBottomSheet.show(
                                   context: context,
-                                  title: "title",
+                                  title: "",
                                   maxHeight: 300,
                                   child: Column(
                                     spacing: YoSpacing.sm,
                                     children: [
                                       member.role == MemberRole.member
                                           ? YoListTile(
-                                              title: "Jadikan Admin",
+                                              title: L10n.t.make_admin,
                                               onTap: () {
                                                 Get.back();
                                                 controller.onChangeRoleMember(
@@ -153,7 +153,7 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                                               },
                                             )
                                           : YoListTile(
-                                              title: "Cabut hak admin",
+                                              title: L10n.t.demote_to_member,
                                               onTap: () {
                                                 Get.back();
                                                 controller.onChangeRoleMember(
@@ -174,8 +174,12 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                                               Get.back();
                                               YoAdvancedConfirmDialog.show(
                                                 context: context,
-                                                title: "Keluarkan Member",
-                                                content: "Yaking",
+                                                title: L10n
+                                                    .t
+                                                    .dialog_remove_member_title,
+                                                content: L10n
+                                                    .t
+                                                    .dialog_remove_member_content,
                                                 confirmText: L10n.t.yes,
                                                 cancelText: L10n.t.no,
                                               ).then((confirm) {
@@ -187,7 +191,7 @@ class OrgSettingsMemberScreen extends GetView<OrganizationController> {
                                                 }
                                               });
                                             },
-                                            title: "Keluarkan dia",
+                                            title: L10n.t.remove_member,
                                           ),
                                         ),
                                       ),

@@ -20,10 +20,7 @@ class OrganizationCreateUpdateOfflineDatasource
       final memberId = YoIdGenerator.alphanumericId(length: 16);
       final activityId = YoIdGenerator.alphanumericId(length: 16);
       final now = DateTime.now();
-      final meta = ActivityMeta(
-        organizationName: model.name,
-        memberName: user.name,
-      );
+      final meta = ActivityMeta();
       final member = MemberModel(
         id: memberId,
         email: user.email,
@@ -38,8 +35,7 @@ class OrganizationCreateUpdateOfflineDatasource
       final activity = ActivityModel(
         id: activityId,
         orgId: model.id,
-        title: "Created Organization",
-        description: "",
+
         type: ActivityType.organizationCreated,
         createdAt: now,
         meta: meta,

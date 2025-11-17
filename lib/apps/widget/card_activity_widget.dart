@@ -42,19 +42,18 @@ class CardActivityWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   YoText.bodyMedium(
-                    model.title,
+                    ActivityMessageHelper.title(type: model.type),
                     fontWeight: FontWeight.w600,
                     maxLines: 2,
                   ),
                   SizedBox(height: 2),
                   YoText.bodySmall(
-                    ActivityMessageHelper.getActivityMessage(
-                      context,
-                      model.type,
-                      model.meta!,
+                    ActivityMessageHelper.description(
+                      type: model.type,
+                      data: model.meta!,
                     ),
                     color: Colors.grey.shade600,
-                    maxLines: 2,
+                    maxLines: 3,
                   ),
                   SizedBox(height: 4),
                   YoText.bodySmall(

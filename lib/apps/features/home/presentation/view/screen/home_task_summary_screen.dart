@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 import 'package:twogass/apps/widget/card_summary_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
@@ -11,23 +12,30 @@ class HomeTaskSummaryScreen extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Row(
-        spacing: YoSpacing.md,
-        children: TaskStatus.values.where((e) => e != TaskStatus.all).map((
-          task,
-        ) {
-          return Expanded(
-            child: CardSummaryWidget(
-              title: task.name.capitalize!,
-              value: controller.task
-                  .where((d) => d.status.name == task.name)
-                  .toList()
-                  .length,
-            ),
-          );
-        }).toList(),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: context.yoSpacingMd,
+      children: [
+        YoText.titleLarge(L10n.t.task_summary),
+        Obx(
+          () => Row(
+            spacing: YoSpacing.md,
+            children: TaskStatus.values.where((e) => e != TaskStatus.all).map((
+              task,
+            ) {
+              return Expanded(
+                child: CardSummaryWidget(
+                  title: task.name.capitalize!,
+                  value: controller.task
+                      .where((d) => d.status.name == task.name)
+                      .toList()
+                      .length,
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      ],
     );
   }
 }

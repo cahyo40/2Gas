@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
@@ -13,6 +14,8 @@ import 'package:twogass/apps/features/organization/presentation/controller/organ
 import 'package:yo_ui/yo_ui_base.dart';
 
 class OrganizationNetworkDatasource implements OrganizationRepository {
+  AuthController get user => Get.find<AuthController>();
+
   @override
   Future<OrganizationModel> getOrganization(String orgId) async {
     try {
@@ -104,12 +107,10 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
         createdAt: now,
         orgId: Get.find<OrganizationController>().orgId.value,
         id: activityId,
-        title: 'New Member',
-        type: ActivityType.organizationJoined,
-        description: "",
+        type: ActivityType.memberJoin,
         meta: ActivityMeta(
-          organizationName: Get.find<OrganizationController>().org.value.name,
-          memberName: member.name,
+          user: member.name,
+          orgName: Get.find<OrganizationController>().org.value.name,
         ),
       );
       await FirebaseServices.notif.doc(notifId).set(notif.toJson());
@@ -143,8 +144,18 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
   Future<void> changeRoleMember(MemberModel member, MemberRole role) async {
     try {
       final notifId = YoIdGenerator.alphanumericId();
+      final activityId = YoIdGenerator.alphanumericId();
+
       final now = DateTime.now();
       final updateData = {"role": role.name};
+
+      final activity = ActivityModel(
+        id: activityId,
+        orgId: Get.find<OrganizationController>().org.value.id,
+        type: ActivityType.memberChangeRole,
+        createdAt: now,
+        meta: ActivityMeta(user: member.name, info: role.name.capitalize!),
+      );
 
       final notif = NotificationsModel(
         id: notifId,
@@ -160,6 +171,7 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
       Future.wait([
         FirebaseServices.member.doc(member.id).update(updateData),
         FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+        FirebaseServices.activity.doc(activityId).set(activity.toJson()),
       ]);
     } catch (e) {
       YoLogger.error("Change Role Member Error $e");
@@ -172,6 +184,7 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
     try {
       // Notification
       final notifId = YoIdGenerator.alphanumericId();
+      final activityId = YoIdGenerator.alphanumericId();
       final now = DateTime.now();
       var uidShow = <String>[];
 
@@ -188,6 +201,17 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
             .toSet()
             .toList();
       }
+
+      final activity = ActivityModel(
+        id: activityId,
+        orgId: Get.find<OrganizationController>().org.value.id,
+        type: isKick ? ActivityType.memberRemoved : ActivityType.memberLeft,
+        createdAt: now,
+        meta: ActivityMeta(
+          user: isKick ? user.name : member.name,
+          info: member.name,
+        ),
+      );
 
       final notif = NotificationsModel(
         id: notifId,
@@ -225,6 +249,7 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
       Future.wait([
         FirebaseServices.member.doc(member.id).delete(),
         FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+        FirebaseServices.activity.doc(activityId).set(activity.toJson()),
       ]);
     } catch (e) {
       YoLogger.error("Kick Member Error $e");

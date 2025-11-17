@@ -21,41 +21,6 @@
     "good_afternoon": "Selamat siang",
     "good_evening": "Selamat sore",
     "good_night": "Selamat malam",
-    "taskCreated": "{user} membuat task {task} di project {project}",
-    "taskUpdated": "{user} memperbarui task {task}",
-    "taskDeleted": "{user} menghapus task {task}",
-    "taskCompleted": "{user} menyelesaikan task {task}",
-    "taskReopened": "{user} membuka kembali task {task}",
-    "taskAssigned": "{user} menugaskan task {task} ke {assignee}",
-    "taskUnassigned": "{user} melepas penugasan dari task {task}",
-    "taskMoved": "{user} memindahkan task {task} ke kolom {column}",
-    "taskCommented": "{user} berkomentar pada task {task}",
-    "taskAttachmentAdded": "{user} menambahkan lampiran ke task {task}",
-    "taskAttachmentRemoved": "{user} menghapus lampiran dari task {task}",
-    "taskLabelAdded": "{user} menambahkan label {label} pada task {task}",
-    "taskLabelRemoved": "{user} menghapus label {label} dari task {task}",
-    "projectCreated": "{user} membuat project {project}",
-    "projectUpdated": "{user} memperbarui project {project}",
-    "projectDeleted": "{user} menghapus project {project}",
-    "projectArchived": "{user} mengarsipkan project {project}",
-    "projectRestored": "{user} memulihkan project {project}",
-    "memberInvited": "{user} mengundang {target} ke {org}",
-    "memberJoined": "{user} bergabung ke {org}",
-    "memberRemoved": "{user} menghapus {target} dari {org}",
-    "memberRoleUpdated": "{user} memperbarui peran {target} menjadi {role}",
-    "organizationCreated": "{user} membuat organisasi baru {org}",
-    "organizationUpdated": "{user} memperbarui profil organisasi {org}",
-    "organizationDeleted": "{user} menghapus organisasi {org}",
-    "organizationJoined": "{user} bergabung ke organisasi {org}",
-    "organizationLeft": "{user} keluar dari organisasi {org}",
-    "commentAdded": "{user} menambahkan komentar",
-    "commentEdited": "{user} memperbarui komentar",
-    "commentDeleted": "{user} menghapus komentar",
-    "attachmentAdded": "{user} menambahkan lampiran {file}",
-    "attachmentRemoved": "{user} menghapus lampiran {file}",
-    "labelCreated": "{user} membuat label baru {label}",
-    "labelUpdated": "{user} memperbarui label {label}",
-    "labelDeleted": "{user} menghapus label {label}",
     "field_title": "Judul",
     "field_title_hint": "Masukkan judul",
     "field_description": "Deskripsi",
@@ -365,6 +330,308 @@
     },
     "msg_task_deleted_success": "Tugas berhasil dihapus",
     "@msg_task_deleted_success": {
+        "placeholders": {}
+    },
+    "activity_task_created_title": "Task Baru",
+    "@activity_task_created_title": {
+        "placeholders": {}
+    },
+    "activity_task_updated_title": "Task Diperbarui",
+    "@activity_task_updated_title": {
+        "placeholders": {}
+    },
+    "activity_task_deleted_title": "Task Dihapus",
+    "@activity_task_deleted_title": {
+        "placeholders": {}
+    },
+    "activity_task_moved_title": "Task Berubah Status",
+    "@activity_task_moved_title": {
+        "placeholders": {}
+    },
+    "activity_project_created_title": "Project Baru",
+    "@activity_project_created_title": {
+        "placeholders": {}
+    },
+    "activity_project_updated_title": "Project Diperbarui",
+    "@activity_project_updated_title": {
+        "placeholders": {}
+    },
+    "activity_project_deleted_title": "Project Dihapus",
+    "@activity_project_deleted_title": {
+        "placeholders": {}
+    },
+    "activity_project_completed_title": "Project Selesai",
+    "@activity_project_completed_title": {
+        "placeholders": {}
+    },
+    "activity_member_join_title": "Anggota Baru",
+    "@activity_member_join_title": {
+        "placeholders": {}
+    },
+    "activity_member_remove_title": "Anggota Dikeluarkan",
+    "@activity_member_remove_title": {
+        "placeholders": {}
+    },
+    "activity_member_left_title": "Anggota Keluar",
+    "@activity_member_left_title": {
+        "placeholders": {}
+    },
+    "activity_member_change_role": "Anggota Berubah Jabatan",
+    "@activity_member_change_role": {
+        "placeholders": {}
+    },
+    "activity_project_comment_title": "Komentar Baru",
+    "@activity_project_comment_title": {
+        "placeholders": {}
+    },
+    "activity_schedule_created_title": "Jadwal Baru",
+    "@activity_schedule_created_title": {
+        "placeholders": {}
+    },
+    "activity_schedule_edited_title": "Jadwal Berubah",
+    "@activity_schedule_edited_title": {
+        "placeholders": {}
+    },
+    "activity_schedule_deleted_title": "Jadwal Dibatalkan",
+    "@activity_schedule_deleted_title": {
+        "placeholders": {}
+    },
+    "activity_org_created_title": "Organisasi Baru",
+    "@activity_org_created_title": {
+        "placeholders": {}
+    },
+    "activity_org_updated_title": "Organisasi Diperbarui",
+    "@activity_org_updated_title": {
+        "placeholders": {}
+    },
+    "activity_task_created_desc": "{user} membuat task {taskName} pada project {projectName}",
+    "@activity_task_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_task_updated_desc": "{user} mengubah data task {taskName} -> \"{info}\"",
+    "@activity_task_updated_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_task_deleted_desc": "{user} menghapus task {taskName} dari project {projectName}",
+    "@activity_task_deleted_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_task_move_desc": "{user} memperbarui status task {taskName} -> {info}",
+    "@activity_task_move_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "taskName": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_created_desc": "{user} membuat project {projectName}",
+    "@activity_project_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_updated_desc": "{user} mengubah data project -> {info}",
+    "@activity_project_updated_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_deleted_desc": "{user} menghapus project pada {info}",
+    "@activity_project_deleted_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_completed_desc": "project sudah selesai pada {info}",
+    "@activity_project_completed_desc": {
+        "placeholders": {
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_join_desc": "{user} bergabung dengan {orgName}",
+    "@activity_member_join_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_remove_desc": "{user} mengeluarkan {info}",
+    "@activity_member_remove_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_left_desc": "{user} meninggalkan organisasi",
+    "@activity_member_left_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_member_change_role_desc": "{user} berubah jabatan menjadi {info}",
+    "@activity_member_change_role_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_project_comment_desc": "{user} memberi komentar pada project {project} -> \"{info}\"",
+    "@activity_project_comment_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "project": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_schedule_created_desc": "{user} membuat jadwal {scheduleName}",
+    "@activity_schedule_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "scheduleName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_schedule_edited_desc": "{user} mengubah jadwal {scheduleName} -> {info}",
+    "@activity_schedule_edited_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "scheduleName": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_schedule_deleted_desc": "{user} membatalkan jadwal {scheduleName}",
+    "@activity_schedule_deleted_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "scheduleName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_org_created_desc": "{user} membuat organisasi {orgName}",
+    "@activity_org_created_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "orgName": {
+                "type": "String"
+            }
+        }
+    },
+    "activity_org_updated_desc": "{user} mengubah data organisasi -> {info}",
+    "@activity_org_updated_desc": {
+        "placeholders": {
+            "user": {
+                "type": "String"
+            },
+            "info": {
+                "type": "String"
+            }
+        }
+    },
+    "make_admin": "Jadikan Admin",
+    "@make_admin": {
+        "placeholders": {}
+    },
+    "demote_to_member": "Kembalikan Jadi Member",
+    "@demote_to_member": {
+        "placeholders": {}
+    },
+    "remove_member": "Keluarkan Member",
+    "@remove_member": {
+        "placeholders": {}
+    },
+    "dialog_remove_member_title": "Keluarkan Member",
+    "@dialog_remove_member_title": {
+        "placeholders": {}
+    },
+    "dialog_remove_member_content": "Yakin ingin mengeluarkan member ini?",
+    "@dialog_remove_member_content": {
         "placeholders": {}
     }
 }

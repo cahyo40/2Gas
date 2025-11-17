@@ -359,6 +359,7 @@ class ProjectNetworkDatasource implements ProjectRepository {
         meta: ActivityMeta(
           user: user.name,
           info: YoDateFormatter.formatDate(now),
+          projectName: model.name,
         ),
       );
 

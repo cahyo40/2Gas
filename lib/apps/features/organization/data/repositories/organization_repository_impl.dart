@@ -59,4 +59,9 @@ class OrganizationRepositoryImpl implements OrganizationRepository {
   Future<void> memberOut(MemberModel member, {bool isKick = false}) async {
     return _network.memberOut(member, isKick: isKick);
   }
+
+  @override
+  Future<void> deleteOrg(OrganizationModel model) async {
+    return await _network.deleteOrg(model);
+  }
 }

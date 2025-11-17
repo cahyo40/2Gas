@@ -103,6 +103,7 @@ class ActivityMessageHelper {
         return L10n.t.activity_project_deleted_desc(
           data.user ?? "User",
           data.info ?? "",
+          data.projectName ?? "",
         );
       case ActivityType.projectUpdated:
         return L10n.t.activity_project_updated_desc(

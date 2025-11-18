@@ -58,7 +58,8 @@ class SettingsView extends GetView<SettingsController> {
                   content: L10n.t.msg_logout_content,
                   confirmText: L10n.t.accept,
                   cancelText: L10n.t.decline,
-                  confirmVariant: YoButtonVariant.primary,
+                  confirmVariant: YoButtonVariant.custom,
+                  confirmColor: context.primaryColor,
                   cancelVariant: YoButtonVariant.outline,
                 ).then((confirm) async {
                   if (confirm == true) {

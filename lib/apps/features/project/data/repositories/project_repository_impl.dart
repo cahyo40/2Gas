@@ -46,4 +46,9 @@ class ProjectRepositoryImpl implements ProjectRepository {
   Future<void> deleteTask(TaskModel task) async {
     return await _network.deleteTask(task);
   }
+
+  @override
+  Future<void> deleteProject(ProjectModel model) async {
+    return await _network.deleteProject(model);
+  }
 }

@@ -4,6 +4,7 @@ import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/core/helpers/color_helpers.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
+import 'package:twogass/apps/widget/card_task_user_shimmer_widget.dart';
 import 'package:twogass/apps/widget/card_task_user_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -146,9 +147,7 @@ class TaskView extends GetView<TaskController> {
 
                   Expanded(
                     child: Obx(
-                      () => controller.isLoading.isTrue
-                          ? Center(child: YoLoading())
-                          : controller.taskShow.isNotEmpty
+                      () => controller.taskShow.isNotEmpty
                           ? ListView.builder(
                               physics: AlwaysScrollableScrollPhysics(),
                               itemCount: controller.taskShow.length,
@@ -157,13 +156,23 @@ class TaskView extends GetView<TaskController> {
                                 final project = controller.projects.firstWhere(
                                   (d) => d.id == task.projectId,
                                 );
-                                return CardTaskUserWidget(
-                                  task: task,
-                                  project: project,
-                                );
+                                if (controller.isLoading.isTrue) {
+                                  return CardTaskUserShimmer();
+                                } else {
+                                  return CardTaskUserWidget(
+                                    task: task,
+                                    project: project,
+                                  );
+                                }
                               },
                             )
-                          : YoEmptyState.noData(),
+                          : YoEmptyState.noData(
+                              title: L10n.t.no_task_title,
+                              description: L10n.t.no_task_desc,
+                              actionText: L10n.t.refresh,
+                              onAction: () =>
+                                  controller.iniData(useLoading: true),
+                            ),
                     ),
                   ),
                 ],

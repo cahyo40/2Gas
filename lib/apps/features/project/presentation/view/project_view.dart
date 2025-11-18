@@ -129,7 +129,22 @@ class ProjectView extends GetView<ProjectController> {
                             color: context.errorColor,
                           ),
                           title: L10n.t.delete_project,
-                          onTap: () {},
+                          onTap: () {
+                            Get.back();
+                            YoAdvancedConfirmDialog.show(
+                              context: context,
+                              title: L10n.t.dialog_project_title,
+                              content: L10n.t.dialog_project_content,
+                              confirmText: L10n.t.yes,
+                              confirmVariant: YoButtonVariant.custom,
+                              confirmColor: context.primaryColor,
+                              cancelText: L10n.t.no,
+                            ).then((confirm) {
+                              if (confirm == true && context.mounted) {
+                                controller.onDeleteProject();
+                              }
+                            });
+                          },
                         ),
                       ),
                     ),

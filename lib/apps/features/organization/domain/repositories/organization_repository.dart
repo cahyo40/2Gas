@@ -15,4 +15,5 @@ abstract class OrganizationRepository {
   Future<void> changeRoleMember(MemberModel member, MemberRole role);
   Future<void> memberOut(MemberModel member, {bool isKick = false});
   Future<List<ScheduleModel>> getSchedule(String orgId);
+  Future<void> deleteOrg(OrganizationModel model);
 }

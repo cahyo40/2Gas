@@ -10,6 +10,7 @@ import 'package:twogass/apps/features/organization/domain/usecase/fetch_member_o
 import 'package:twogass/apps/features/organization/presentation/controller/organization_controller.dart';
 import 'package:twogass/apps/features/project/domain/repositories/project_repository.dart';
 import 'package:twogass/apps/features/project/domain/usecase/add_assigner_usecase.dart';
+import 'package:twogass/apps/features/project/domain/usecase/delete_project_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/delete_task_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/project_usecase.dart';
 import 'package:twogass/apps/features/project/domain/usecase/update_project_usecase.dart';
@@ -42,6 +43,7 @@ class ProjectController extends GetxController {
   AddAssignerUsecase addAssign = AddAssignerUsecase(Get.find());
   UpdateProjectUsecase updateProject = UpdateProjectUsecase(Get.find());
   DeleteTaskUsecase deleteTask = DeleteTaskUsecase(Get.find());
+  DeleteProjectUsecase deleteProject = DeleteProjectUsecase(Get.find());
 
   final filtersTask = ["all", "todo", "progress", 'done'];
   final currentFilterTask = 0.obs;
@@ -135,6 +137,11 @@ class ProjectController extends GetxController {
   onDeleteTask(TaskModel task) async {
     await deleteTask(task);
     initData(useLoading: true);
+  }
+
+  onDeleteProject() async {
+    await deleteProject(project.value);
+    Get.back();
   }
 
   @override

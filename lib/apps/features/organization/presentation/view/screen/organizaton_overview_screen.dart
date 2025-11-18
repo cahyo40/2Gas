@@ -17,6 +17,9 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final orgColor = Color(
+      controller.org.value.color ?? context.primaryColor.toARGB32(),
+    );
     return SafeArea(
       child: ListView(
         padding: YoPadding.all20,
@@ -25,13 +28,17 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
             spacing: YoSpacing.md,
             children: [
               Container(
-                height: Get.width * 0.2,
-                width: Get.width * 0.2,
+                width: context.width * 0.2,
+                height: context.width * 0.2,
                 decoration: BoxDecoration(
-                  borderRadius: YoSpacing.borderRadiusMd,
-                  color: Color(
-                    controller.org.value.color ??
-                        context.primaryColor.toARGB32(),
+                  color: orgColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: YoText.displayMedium(
+                    controller.org.value.name.substring(0, 1).toUpperCase(),
+                    color: context.onPrimaryColor,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -44,7 +51,7 @@ class OrganizatonOverviewScreen extends GetView<OrganizationController> {
                       children: [
                         Expanded(
                           child: YoText.titleLarge(
-                            controller.org.value.name.capitalizeFirst!,
+                            controller.org.value.name,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             softWrap: true,

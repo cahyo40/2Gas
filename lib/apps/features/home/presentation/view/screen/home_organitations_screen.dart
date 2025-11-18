@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
+import 'package:twogass/apps/widget/card_home_org_loading_widget.dart';
 import 'package:twogass/apps/widget/card_home_org_widget.dart';
 import 'package:yo_ui/yo_ui.dart';
 
@@ -87,20 +88,32 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
         ),
 
         Obx(
-          () => ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.orgHome.length > 3
-                ? 3
-                : controller.orgHome.length,
-            itemBuilder: (_, index) {
-              final model = controller.orgHome[index];
-              return CardHomeOrgWidget(
-                model: model,
-                onTap: () => controller.detailOrganization(model.org.id),
-              );
-            },
-          ),
+          () => controller.orgHome.isEmpty
+              ? YoEmptyState.noData(
+                  title: L10n.t.no_org_title,
+                  description: L10n.t.no_org_desc,
+                  actionText: L10n.t.add_org,
+                  onAction: () => controller.addOrganization(),
+                )
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: controller.orgHome.length > 3
+                      ? 3
+                      : controller.orgHome.length,
+                  itemBuilder: (_, index) {
+                    final model = controller.orgHome[index];
+                    if (controller.isLoading.isTrue) {
+                      return CardHomeOrgShimmer();
+                    } else {
+                      return CardHomeOrgWidget(
+                        model: model,
+                        onTap: () =>
+                            controller.detailOrganization(model.org.id),
+                      );
+                    }
+                  },
+                ),
         ),
       ],
     );

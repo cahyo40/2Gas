@@ -482,13 +482,16 @@
             }
         }
     },
-    "activity_project_deleted_desc": "{user} menghapus project pada {info}",
+    "activity_project_deleted_desc": "{user} menghapus project {projectName} pada {info}",
     "@activity_project_deleted_desc": {
         "placeholders": {
             "user": {
                 "type": "String"
             },
             "info": {
+                "type": "String"
+            },
+            "projectName": {
                 "type": "String"
             }
         }
@@ -632,6 +635,82 @@
     },
     "dialog_remove_member_content": "Yakin ingin mengeluarkan member ini?",
     "@dialog_remove_member_content": {
+        "placeholders": {}
+    },
+    "delete_organization": "Hapus Organisasi",
+    "@delete_organization": {
+        "placeholders": {}
+    },
+    "dialog_delete_org_title": "Hapus Organisasi",
+    "@dialog_delete_org_title": {
+        "placeholders": {}
+    },
+    "dialog_delete_org_content": "Yakin ingin menghapus organisasi ini? Seluruh proyek, tugas, dan data akan hilang selamanya.",
+    "@dialog_delete_org_content": {
+        "placeholders": {}
+    },
+    "dialog_project_title": "Hapus Proyek",
+    "@dialog_project_title": {
+        "placeholders": {}
+    },
+    "dialog_project_content": "Yakin ingin menghapus proyek ini? Seluruh tugas dan data terkait akan hilang selamanya.",
+    "@dialog_project_content": {
+        "placeholders": {}
+    },
+    "no_today_schedule": "Tidak ada jadwal hari ini",
+    "@no_today_schedule": {
+        "placeholders": {}
+    },
+    "no_project_title": "Belum ada proyek",
+    "@no_project_title": {
+        "placeholders": {}
+    },
+    "no_project_desc": "Buat proyek pertama Anda untuk mulai menata tugas.",
+    "@no_project_desc": {
+        "placeholders": {}
+    },
+    "no_task_title": "Belum ada tugas",
+    "@no_task_title": {
+        "placeholders": {}
+    },
+    "no_task_desc": "Tambahkan tugas baru untuk memulai.",
+    "@no_task_desc": {
+        "placeholders": {}
+    },
+    "no_activity_title": "Tidak ada aktivitas terbaru",
+    "@no_activity_title": {
+        "placeholders": {}
+    },
+    "no_activity_desc": "Aktivitas akan muncul saat anggota mulai bekerja.",
+    "@no_activity_desc": {
+        "placeholders": {}
+    },
+    "no_member_title": "Belum ada anggota",
+    "@no_member_title": {
+        "placeholders": {}
+    },
+    "no_member_desc": "Undang orang untuk berkolaborasi di organisasi ini.",
+    "@no_member_desc": {
+        "placeholders": {}
+    },
+    "no_notif_title": "Tidak ada notifikasi",
+    "@no_notif_title": {
+        "placeholders": {}
+    },
+    "no_notif_desc": "Anda sudah up to date—notifikasi akan muncul di sini.",
+    "@no_notif_desc": {
+        "placeholders": {}
+    },
+    "no_org_title": "Belum ada organisasi",
+    "@no_org_title": {
+        "placeholders": {}
+    },
+    "no_org_desc": "Buat atau gabung organisasi untuk mulai berkolaborasi.",
+    "@no_org_desc": {
+        "placeholders": {}
+    },
+    "refresh": "Segarkan",
+    "@refresh": {
         "placeholders": {}
     }
 }

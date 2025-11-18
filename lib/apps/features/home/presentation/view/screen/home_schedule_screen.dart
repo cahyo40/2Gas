@@ -14,20 +14,22 @@ class HomeScheduleScreen extends GetView<HomeController> {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: context.yoSpacingMd,
       children: [
-        YoText.titleLarge(L10n.t.today_schedule),
         Obx(
-          () => controller.scheduleShow.isEmpty
-              ? YoEmptyState.noData()
-              : YoTimeline(
-                  events: controller.scheduleShow.map((schedule) {
-                    return YoTimelineEvent(
-                      title: schedule.title,
-                      date: schedule.date,
+          () => controller.scheduleShow.isNotEmpty
+              ? YoText.titleLarge(L10n.t.today_schedule)
+              : YoText.titleLarge(L10n.t.no_today_schedule),
+        ),
+        Obx(
+          () => YoTimeline(
+            events: controller.scheduleShow.map((schedule) {
+              return YoTimelineEvent(
+                title: schedule.title,
+                date: schedule.date,
 
-                      description: schedule.description,
-                    );
-                  }).toList(),
-                ),
+                description: schedule.description,
+              );
+            }).toList(),
+          ),
         ),
       ],
     );

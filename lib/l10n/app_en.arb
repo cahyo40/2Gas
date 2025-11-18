@@ -482,13 +482,16 @@
             }
         }
     },
-    "activity_project_deleted_desc": "{user} deleted project on {info}",
+    "activity_project_deleted_desc": "{user} deleted project {projectName} on {info}",
     "@activity_project_deleted_desc": {
         "placeholders": {
             "user": {
                 "type": "String"
             },
             "info": {
+                "type": "String"
+            },
+            "projectName": {
                 "type": "String"
             }
         }
@@ -632,6 +635,82 @@
     },
     "dialog_remove_member_content": "Are you sure you want to remove this member?",
     "@dialog_remove_member_content": {
+        "placeholders": {}
+    },
+    "delete_organization": "Delete Organization",
+    "@delete_organization": {
+        "placeholders": {}
+    },
+    "dialog_delete_org_title": "Delete Organization",
+    "@dialog_delete_org_title": {
+        "placeholders": {}
+    },
+    "dialog_delete_org_content": "Are you sure you want to delete this organization? All projects, tasks, and data will be permanently lost.",
+    "@dialog_delete_org_content": {
+        "placeholders": {}
+    },
+    "dialog_project_title": "Delete Project",
+    "@dialog_project_title": {
+        "placeholders": {}
+    },
+    "dialog_project_content": "Are you sure you want to delete this project? All tasks and related data will be permanently lost.",
+    "@dialog_project_content": {
+        "placeholders": {}
+    },
+    "no_today_schedule": "No schedule for today",
+    "@no_today_schedule": {
+        "placeholders": {}
+    },
+    "no_project_title": "No projects yet",
+    "@no_project_title": {
+        "placeholders": {}
+    },
+    "no_project_desc": "Create your first project to start organizing tasks.",
+    "@no_project_desc": {
+        "placeholders": {}
+    },
+    "no_task_title": "No tasks here",
+    "@no_task_title": {
+        "placeholders": {}
+    },
+    "no_task_desc": "Add a new task to get things rolling.",
+    "@no_task_desc": {
+        "placeholders": {}
+    },
+    "no_activity_title": "No recent activity",
+    "@no_activity_title": {
+        "placeholders": {}
+    },
+    "no_activity_desc": "Activity will appear here when members start working.",
+    "@no_activity_desc": {
+        "placeholders": {}
+    },
+    "no_member_title": "No members yet",
+    "@no_member_title": {
+        "placeholders": {}
+    },
+    "no_member_desc": "Invite people to collaborate in this organization.",
+    "@no_member_desc": {
+        "placeholders": {}
+    },
+    "no_notif_title": "No notifications",
+    "@no_notif_title": {
+        "placeholders": {}
+    },
+    "no_notif_desc": "You're all caught up—notifications will appear here.",
+    "@no_notif_desc": {
+        "placeholders": {}
+    },
+    "no_org_title": "No organizations",
+    "@no_org_title": {
+        "placeholders": {}
+    },
+    "no_org_desc": "Create or join an organization to start collaborating.",
+    "@no_org_desc": {
+        "placeholders": {}
+    },
+    "refresh": "Refresh",
+    "@refresh": {
         "placeholders": {}
     }
 }

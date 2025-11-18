@@ -1123,8 +1123,12 @@ abstract class AppLocalizations {
   /// No description provided for @activity_project_deleted_desc.
   ///
   /// In en, this message translates to:
-  /// **'{user} deleted project on {info}'**
-  String activity_project_deleted_desc(String user, String info);
+  /// **'{user} deleted project {projectName} on {info}'**
+  String activity_project_deleted_desc(
+    String user,
+    String info,
+    String projectName,
+  );
 
   /// No description provided for @activity_project_completed_desc.
   ///
@@ -1229,6 +1233,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to remove this member?'**
   String get dialog_remove_member_content;
+
+  /// No description provided for @delete_organization.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Organization'**
+  String get delete_organization;
+
+  /// No description provided for @dialog_delete_org_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Organization'**
+  String get dialog_delete_org_title;
+
+  /// No description provided for @dialog_delete_org_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this organization? All projects, tasks, and data will be permanently lost.'**
+  String get dialog_delete_org_content;
+
+  /// No description provided for @dialog_project_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Project'**
+  String get dialog_project_title;
+
+  /// No description provided for @dialog_project_content.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this project? All tasks and related data will be permanently lost.'**
+  String get dialog_project_content;
+
+  /// No description provided for @no_today_schedule.
+  ///
+  /// In en, this message translates to:
+  /// **'No schedule for today'**
+  String get no_today_schedule;
+
+  /// No description provided for @no_project_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No projects yet'**
+  String get no_project_title;
+
+  /// No description provided for @no_project_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your first project to start organizing tasks.'**
+  String get no_project_desc;
+
+  /// No description provided for @no_task_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks here'**
+  String get no_task_title;
+
+  /// No description provided for @no_task_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a new task to get things rolling.'**
+  String get no_task_desc;
+
+  /// No description provided for @no_activity_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No recent activity'**
+  String get no_activity_title;
+
+  /// No description provided for @no_activity_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity will appear here when members start working.'**
+  String get no_activity_desc;
+
+  /// No description provided for @no_member_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No members yet'**
+  String get no_member_title;
+
+  /// No description provided for @no_member_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite people to collaborate in this organization.'**
+  String get no_member_desc;
+
+  /// No description provided for @no_notif_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications'**
+  String get no_notif_title;
+
+  /// No description provided for @no_notif_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up—notifications will appear here.'**
+  String get no_notif_desc;
+
+  /// No description provided for @no_org_title.
+  ///
+  /// In en, this message translates to:
+  /// **'No organizations'**
+  String get no_org_title;
+
+  /// No description provided for @no_org_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Create or join an organization to start collaborating.'**
+  String get no_org_desc;
+
+  /// No description provided for @refresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refresh;
 }
 
 class _AppLocalizationsDelegate

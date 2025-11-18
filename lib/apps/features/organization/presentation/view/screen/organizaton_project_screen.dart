@@ -99,7 +99,7 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                           controller.filtersProject[i].capitalize!,
                           color: controller.currentFilterProject.value == i
                               ? context.onPrimaryColor
-                              : Colors.grey.shade700,
+                              : context.textColor,
                           fontWeight: controller.currentFilterProject.value == i
                               ? FontWeight.w600
                               : FontWeight.w400,
@@ -116,7 +116,16 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
             () => controller.projectShow.isEmpty
                 ? SizedBox(
                     height: Get.width,
-                    child: Center(child: YoEmptyState.noData()),
+                    child: Center(
+                      child: YoEmptyState.noData(
+                        title: L10n.t.no_project_title,
+                        description: L10n.t.no_project_desc,
+                        actionText: L10n.t.refresh,
+                        onAction: () {
+                          controller.refreshProject();
+                        },
+                      ),
+                    ),
                   )
                 : ListView.builder(
                     shrinkWrap: true,
@@ -124,7 +133,6 @@ class OrganizatonProjectScreen extends GetView<OrganizationController> {
                     itemCount: controller.projectShow.length,
                     itemBuilder: (_, i) {
                       final model = controller.projectShow[i].copyWith();
-
                       return CardProjectWidget(
                         onTap: () {
                           Get.toNamed(

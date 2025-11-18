@@ -56,7 +56,14 @@ class ProjectTaskScreen extends GetView<ProjectController> {
 
           SizedBox(height: YoSpacing.md),
           controller.taskNew.isEmpty
-              ? Center(child: YoEmptyState.noData(title: L10n.t.msg_task_empty))
+              ? Center(
+                  child: YoEmptyState.noData(
+                    title: L10n.t.no_task_title,
+                    description: L10n.t.no_task_desc,
+                    actionText: L10n.t.refresh,
+                    onAction: () => controller.initData(useLoading: true),
+                  ),
+                )
               : ListView.builder(
                   shrinkWrap: true,
                   physics: BouncingScrollPhysics(),

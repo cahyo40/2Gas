@@ -343,4 +343,50 @@ class ProjectNetworkDatasource implements ProjectRepository {
 
     return buf.isEmpty ? 'Tidak ada perbedaan.' : buf.toString();
   }
+
+  @override
+  Future<void> deleteProject(ProjectModel model) async {
+    try {
+      final activityId = YoIdGenerator.alphanumericId();
+
+      final now = DateTime.now();
+
+      final activity = ActivityModel(
+        id: activityId,
+        orgId: model.orgId,
+        type: ActivityType.projectDeleted,
+        createdAt: now,
+        meta: ActivityMeta(
+          user: user.name,
+          info: YoDateFormatter.formatDate(now),
+          projectName: model.name,
+        ),
+      );
+
+      final taskSnap = await FirebaseServices.task
+          .where("projectId", isEqualTo: model.id)
+          .get();
+      final taskAssignSnap = await FirebaseServices.taskAssign
+          .where("projectId", isEqualTo: model.id)
+          .get();
+      final projectAssignSnap = await FirebaseServices.projectAssign
+          .where("projectId", isEqualTo: model.id)
+          .get();
+      final scheduleSnap = await FirebaseServices.schedule
+          .where("projectId", isEqualTo: model.id)
+          .get();
+
+      Future.wait([
+        FirebaseServices.project.doc(model.id).delete(),
+        FirebaseServices.activity.doc(activityId).set(activity.toJson()),
+        ...taskSnap.docs.map((doc) => doc.reference.delete()),
+        ...taskAssignSnap.docs.map((doc) => doc.reference.delete()),
+        ...projectAssignSnap.docs.map((doc) => doc.reference.delete()),
+        ...scheduleSnap.docs.map((doc) => doc.reference.delete()),
+      ]);
+    } catch (e, s) {
+      YoLogger.error('deleteTask error: $e\n$s');
+      rethrow;
+    }
+  }
 }

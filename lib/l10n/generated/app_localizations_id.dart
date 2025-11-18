@@ -572,8 +572,12 @@ class AppLocalizationsId extends AppLocalizations {
   }
 
   @override
-  String activity_project_deleted_desc(String user, String info) {
-    return '$user menghapus project pada $info';
+  String activity_project_deleted_desc(
+    String user,
+    String info,
+    String projectName,
+  ) {
+    return '$user menghapus project $projectName pada $info';
   }
 
   @override
@@ -654,4 +658,68 @@ class AppLocalizationsId extends AppLocalizations {
   @override
   String get dialog_remove_member_content =>
       'Yakin ingin mengeluarkan member ini?';
+
+  @override
+  String get delete_organization => 'Hapus Organisasi';
+
+  @override
+  String get dialog_delete_org_title => 'Hapus Organisasi';
+
+  @override
+  String get dialog_delete_org_content =>
+      'Yakin ingin menghapus organisasi ini? Seluruh proyek, tugas, dan data akan hilang selamanya.';
+
+  @override
+  String get dialog_project_title => 'Hapus Proyek';
+
+  @override
+  String get dialog_project_content =>
+      'Yakin ingin menghapus proyek ini? Seluruh tugas dan data terkait akan hilang selamanya.';
+
+  @override
+  String get no_today_schedule => 'Tidak ada jadwal hari ini';
+
+  @override
+  String get no_project_title => 'Belum ada proyek';
+
+  @override
+  String get no_project_desc =>
+      'Buat proyek pertama Anda untuk mulai menata tugas.';
+
+  @override
+  String get no_task_title => 'Belum ada tugas';
+
+  @override
+  String get no_task_desc => 'Tambahkan tugas baru untuk memulai.';
+
+  @override
+  String get no_activity_title => 'Tidak ada aktivitas terbaru';
+
+  @override
+  String get no_activity_desc =>
+      'Aktivitas akan muncul saat anggota mulai bekerja.';
+
+  @override
+  String get no_member_title => 'Belum ada anggota';
+
+  @override
+  String get no_member_desc =>
+      'Undang orang untuk berkolaborasi di organisasi ini.';
+
+  @override
+  String get no_notif_title => 'Tidak ada notifikasi';
+
+  @override
+  String get no_notif_desc =>
+      'Anda sudah up to date—notifikasi akan muncul di sini.';
+
+  @override
+  String get no_org_title => 'Belum ada organisasi';
+
+  @override
+  String get no_org_desc =>
+      'Buat atau gabung organisasi untuk mulai berkolaborasi.';
+
+  @override
+  String get refresh => 'Segarkan';
 }

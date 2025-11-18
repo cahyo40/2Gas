@@ -256,4 +256,51 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> deleteOrg(OrganizationModel model) async {
+    try {
+      final key = "orgId";
+
+      final memberSnap = await FirebaseServices.member
+          .where(key, isEqualTo: model.id)
+          .get();
+      final projectSnap = await FirebaseServices.project
+          .where(key, isEqualTo: model.id)
+          .get();
+      final taskSnap = await FirebaseServices.task
+          .where(key, isEqualTo: model.id)
+          .get();
+      final projectAssignSnap = await FirebaseServices.projectAssign
+          .where(key, isEqualTo: model.id)
+          .get();
+      final taskAssignSnap = await FirebaseServices.taskAssign
+          .where(key, isEqualTo: model.id)
+          .get();
+      final categorySnap = await FirebaseServices.category
+          .where(key, isEqualTo: model.id)
+          .get();
+      final activitySnap = await FirebaseServices.activity
+          .where(key, isEqualTo: model.id)
+          .get();
+      final scheduleSnap = await FirebaseServices.schedule
+          .where(key, isEqualTo: model.id)
+          .get();
+
+      Future.wait([
+        FirebaseServices.org.doc(model.id).delete(),
+        ...taskSnap.docs.map((doc) => doc.reference.delete()),
+        ...taskAssignSnap.docs.map((doc) => doc.reference.delete()),
+        ...projectAssignSnap.docs.map((doc) => doc.reference.delete()),
+        ...scheduleSnap.docs.map((doc) => doc.reference.delete()),
+        ...memberSnap.docs.map((doc) => doc.reference.delete()),
+        ...projectSnap.docs.map((doc) => doc.reference.delete()),
+        ...categorySnap.docs.map((doc) => doc.reference.delete()),
+        ...activitySnap.docs.map((doc) => doc.reference.delete()),
+      ]);
+    } catch (e, s) {
+      YoLogger.error('deleteTask error: $e\n$s');
+      rethrow;
+    }
+  }
 }

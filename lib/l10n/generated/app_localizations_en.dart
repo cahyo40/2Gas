@@ -573,8 +573,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String activity_project_deleted_desc(String user, String info) {
-    return '$user deleted project on $info';
+  String activity_project_deleted_desc(
+    String user,
+    String info,
+    String projectName,
+  ) {
+    return '$user deleted project $projectName on $info';
   }
 
   @override
@@ -655,4 +659,68 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dialog_remove_member_content =>
       'Are you sure you want to remove this member?';
+
+  @override
+  String get delete_organization => 'Delete Organization';
+
+  @override
+  String get dialog_delete_org_title => 'Delete Organization';
+
+  @override
+  String get dialog_delete_org_content =>
+      'Are you sure you want to delete this organization? All projects, tasks, and data will be permanently lost.';
+
+  @override
+  String get dialog_project_title => 'Delete Project';
+
+  @override
+  String get dialog_project_content =>
+      'Are you sure you want to delete this project? All tasks and related data will be permanently lost.';
+
+  @override
+  String get no_today_schedule => 'No schedule for today';
+
+  @override
+  String get no_project_title => 'No projects yet';
+
+  @override
+  String get no_project_desc =>
+      'Create your first project to start organizing tasks.';
+
+  @override
+  String get no_task_title => 'No tasks here';
+
+  @override
+  String get no_task_desc => 'Add a new task to get things rolling.';
+
+  @override
+  String get no_activity_title => 'No recent activity';
+
+  @override
+  String get no_activity_desc =>
+      'Activity will appear here when members start working.';
+
+  @override
+  String get no_member_title => 'No members yet';
+
+  @override
+  String get no_member_desc =>
+      'Invite people to collaborate in this organization.';
+
+  @override
+  String get no_notif_title => 'No notifications';
+
+  @override
+  String get no_notif_desc =>
+      'You\'re all caught up—notifications will appear here.';
+
+  @override
+  String get no_org_title => 'No organizations';
+
+  @override
+  String get no_org_desc =>
+      'Create or join an organization to start collaborating.';
+
+  @override
+  String get refresh => 'Refresh';
 }

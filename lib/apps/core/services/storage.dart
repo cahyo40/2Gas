@@ -15,11 +15,12 @@ class StorageService {
   static Future<void> saveLocale(String val) =>
       box.write(StorageConst.locale, val);
 
-  static Future<void> saveUser(User user) async {
+  static Future<void> saveUser(User user, String? playerId) async {
     box.write(StorageConst.uid, user.uid);
     box.write(StorageConst.name, user.displayName ?? "");
     box.write(StorageConst.emaill, user.email ?? "");
     box.write(StorageConst.photo, user.photoURL ?? "");
+    box.write(StorageConst.player, playerId ?? "");
   }
 
   static Future<void> clearUser() async {
@@ -27,5 +28,6 @@ class StorageService {
     box.write(StorageConst.name, "");
     box.write(StorageConst.emaill, "");
     box.write(StorageConst.photo, "");
+    box.write(StorageConst.player, "");
   }
 }

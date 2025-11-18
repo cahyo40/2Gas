@@ -201,6 +201,7 @@ class TaskAssignModel {
   final String projectId;
   final String orgId;
   final String taskId;
+  final String playerId; // <<< NEW REQUIRED FIELD
 
   const TaskAssignModel({
     required this.id,
@@ -210,6 +211,7 @@ class TaskAssignModel {
     required this.projectId,
     required this.orgId,
     required this.taskId,
+    required this.playerId, // <<< REQUIRED
   });
 
   factory TaskAssignModel.initial() => const TaskAssignModel(
@@ -220,6 +222,7 @@ class TaskAssignModel {
     projectId: '',
     orgId: '',
     taskId: '',
+    playerId: '', // <<< INITIAL EMPTY
   );
 
   factory TaskAssignModel.fromFirestore(DocumentSnapshot doc) =>
@@ -230,10 +233,11 @@ class TaskAssignModel {
         id: json['id'] as String,
         uid: json['uid'] as String,
         imageUrl: json['imageUrl'] as String,
-        orgId: json['orgId'] as String,
         name: json['name'] as String,
         projectId: json['projectId'] as String,
+        orgId: json['orgId'] as String,
         taskId: json['taskId'] as String,
+        playerId: json['playerId'] as String,
       );
 
   Map<String, dynamic> toJson() => {
@@ -241,9 +245,10 @@ class TaskAssignModel {
     'uid': uid,
     'imageUrl': imageUrl,
     'name': name,
-    'orgId': orgId,
     'projectId': projectId,
+    'orgId': orgId,
     'taskId': taskId,
+    'playerId': playerId,
   };
 
   factory TaskAssignModel.fromMap(Map<String, dynamic> map) => TaskAssignModel(
@@ -254,6 +259,7 @@ class TaskAssignModel {
     projectId: map['projectId'] as String,
     orgId: map['orgId'] as String,
     taskId: map['taskId'] as String,
+    playerId: map['playerId'] as String,
   );
 
   Map<String, dynamic> toMap() => {
@@ -262,7 +268,9 @@ class TaskAssignModel {
     'imageUrl': imageUrl,
     'name': name,
     'projectId': projectId,
+    'orgId': orgId,
     'taskId': taskId,
+    'playerId': playerId,
   };
 
   TaskAssignModel copyWith({
@@ -273,6 +281,7 @@ class TaskAssignModel {
     String? projectId,
     String? orgId,
     String? taskId,
+    String? playerId,
   }) => TaskAssignModel(
     id: id ?? this.id,
     uid: uid ?? this.uid,
@@ -281,6 +290,7 @@ class TaskAssignModel {
     projectId: projectId ?? this.projectId,
     orgId: orgId ?? this.orgId,
     taskId: taskId ?? this.taskId,
+    playerId: playerId ?? this.playerId,
   );
 
   @override
@@ -294,12 +304,14 @@ class TaskAssignModel {
           name == other.name &&
           projectId == other.projectId &&
           orgId == other.orgId &&
-          taskId == other.taskId;
+          taskId == other.taskId &&
+          playerId == other.playerId;
 
   @override
-  int get hashCode => Object.hash(id, uid, imageUrl, name, projectId, taskId);
+  int get hashCode =>
+      Object.hash(id, uid, imageUrl, name, projectId, orgId, taskId, playerId);
 
   @override
   String toString() =>
-      'TaskAssignModel(id: $id, uid: $uid, name: $name, taskId: $taskId)';
+      'TaskAssignModel(id: $id, uid: $uid, name: $name, taskId: $taskId, playerId: $playerId)';
 }

@@ -140,7 +140,6 @@ class HomeNetworkDatasource implements HomeRepository {
       final notif = NotificationsModel(
         id: notifId,
         orgId: org.id,
-
         uidShows: uid,
         type: NotificationType.orgUserJoined,
         createdAt: DateTime.now(),
@@ -152,6 +151,7 @@ class HomeNetworkDatasource implements HomeRepository {
         uid: user.uid,
         name: user.name,
         email: user.email,
+        playerId: user.playerId,
         orgId: orgId,
         role: MemberRole.member,
         imageUrl: user.photoUrl,

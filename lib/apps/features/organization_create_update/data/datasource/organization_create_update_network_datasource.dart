@@ -22,6 +22,7 @@ class OrganizationCreateUpdateNetworkDatasource
         name: user.name,
         email: user.email,
         id: memberId,
+        playerId: user.playerId,
         uid: model.createdBy,
         orgId: model.id,
         role: MemberRole.owner,

@@ -5,11 +5,13 @@ class LoginModel {
   final String uid;
   final String name;
   final String email;
+  final String playerId;
   final String photoUrl;
 
   const LoginModel({
     required this.uid,
     required this.name,
+    required this.playerId,
     required this.email,
     required this.photoUrl,
   });
@@ -18,6 +20,7 @@ class LoginModel {
     uid: user.uid,
     name: user.displayName ?? '',
     email: user.email ?? '',
+    playerId: '',
     photoUrl: user.photoURL ?? '',
   );
 
@@ -25,6 +28,7 @@ class LoginModel {
     'uid': uid,
     'name': name,
     'email': email,
+    'playerId': playerId,
     'photoUrl': photoUrl,
     'createdAt': FieldValue.serverTimestamp(),
   };
@@ -33,12 +37,15 @@ class LoginModel {
     uid: map['uid'] as String,
     name: map['name'] as String,
     email: map['email'] as String,
+    playerId: map['playerId'] as String,
     photoUrl: map['photoUrl'] as String,
   );
 
   Map<String, dynamic> toMap() => {
     'uid': uid,
     'name': name,
+
+    'playerId': playerId,
     'email': email,
     'photoUrl': photoUrl,
   };

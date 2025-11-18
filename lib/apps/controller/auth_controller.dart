@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:twogass/apps/core/constants/storage.dart';
 import 'package:twogass/apps/core/services/storage.dart';
 import 'package:twogass/apps/routes/route_names.dart';
@@ -53,7 +54,9 @@ class AuthController extends GetxController {
           .signInWithCredential(credential);
       final user = userCredential.user;
       if (user != null) {
-        await StorageService.saveUser(user);
+        final playerId = await OneSignal.User.getOnesignalId();
+
+        await StorageService.saveUser(user, playerId);
       }
       return userCredential;
     } on PlatformException catch (e) {
@@ -89,6 +92,7 @@ class AuthController extends GetxController {
   String get name => StorageService.box.read(StorageConst.name);
   String get email => StorageService.box.read(StorageConst.emaill);
   String get photoUrl => StorageService.box.read(StorageConst.photo);
+  String get playerId => StorageService.box.read(StorageConst.player);
 
   // @override
   // void onInit() {

@@ -23,6 +23,7 @@ class OrganizationCreateUpdateOfflineDatasource
       final meta = ActivityMeta();
       final member = MemberModel(
         id: memberId,
+        playerId: user.playerId,
         email: user.email,
         name: user.name,
         uid: model.createdBy,

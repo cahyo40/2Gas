@@ -20,6 +20,7 @@ class LoginController extends GetxController {
         'name': auth.name,
         'email': auth.email,
         'photoUrl': auth.photoUrl,
+        'playerId':auth.playerId,
       };
       final data = LoginModel.fromMap(initData);
       YoLogger.info(data.toMap().toString());

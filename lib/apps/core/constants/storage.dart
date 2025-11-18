@@ -6,4 +6,5 @@ class StorageConst {
   static String emaill = "email";
   static String photo = "photoURL";
   static String onborad = 'isOnboardingDone';
+  static String player = 'playerId';
 }

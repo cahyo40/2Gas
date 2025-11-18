@@ -48,6 +48,7 @@ class TaskCreateController extends GetxController {
       final data = TaskAssignModel(
         id: YoIdGenerator.alphanumericId(),
         uid: user.uid,
+        playerId: user.playerId,
         imageUrl: user.imageUrl,
         name: "",
         orgId: user.orgId,
@@ -74,6 +75,7 @@ class TaskCreateController extends GetxController {
           imageUrl: user.photoUrl,
           name: user.name,
           taskId: taskId,
+          playerId: user.playerId,
           projectId: projectId.value,
           orgId: orgId.value,
         );

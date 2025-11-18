@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-/// Pure-Dart model for a workspace user.
+/* ----------------- USER MODEL ----------------- */
 class UserModel {
   final String uid;
   final String name;
   final String email;
   final String? photoUrl;
   final DateTime createdAt;
+  final String playerId; // <<< NEW REQUIRED FIELD
 
   const UserModel({
     required this.uid,
@@ -14,22 +15,19 @@ class UserModel {
     required this.email,
     this.photoUrl,
     required this.createdAt,
+    required this.playerId, // <<< REQUIRED
   });
 
-  /* -------------------------------------------------
-   * Initial / Empty
-   * ------------------------------------------------- */
   factory UserModel.initial() => UserModel(
     uid: '',
     name: '',
     email: '',
     photoUrl: null,
     createdAt: DateTime.now(),
+    playerId: '', // <<< INITIAL EMPTY
   );
 
-  /* -------------------------------------------------
-   * Firebase ⬄ Object
-   * ------------------------------------------------- */
+  //  FIREBASE  ⬄  OBJECT
   factory UserModel.fromFirestore(DocumentSnapshot doc) =>
       UserModel.fromJson(doc.data()! as Map<String, dynamic>);
 
@@ -39,6 +37,7 @@ class UserModel {
     email: json['email'] as String,
     photoUrl: json['photoUrl'] as String?,
     createdAt: _dtFromJson(json['createdAt']),
+    playerId: json['playerId'] as String,
   );
 
   Map<String, dynamic> toJson() => {
@@ -47,17 +46,17 @@ class UserModel {
     'email': email,
     'photoUrl': photoUrl,
     'createdAt': _dtToJson(createdAt),
+    'playerId': playerId,
   };
 
-  /* -------------------------------------------------
-   * Sembast ⬄ Object
-   * ------------------------------------------------- */
+  //  SEMBAST  ⬄  OBJECT
   factory UserModel.fromMap(Map<String, dynamic> map) => UserModel(
     uid: map['uid'] as String,
     name: map['name'] as String,
     email: map['email'] as String,
     photoUrl: map['photoUrl'] as String?,
     createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+    playerId: map['playerId'] as String,
   );
 
   Map<String, dynamic> toMap() => {
@@ -66,36 +65,33 @@ class UserModel {
     'email': email,
     'photoUrl': photoUrl,
     'createdAt': createdAt.millisecondsSinceEpoch,
+    'playerId': playerId,
   };
 
-  /* -------------------------------------------------
-   * Helper
-   * ------------------------------------------------- */
+  /* ---------------  HELPERS  --------------- */
   static int _dtToJson(DateTime dt) => dt.millisecondsSinceEpoch;
   static DateTime _dtFromJson(dynamic json) => json is int
       ? DateTime.fromMillisecondsSinceEpoch(json)
       : (json as Timestamp).toDate();
 
-  /* -------------------------------------------------
-   * Copy
-   * ------------------------------------------------- */
+  /* ---------------  COPY  --------------- */
   UserModel copyWith({
     String? uid,
     String? name,
     String? email,
     String? photoUrl,
     DateTime? createdAt,
+    String? playerId,
   }) => UserModel(
     uid: uid ?? this.uid,
     name: name ?? this.name,
     email: email ?? this.email,
     photoUrl: photoUrl ?? this.photoUrl,
     createdAt: createdAt ?? this.createdAt,
+    playerId: playerId ?? this.playerId,
   );
 
-  /* -------------------------------------------------
-   * Equality
-   * ------------------------------------------------- */
+  /* ---------------  EQUALITY  --------------- */
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -105,11 +101,14 @@ class UserModel {
           name == other.name &&
           email == other.email &&
           photoUrl == other.photoUrl &&
-          createdAt == other.createdAt;
+          createdAt == other.createdAt &&
+          playerId == other.playerId;
 
   @override
-  int get hashCode => Object.hash(uid, name, email, photoUrl, createdAt);
+  int get hashCode =>
+      Object.hash(uid, name, email, photoUrl, createdAt, playerId);
 
   @override
-  String toString() => 'UserModel(uid: $uid, name: $name, email: $email)';
+  String toString() =>
+      'UserModel(uid: $uid, name: $name, email: $email, playerId: $playerId)';
 }

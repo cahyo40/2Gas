@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
+import 'package:twogass/apps/core/helpers/notification_message.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
+import 'package:twogass/apps/core/services/notification.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/notifications_model.dart';
@@ -67,6 +69,9 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
       final notifId = YoIdGenerator.alphanumericId();
 
       List<String> uidAccess = project.assign.map((e) => e.uid).toList();
+      List<String> playerAccess = project.assign
+          .map((e) => e.playerId)
+          .toList();
 
       final notif = NotificationsModel(
         id: notifId,
@@ -119,6 +124,21 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
           }
         }),
       );
+
+      final title = NotificationMessage.title(
+        type: NotificationType.projectUserAdded,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.projectUserAdded,
+        data: NotificationData(projectName: project.name),
+      );
+
+      await NotificationService().sendNotification(
+        playerIds: playerAccess,
+        title: title,
+        message: message,
+      );
+
       await FirebaseServices.notif.doc(notifId).set(notif.toJson());
       await FirebaseServices.activity.doc(activity.id).set(activity.toJson());
       await FirebaseServices.schedule.doc(scheduleId).set(schedule.toJson());

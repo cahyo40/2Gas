@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
+import 'package:twogass/apps/core/helpers/notification_message.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
+import 'package:twogass/apps/core/services/notification.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/notifications_model.dart';
@@ -113,6 +115,20 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
           orgName: Get.find<OrganizationController>().org.value.name,
         ),
       );
+      final title = NotificationMessage.title(
+        type: NotificationType.orgAccessRequestApproved,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.orgAccessRequestApproved,
+        data: NotificationData(
+          orgName: Get.find<OrganizationController>().org.value.name,
+        ),
+      );
+      await NotificationService().sendNotification(
+        playerIds: [member.playerId],
+        title: title,
+        message: message,
+      );
       await FirebaseServices.notif.doc(notifId).set(notif.toJson());
       await FirebaseServices.activity.doc(activityId).set(activity.toJson());
       await FirebaseServices.member.doc(member.id).update(updateData);
@@ -168,10 +184,25 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
         ),
       );
 
+      final title = NotificationMessage.title(
+        type: NotificationType.orgRoleChangedToAdmin,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.orgRoleChangedToAdmin,
+        data: NotificationData(
+          orgName: Get.find<OrganizationController>().org.value.name,
+        ),
+      );
+
       Future.wait([
         FirebaseServices.member.doc(member.id).update(updateData),
         FirebaseServices.notif.doc(notifId).set(notif.toJson()),
         FirebaseServices.activity.doc(activityId).set(activity.toJson()),
+        NotificationService().sendNotification(
+          playerIds: [member.uid],
+          title: title,
+          message: message,
+        ),
       ]);
     } catch (e) {
       YoLogger.error("Change Role Member Error $e");
@@ -187,6 +218,7 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
       final activityId = YoIdGenerator.alphanumericId();
       final now = DateTime.now();
       var uidShow = <String>[];
+      var playerShow = <String>[];
 
       final memberSnap = await FirebaseServices.member
           .where("orgId", isEqualTo: member.orgId)
@@ -195,9 +227,14 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
 
       if (isKick == true) {
         uidShow = [member.uid];
+        playerShow = [member.playerId];
       } else {
         uidShow = memberSnap.docs
             .map((data) => data['uid'] as String)
+            .toSet()
+            .toList();
+        playerShow = memberSnap.docs
+            .map((data) => data['playerId'] as String)
             .toSet()
             .toList();
       }
@@ -246,10 +283,25 @@ class OrganizationNetworkDatasource implements OrganizationRepository {
           taskId.map((id) => FirebaseServices.taskAssign.doc(id).delete()),
         );
       }
+
+      final title = NotificationMessage.title(
+        type: NotificationType.orgUserRemoved,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.orgUserRemoved,
+        data: NotificationData(
+          orgName: Get.find<OrganizationController>().org.value.name,
+        ),
+      );
       Future.wait([
         FirebaseServices.member.doc(member.id).delete(),
         FirebaseServices.notif.doc(notifId).set(notif.toJson()),
         FirebaseServices.activity.doc(activityId).set(activity.toJson()),
+        NotificationService().sendNotification(
+          playerIds: playerShow,
+          title: title,
+          message: message,
+        ),
       ]);
     } catch (e) {
       YoLogger.error("Kick Member Error $e");

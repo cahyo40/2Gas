@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
+import 'package:twogass/apps/core/helpers/notification_message.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
+import 'package:twogass/apps/core/services/notification.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
@@ -18,6 +20,7 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
       final idActivity = YoIdGenerator.alphanumericId();
       final scheduleId = YoIdGenerator.alphanumericId();
       List<String> uidAccess = task.assigns.map((e) => e.uid).toList();
+      List<String> playerAccess = task.assigns.map((e) => e.playerId).toList();
       final notifId = YoIdGenerator.alphanumericId();
 
       final projectSnap = await FirebaseServices.project
@@ -59,8 +62,8 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         projectId: project.id,
         orgId: project.orgId,
         uidShows: uidAccess,
-        type: NotificationType.taskAssigned,
         createdAt: task.createdAt,
+        type: NotificationType.taskAssigned,
         data: NotificationData(taskName: task.name, projectName: project.name),
       );
 
@@ -70,6 +73,19 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         task.assigns.map(
           (a) => FirebaseServices.taskAssign.doc(a.id).set(a.toJson()),
         ),
+      );
+      final title = NotificationMessage.title(
+        type: NotificationType.taskAssigned,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.taskAssigned,
+        data: NotificationData(taskName: task.name, projectName: project.name),
+      );
+
+      await NotificationService().sendNotification(
+        playerIds: playerAccess,
+        title: title,
+        message: message,
       );
       await FirebaseServices.schedule.doc(scheduleId).set(schedule.toJson());
       await FirebaseServices.notif.doc(notifId).set(notif.toJson());

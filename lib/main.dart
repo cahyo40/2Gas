@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:twogass/apps/bindings/initial_bindings.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/controller/locale_controller.dart';
 import 'package:twogass/apps/controller/theme_controller.dart';
+import 'package:twogass/apps/core/constants/notification.dart';
 import 'package:twogass/apps/routes/route_app.dart';
 import 'package:twogass/apps/routes/route_names.dart';
 import 'package:twogass/firebase_options.dart';
@@ -19,7 +21,9 @@ void main() async {
   await YoConnectivity.initialize();
   await GetStorage.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+  OneSignal.initialize(NotificationsConst.appId);
+  OneSignal.Notifications.requestPermission(true);
   runApp(MyApp());
 }
 

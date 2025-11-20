@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
@@ -22,7 +23,7 @@ class OrganizationCreateUpdateNetworkDatasource
         name: user.name,
         email: user.email,
         id: memberId,
-        playerId: user.playerId,
+        playerId: OneSignal.User.pushSubscription.id!,
         uid: model.createdBy,
         orgId: model.id,
         role: MemberRole.owner,

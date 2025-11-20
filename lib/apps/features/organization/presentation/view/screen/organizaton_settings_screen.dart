@@ -43,7 +43,7 @@ class OrganizatonSettingsScreen extends GetView<OrganizationController> {
             Visibility(
               visible: controller.myRole.value == MemberRole.owner,
               child: YoListTile(
-                title: L10n.t.delete_project,
+                title: L10n.t.delete_organization,
                 leading: YoAvatar.icon(
                   icon: Iconsax.trash_outline,
                   backgroundColor: context.errorColor,

@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
+import 'package:twogass/apps/core/helpers/notification_message.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
+import 'package:twogass/apps/core/services/notification.dart';
 import 'package:twogass/apps/data/model/member_model.dart';
 import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/organitation_model.dart';
@@ -136,6 +138,9 @@ class HomeNetworkDatasource implements HomeRepository {
       final uid = memberSnap.docs
           .map((doc) => MemberModel.fromFirestore(doc).uid)
           .toList();
+      final playerId = memberSnap.docs
+          .map((doc) => MemberModel.fromFirestore(doc).playerId)
+          .toList();
 
       final notif = NotificationsModel(
         id: notifId,
@@ -155,6 +160,20 @@ class HomeNetworkDatasource implements HomeRepository {
         orgId: orgId,
         role: MemberRole.member,
         imageUrl: user.photoUrl,
+      );
+
+      final title = NotificationMessage.title(
+        type: NotificationType.orgUserJoined,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.orgUserJoined,
+        data: NotificationData(userName: user.name, orgName: org.name),
+      );
+
+      await NotificationService().sendNotification(
+        playerIds: playerId,
+        title: title,
+        message: message,
       );
       await FirebaseServices.member.doc(memberId).set(member.toJson());
       await FirebaseServices.notif.doc(notifId).set(notif.toJson());

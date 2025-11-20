@@ -150,10 +150,9 @@ class ProjectView extends GetView<ProjectController> {
                     ),
                   ),
                 ),
-                appBar: AppBar(
-                  title: YoText.titleLarge(
-                    controller.project.value.name.capitalize!,
-                  ),
+                appBar: YoAppBar(
+                  title: controller.project.value.name.capitalize!,
+
                   centerTitle: true,
                   actions: [
                     Visibility(

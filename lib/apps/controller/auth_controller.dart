@@ -54,9 +54,8 @@ class AuthController extends GetxController {
           .signInWithCredential(credential);
       final user = userCredential.user;
       if (user != null) {
-        final playerId = await OneSignal.User.getOnesignalId();
-
-        await StorageService.saveUser(user, playerId);
+        final subId = OneSignal.User.pushSubscription.id;
+        await StorageService.saveUser(user, subId);
       }
       return userCredential;
     } on PlatformException catch (e) {

@@ -12,6 +12,21 @@ extension YoDateHelperExtension on YoDateFormatter {
     if (hour < 19) return tr.good_evening;
     return tr.good_night;
   }
+
+  DateTime getNotificationTime(
+    DateTime eventTime, {
+    Duration reminderDuration = const Duration(days: 1),
+  }) {
+    final DateTime targetNotificationTime = eventTime.subtract(
+      reminderDuration,
+    );
+    final DateTime now = DateTime.now();
+    if (!targetNotificationTime.isAfter(now)) {
+      return now;
+    } else {
+      return targetNotificationTime;
+    }
+  }
 }
 
 extension DateOnly on DateTime {

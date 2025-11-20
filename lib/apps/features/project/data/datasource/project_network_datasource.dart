@@ -2,8 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
+import 'package:twogass/apps/core/helpers/date_helpers.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
+import 'package:twogass/apps/core/helpers/notification_message.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
+import 'package:twogass/apps/core/services/notification.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
 import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
@@ -146,12 +149,31 @@ class ProjectNetworkDatasource implements ProjectRepository {
       );
 
       List<String> uidAccess = taskData.assigns.map((e) => e.uid).toList();
+      List<String> playerIdAccess = taskData.assigns
+          .map((e) => e.playerId)
+          .toList();
       List<String> uidShow() {
         if (uidAccess.contains(project.createdBy)) {
           return uidAccess;
         } else {
           uidAccess.add(project.createdBy);
           return uidAccess;
+        }
+      }
+
+      final getCreatorPlayerIDSnap = await FirebaseServices.users
+          .doc(project.createdBy)
+          .get();
+      final creatorId = UserModel.fromFirestore(
+        getCreatorPlayerIDSnap,
+      ).playerId;
+
+      List<String> playerIdShow() {
+        if (playerIdAccess.contains(creatorId)) {
+          return playerIdAccess;
+        } else {
+          playerIdAccess.add(creatorId);
+          return playerIdAccess;
         }
       }
 
@@ -169,11 +191,29 @@ class ProjectNetworkDatasource implements ProjectRepository {
         ),
       );
 
-      await FirebaseServices.project.doc(projectId).update({
-        'status': projectStatus.name,
-      });
-      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
-      await FirebaseServices.activity.doc(activityId).set(activity.toJson());
+      final title = NotificationMessage.title(
+        type: NotificationType.taskUpdated,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.taskUpdated,
+        data: NotificationData(
+          projectName: project.name,
+          taskName: taskData.name,
+        ),
+      );
+
+      Future.wait([
+        FirebaseServices.project.doc(projectId).update({
+          'status': projectStatus.name,
+        }),
+        FirebaseServices.activity.doc(activityId).set(activity.toJson()),
+        FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+        NotificationService().sendNotification(
+          playerIds: playerIdShow(),
+          title: title,
+          message: message,
+        ),
+      ]);
     } on FirebaseException catch (e, s) {
       YoLogger.error('Firestore error $e -> $s');
       rethrow;
@@ -218,7 +258,23 @@ class ProjectNetworkDatasource implements ProjectRepository {
         createdAt: DateTime.now(),
         data: NotificationData(projectName: project.name),
       );
-      await FirebaseServices.notif.doc(notif.id).set(notif.toJson());
+
+      final title = NotificationMessage.title(
+        type: NotificationType.projectUserAdded,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.projectUserAdded,
+        data: NotificationData(projectName: project.name),
+      );
+
+      Future.wait([
+        NotificationService().sendNotification(
+          playerIds: [model.playerId],
+          title: title,
+          message: message,
+        ),
+        FirebaseServices.notif.doc(notif.id).set(notif.toJson()),
+      ]);
     } on FirebaseException catch (e, s) {
       YoLogger.error('Firestore error $e -> $s');
       rethrow;
@@ -234,6 +290,7 @@ class ProjectNetworkDatasource implements ProjectRepository {
       final idActivity = YoIdGenerator.alphanumericId();
       final notifId = YoIdGenerator.alphanumericId();
       List<String> uidAccess = model.assign.map((e) => e.uid).toList();
+      List<String> playerAccess = model.assign.map((e) => e.playerId).toList();
       final now = DateTime.now();
       final projectSnap = await FirebaseServices.project.doc(model.id).get();
       final project = ProjectModel.fromFirestore(projectSnap);
@@ -255,9 +312,33 @@ class ProjectNetworkDatasource implements ProjectRepository {
         data: NotificationData(projectName: model.name),
       );
 
-      await FirebaseServices.notif.doc(notifId).set(notif.toJson());
-      await FirebaseServices.project.doc(model.id).update(model.toJson());
-      await FirebaseServices.activity.doc(idActivity).set(activity.toJson());
+      final title = NotificationMessage.title(
+        type: NotificationType.projectDataUpdated,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.projectDataUpdated,
+        data: NotificationData(projectName: model.name),
+      );
+
+      Future.wait([
+        NotificationService().sendNotification(
+          playerIds: playerAccess,
+          title: title,
+          message: message,
+        ),
+        NotificationService().sendScheduledNotification(
+          playerIds: playerAccess,
+          title: title,
+          message: message,
+          scheduledTime: YoDateFormatter().getNotificationTime(
+            project.deadline,
+          ),
+        ),
+
+        FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+        FirebaseServices.project.doc(model.id).update(model.toJson()),
+        FirebaseServices.activity.doc(idActivity).set(activity.toJson()),
+      ]);
     } catch (e) {
       rethrow;
     }
@@ -269,6 +350,7 @@ class ProjectNetworkDatasource implements ProjectRepository {
       final idActivity = YoIdGenerator.alphanumericId();
       final notifId = YoIdGenerator.alphanumericId();
       final uidAccess = task.assigns.map((e) => e.uid).toList();
+      final playerAccess = task.assigns.map((e) => e.playerId).toList();
       final projectSnap = await FirebaseServices.project
           .doc(task.projectId)
           .get();
@@ -298,16 +380,28 @@ class ProjectNetworkDatasource implements ProjectRepository {
         data: NotificationData(taskName: task.name),
       );
 
-      await FirebaseServices.task.doc(task.id).delete();
+      final title = NotificationMessage.title(
+        type: NotificationType.taskUpdated,
+      );
+      final message = NotificationMessage.description(
+        type: NotificationType.taskUpdated,
+        data: NotificationData(taskName: task.name),
+      );
 
       final assignSnap = await FirebaseServices.taskAssign
           .where('taskId', isEqualTo: task.id)
           .get();
 
       await Future.wait([
+        FirebaseServices.task.doc(task.id).delete(),
         FirebaseServices.activity.doc(idActivity).set(activity.toJson()),
         FirebaseServices.notif.doc(notifId).set(notif.toJson()),
         ...assignSnap.docs.map((doc) => doc.reference.delete()),
+        NotificationService().sendNotification(
+          playerIds: playerAccess,
+          title: title,
+          message: message,
+        ),
       ]);
     } catch (e, s) {
       YoLogger.error('deleteTask error: $e\n$s');

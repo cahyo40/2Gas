@@ -93,6 +93,7 @@ class ProjectCreateController extends GetxController {
         uid: member.uid,
         imageUrl: member.imageUrl,
         orgId: orgId.value,
+        playerId: member.playerId,
       );
       assigns.add(data);
     }
@@ -123,6 +124,7 @@ class ProjectCreateController extends GetxController {
             id: YoIdGenerator.alphanumericId(),
             projectId: id,
             orgId: orgId.value,
+            playerId: user.playerId,
             uid: user.uid,
             imageUrl: user.photoUrl,
           ),

@@ -11,5 +11,6 @@ class DatabaseConst {
   String member = "member";
   String activity = "activity";
   String category = "category";
+
   // static String user = "user";
 }

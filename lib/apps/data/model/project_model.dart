@@ -222,6 +222,7 @@ class ProjectAssignModel {
   final String orgId;
   final String uid;
   final String imageUrl;
+  final String playerId; // <<< NEW REQUIRED FIELD
 
   const ProjectAssignModel({
     required this.id,
@@ -229,7 +230,17 @@ class ProjectAssignModel {
     required this.orgId,
     required this.uid,
     required this.imageUrl,
+    required this.playerId, // <<< REQUIRED
   });
+
+  factory ProjectAssignModel.initial() => const ProjectAssignModel(
+    id: '',
+    projectId: '',
+    orgId: '',
+    uid: '',
+    imageUrl: '',
+    playerId: '', // <<< INITIAL EMPTY
+  );
 
   factory ProjectAssignModel.fromJson(Map<String, dynamic> json) =>
       ProjectAssignModel(
@@ -238,6 +249,7 @@ class ProjectAssignModel {
         projectId: json['projectId'] as String,
         uid: json['uid'] as String,
         imageUrl: json['imageUrl'] as String,
+        playerId: json['playerId'] as String,
       );
 
   Map<String, dynamic> toJson() => {
@@ -246,6 +258,7 @@ class ProjectAssignModel {
     'orgId': orgId,
     'uid': uid,
     'imageUrl': imageUrl,
+    'playerId': playerId,
   };
 
   factory ProjectAssignModel.fromFirestore(DocumentSnapshot doc) =>
@@ -258,6 +271,7 @@ class ProjectAssignModel {
         orgId: map['orgId'] as String,
         uid: map['uid'] as String,
         imageUrl: map['imageUrl'] as String,
+        playerId: map['playerId'] as String,
       );
 
   Map<String, dynamic> toMap() => {
@@ -266,6 +280,7 @@ class ProjectAssignModel {
     'orgId': orgId,
     'uid': uid,
     'imageUrl': imageUrl,
+    'playerId': playerId,
   };
 
   ProjectAssignModel copyWith({
@@ -274,12 +289,14 @@ class ProjectAssignModel {
     String? orgId,
     String? uid,
     String? imageUrl,
+    String? playerId,
   }) => ProjectAssignModel(
     id: id ?? this.id,
     projectId: projectId ?? this.projectId,
     orgId: orgId ?? this.orgId,
     uid: uid ?? this.uid,
     imageUrl: imageUrl ?? this.imageUrl,
+    playerId: playerId ?? this.playerId,
   );
 
   @override
@@ -291,12 +308,14 @@ class ProjectAssignModel {
           projectId == other.projectId &&
           orgId == other.orgId &&
           imageUrl == other.imageUrl &&
-          uid == other.uid;
+          uid == other.uid &&
+          playerId == other.playerId;
 
   @override
-  int get hashCode => Object.hash(id, projectId, uid);
+  int get hashCode =>
+      Object.hash(id, projectId, orgId, uid, imageUrl, playerId);
 
   @override
   String toString() =>
-      'ProjectAssignModel(id: $id, projectId: $projectId, uid: $uid)';
+      'ProjectAssignModel(id: $id, projectId: $projectId, uid: $uid, playerId: $playerId)';
 }

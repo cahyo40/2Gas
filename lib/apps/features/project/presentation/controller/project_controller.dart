@@ -92,6 +92,7 @@ class ProjectController extends GetxController {
   addAssigner(MemberModel model) async {
     final assignId = YoIdGenerator.alphanumericId();
     ProjectAssignModel data = ProjectAssignModel(
+      playerId: model.playerId,
       id: assignId,
       projectId: id.value,
       uid: model.uid,

@@ -1,17 +1,22 @@
+/// ONE-FILE DROP-IN: MemberModel + UserModel + enums + helpers
+/// Field `playerId` sudah ditambahkan dan dijadikan required.
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+/* ----------------- ENUMS ----------------- */
 enum MemberRole { owner, admin, member }
 
+/* ----------------- MEMBER MODEL ----------------- */
 class MemberModel {
   final String id;
   final String uid;
   final String name;
   final String email;
   final String orgId;
-  final MemberRole role; // ← ubah dari String ke enum
+  final MemberRole role;
   final String imageUrl;
   final bool isPending;
   final DateTime? joinedAt;
+  final String playerId; // <<< NEW REQUIRED FIELD
 
   const MemberModel({
     required this.id,
@@ -23,6 +28,7 @@ class MemberModel {
     required this.imageUrl,
     this.isPending = true,
     this.joinedAt,
+    required this.playerId, // <<< REQUIRED
   });
 
   factory MemberModel.initial() => MemberModel(
@@ -31,12 +37,14 @@ class MemberModel {
     name: '',
     email: '',
     orgId: '',
-    role: MemberRole.member, // ← enum
+    role: MemberRole.member,
     imageUrl: '',
     isPending: true,
     joinedAt: null,
+    playerId: '', // <<< INITIAL EMPTY
   );
 
+  //  FIREBASE  ⬄  OBJECT
   factory MemberModel.fromFirestore(DocumentSnapshot doc) =>
       MemberModel.fromJson(doc.data()! as Map<String, dynamic>);
 
@@ -46,10 +54,11 @@ class MemberModel {
     name: json['name'] as String,
     email: json['email'] as String,
     orgId: json['orgId'] as String,
-    role: _roleFromString(json['role'] as String), // ← konversi
+    role: _roleFromString(json['role'] as String),
     imageUrl: json['imageUrl'] as String,
     isPending: json['isPending'] as bool,
     joinedAt: json['joinedAt'] == null ? null : _dtFromJson(json['joinedAt']),
+    playerId: json['playerId'] as String,
   );
 
   Map<String, dynamic> toJson() => {
@@ -58,12 +67,14 @@ class MemberModel {
     'name': name,
     'email': email,
     'orgId': orgId,
-    'role': role.name, // ← enum → String
+    'role': role.name,
     'imageUrl': imageUrl,
     'isPending': isPending,
     'joinedAt': joinedAt == null ? null : _dtToJson(joinedAt!),
+    'playerId': playerId,
   };
 
+  //  SEMBAST  ⬄  OBJECT
   factory MemberModel.fromMap(Map<String, dynamic> map) => MemberModel(
     id: map['id'] as String,
     uid: map['uid'] as String,
@@ -76,6 +87,7 @@ class MemberModel {
     joinedAt: map['joinedAt'] == null
         ? null
         : DateTime.fromMillisecondsSinceEpoch(map['joinedAt'] as int),
+    playerId: map['playerId'] as String,
   );
 
   Map<String, dynamic> toMap() => {
@@ -88,8 +100,10 @@ class MemberModel {
     'imageUrl': imageUrl,
     'isPending': isPending,
     'joinedAt': joinedAt?.millisecondsSinceEpoch,
+    'playerId': playerId,
   };
 
+  /* ---------------  HELPERS  --------------- */
   static int _dtToJson(DateTime dt) => dt.millisecondsSinceEpoch;
   static DateTime _dtFromJson(dynamic json) => json is int
       ? DateTime.fromMillisecondsSinceEpoch(json)
@@ -100,6 +114,7 @@ class MemberModel {
     orElse: () => MemberRole.member,
   );
 
+  /* ---------------  COPY  --------------- */
   MemberModel copyWith({
     String? id,
     String? uid,
@@ -110,6 +125,7 @@ class MemberModel {
     String? imageUrl,
     bool? isPending,
     DateTime? joinedAt,
+    String? playerId,
   }) => MemberModel(
     id: id ?? this.id,
     uid: uid ?? this.uid,
@@ -120,8 +136,10 @@ class MemberModel {
     imageUrl: imageUrl ?? this.imageUrl,
     isPending: isPending ?? this.isPending,
     joinedAt: joinedAt ?? this.joinedAt,
+    playerId: playerId ?? this.playerId,
   );
 
+  /* ---------------  EQUALITY  --------------- */
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -135,7 +153,8 @@ class MemberModel {
           role == other.role &&
           imageUrl == other.imageUrl &&
           isPending == other.isPending &&
-          joinedAt == other.joinedAt;
+          joinedAt == other.joinedAt &&
+          playerId == other.playerId;
 
   @override
   int get hashCode => Object.hash(
@@ -148,9 +167,10 @@ class MemberModel {
     imageUrl,
     isPending,
     joinedAt,
+    playerId,
   );
 
   @override
   String toString() =>
-      'MemberModel(id: $id, uid: $uid, name: $name, isPending: $isPending, role: $role)';
+      'MemberModel(id: $id, uid: $uid, name: $name, playerId: $playerId)';
 }

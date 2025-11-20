@@ -16,13 +16,10 @@ class OrganizatonActivityScreen extends GetView<OrganizationController> {
     final orgColor = controller.org.value.color;
     final t = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: YoAppBar(
-        title: t.activity_org,
-        leading: SizedBox(),
-        backgroundColor: context.backgroundColor,
-      ),
+      appBar: YoAppBar(title: t.activity_org, leading: SizedBox()),
       body: Column(
         children: [
+          SizedBox(height: context.yoSpacingMd),
           SizedBox(
             height: 40,
             child: ListView.separated(

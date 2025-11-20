@@ -36,16 +36,19 @@ class LoginView extends GetView<LoginController> {
               ),
               YoText.bodyMedium(tr.login_subtitle),
               SizedBox(height: YoSpacing.md),
-              YoButton.primary(
-                text: tr.login_button_google,
-                textColor: context.onPrimaryColor,
-                onPressed: () {
-                  controller.login();
-                },
-                icon: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 16,
-                  child: Brand(Brands.google, size: 24),
+              Obx(
+                () => YoButton.primary(
+                  text: tr.login_button_google,
+                  textColor: context.onPrimaryColor,
+                  onPressed: () {
+                    controller.login();
+                  },
+                  icon: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 16,
+                    child: Brand(Brands.google, size: 24),
+                  ),
+                  isLoading: controller.isLoading.value,
                 ),
               ),
               Spacer(),

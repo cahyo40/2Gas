@@ -23,7 +23,7 @@ class HomeHeaderScreen extends GetView<HomeController> {
               children: [
                 YoText.titleLarge(YoDateFormatter().greeting(context)),
                 YoText.titleMedium(
-                  user.name,
+                  user.name == "" ? "" : user.name,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,

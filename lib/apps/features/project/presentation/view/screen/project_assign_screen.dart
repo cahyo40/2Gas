@@ -21,7 +21,6 @@ class ProjectAssignScreen extends GetView<ProjectController> {
     return Scaffold(
       appBar: YoAppBar(
         title: L10n.t.assign,
-        backgroundColor: context.backgroundColor,
         actions: [
           Visibility(
             visible: controller.createdBy.value.uid == uid,

@@ -95,6 +95,8 @@ class HomeController extends GetxController {
     } catch (_) {
     } finally {
       code.clear();
+      orgs.clear();
+      orgs.refresh();
       Get.back();
       YoSnackBar.show(
         context: Get.context!,

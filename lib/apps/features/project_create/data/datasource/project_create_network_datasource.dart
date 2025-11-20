@@ -138,6 +138,12 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
         title: title,
         message: message,
       );
+      // await NotificationService().sendScheduledNotification(
+      //   playerIds: playerAccess,
+      //   title: title,
+      //   message: message,
+      //   scheduledTime: YoDateFormatter().getNotificationTime(project.deadline),
+      // );
 
       await FirebaseServices.notif.doc(notifId).set(notif.toJson());
       await FirebaseServices.activity.doc(activity.id).set(activity.toJson());

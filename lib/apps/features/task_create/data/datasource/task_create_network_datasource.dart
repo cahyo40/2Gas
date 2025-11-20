@@ -87,6 +87,13 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
         title: title,
         message: message,
       );
+
+      // await NotificationService().sendScheduledNotification(
+      //   playerIds: playerAccess,
+      //   title: title,
+      //   message: message,
+      //   scheduledTime: YoDateFormatter().getNotificationTime(task.deadline),
+      // );
       await FirebaseServices.schedule.doc(scheduleId).set(schedule.toJson());
       await FirebaseServices.notif.doc(notifId).set(notif.toJson());
 

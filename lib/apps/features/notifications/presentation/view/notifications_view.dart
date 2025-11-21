@@ -23,7 +23,14 @@ class NotificationsView extends GetView<NotificationsController> {
             children: [
               Expanded(
                 child: Obx(
-                  () => controller.notificationShow.isEmpty
+                  () => controller.isLoading.isTrue
+                      ? ListView.builder(
+                          itemCount: 3,
+                          itemBuilder: (_, i) {
+                            return CardNotifUserShimmer();
+                          },
+                        )
+                      : controller.notificationShow.isEmpty
                       ? YoEmptyState.noData(
                           title: L10n.t.no_notif_title,
                           description: L10n.t.no_notif_desc,

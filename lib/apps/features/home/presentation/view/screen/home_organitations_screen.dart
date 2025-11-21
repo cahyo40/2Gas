@@ -88,7 +88,14 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
         ),
 
         Obx(
-          () => controller.orgHome.isEmpty
+          () => controller.isLoading.isTrue
+              ? ListView.builder(
+                  itemCount: 3,
+                  itemBuilder: (_, i) {
+                    return CardHomeOrgShimmer();
+                  },
+                )
+              : controller.orgHome.isEmpty
               ? YoEmptyState.noData(
                   title: L10n.t.no_org_title,
                   description: L10n.t.no_org_desc,
@@ -103,15 +110,11 @@ class HomeOrganitationsScreen extends GetView<HomeController> {
                       : controller.orgHome.length,
                   itemBuilder: (_, index) {
                     final model = controller.orgHome[index];
-                    if (controller.isLoading.isTrue) {
-                      return CardHomeOrgShimmer();
-                    } else {
-                      return CardHomeOrgWidget(
-                        model: model,
-                        onTap: () =>
-                            controller.detailOrganization(model.org.id),
-                      );
-                    }
+
+                    return CardHomeOrgWidget(
+                      model: model,
+                      onTap: () => controller.detailOrganization(model.org.id),
+                    );
                   },
                 ),
         ),

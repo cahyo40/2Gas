@@ -1347,6 +1347,34 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refresh'**
   String get refresh;
+
+  /// No description provided for @notif_new_comment_title.
+  ///
+  /// In en, this message translates to:
+  /// **'New Comment'**
+  String get notif_new_comment_title;
+
+  /// No description provided for @notif_new_comment_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'{userName} commented on {projectName}: \"{commentText}\"'**
+  String notif_new_comment_desc(
+    String userName,
+    String projectName,
+    String commentText,
+  );
+
+  /// No description provided for @field_comment_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment…'**
+  String get field_comment_hint;
+
+  /// No description provided for @show_comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Comments'**
+  String get show_comments;
 }
 
 class _AppLocalizationsDelegate

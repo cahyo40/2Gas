@@ -19,7 +19,10 @@ enum NotificationType {
   taskAssigned,
   taskUserUnassigned,
   taskUpdated,
-  taskDeleted;
+  taskDeleted,
+
+  // Comment
+  commentNew;
 
   /// Key untuk file .arb (localization)
   /// Format: notif_[kategori]_[aksi]
@@ -52,6 +55,8 @@ enum NotificationType {
         return 'notif_task_updated';
       case NotificationType.taskDeleted:
         return 'notif_task_deleted';
+      case NotificationType.commentNew:
+        return 'notif_comment_new';
     }
   }
 }

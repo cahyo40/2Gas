@@ -68,8 +68,12 @@ class ProjectCreateNetworkDatasource implements ProjectCreateRepository {
       final scheduleId = YoIdGenerator.alphanumericId();
       final notifId = YoIdGenerator.alphanumericId();
 
-      List<String> uidAccess = project.assign.map((e) => e.uid).toList();
+      List<String> uidAccess = project.assign
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.uid)
+          .toList();
       List<String> playerAccess = project.assign
+          .where((e) => e.uid != user.uid)
           .map((e) => e.playerId)
           .toList();
 

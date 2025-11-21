@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -19,8 +20,7 @@ class AuthController extends GetxController {
   static Future<void> initSignIn() async {
     await _googleSignIn.initialize(
       // diganti
-      serverClientId:
-          "950037215961-9meong6b99i0hds8s7l9qkguqhv456nv.apps.googleusercontent.com", // diganti
+      serverClientId: dotenv.env['GOOGLE_SERVER_CLIENT_ID'] ?? '',
     );
 
     isInitialize = true;

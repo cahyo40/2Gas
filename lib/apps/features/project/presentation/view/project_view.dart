@@ -185,7 +185,7 @@ class ProjectView extends GetView<ProjectController> {
                                 orgColor ?? context.primaryColor.toARGB32(),
                               ),
                               textColor: context.onPrimaryColor,
-                              text: "Show Comments",
+                              text: L10n.t.show_comments,
                               expanded: true,
                               onPressed: () async {
                                 controller.comments.value = await controller

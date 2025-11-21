@@ -1,3 +1,4 @@
+import 'package:twogass/apps/data/model/comment_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
 
@@ -50,5 +51,15 @@ class ProjectRepositoryImpl implements ProjectRepository {
   @override
   Future<void> deleteProject(ProjectModel model) async {
     return await _network.deleteProject(model);
+  }
+
+  @override
+  Future<void> addComment({required CommentModel model}) async {
+    return await _network.addComment(model: model);
+  }
+
+  @override
+  Future<List<CommentModel>> getComment(String projectId) async {
+    return await _network.getComment(projectId);
   }
 }

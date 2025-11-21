@@ -2,12 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:twogass/apps/controller/auth_controller.dart';
 import 'package:twogass/apps/core/constants/database.dart';
+import 'package:twogass/apps/core/helpers/assigners_helpers.dart';
 import 'package:twogass/apps/core/helpers/date_helpers.dart';
 import 'package:twogass/apps/core/helpers/localization.dart';
 import 'package:twogass/apps/core/helpers/notification_message.dart';
 import 'package:twogass/apps/core/services/firebase.dart';
 import 'package:twogass/apps/core/services/notification.dart';
 import 'package:twogass/apps/data/model/activity_model.dart';
+import 'package:twogass/apps/data/model/comment_model.dart';
 import 'package:twogass/apps/data/model/notifications_model.dart';
 import 'package:twogass/apps/data/model/project_model.dart';
 import 'package:twogass/apps/data/model/task_model.dart';
@@ -148,8 +150,12 @@ class ProjectNetworkDatasource implements ProjectRepository {
         ),
       );
 
-      List<String> uidAccess = taskData.assigns.map((e) => e.uid).toList();
+      List<String> uidAccess = taskData.assigns
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.uid)
+          .toList();
       List<String> playerIdAccess = taskData.assigns
+          .where((e) => e.uid != user.uid)
           .map((e) => e.playerId)
           .toList();
       List<String> uidShow() {
@@ -289,8 +295,14 @@ class ProjectNetworkDatasource implements ProjectRepository {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
       final notifId = YoIdGenerator.alphanumericId();
-      List<String> uidAccess = model.assign.map((e) => e.uid).toList();
-      List<String> playerAccess = model.assign.map((e) => e.playerId).toList();
+      List<String> uidAccess = model.assign
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.uid)
+          .toList();
+      List<String> playerAccess = model.assign
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.playerId)
+          .toList();
       final now = DateTime.now();
       final projectSnap = await FirebaseServices.project.doc(model.id).get();
       final project = ProjectModel.fromFirestore(projectSnap);
@@ -349,8 +361,14 @@ class ProjectNetworkDatasource implements ProjectRepository {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
       final notifId = YoIdGenerator.alphanumericId();
-      final uidAccess = task.assigns.map((e) => e.uid).toList();
-      final playerAccess = task.assigns.map((e) => e.playerId).toList();
+      final uidAccess = task.assigns
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.uid)
+          .toList();
+      final playerAccess = task.assigns
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.playerId)
+          .toList();
       final projectSnap = await FirebaseServices.project
           .doc(task.projectId)
           .get();
@@ -481,6 +499,83 @@ class ProjectNetworkDatasource implements ProjectRepository {
     } catch (e, s) {
       YoLogger.error('deleteTask error: $e\n$s');
       rethrow;
+    }
+  }
+
+  @override
+  Future<void> addComment({required CommentModel model}) async {
+    try {
+      final notifId = YoIdGenerator.alphanumericId();
+      final now = DateTime.now();
+      final projectSnap = await FirebaseServices.project
+          .doc(model.projectId)
+          .get();
+      final project = ProjectModel.fromFirestore(projectSnap);
+      final listAssign = AssignersHelpers.project(projectId: model.projectId);
+
+      List<String> subId = await listAssign.then(
+        (list) => list
+            .where((data) => data.uid != user.uid)
+            .map<String>((data) => data.playerId.toString())
+            .toList(),
+      );
+      List<String> uid = await listAssign.then(
+        (list) => list
+            .where((data) => data.uid != user.uid)
+            .map<String>((data) => data.uid.toString())
+            .toList(),
+      );
+
+      final title = NotificationMessage.title(
+        type: NotificationType.commentNew,
+      );
+      final desc = NotificationMessage.description(
+        type: NotificationType.commentNew,
+        data: NotificationData(
+          projectName: project.name,
+          userName: user.name,
+          description: model.comment,
+        ),
+      );
+      final notif = NotificationsModel(
+        id: notifId,
+        uidShows: uid,
+        type: NotificationType.commentNew,
+        createdAt: now,
+        data: NotificationData(
+          projectName: project.name,
+          userName: user.name,
+          description: model.comment,
+        ),
+      );
+
+      Future.wait([
+        FirebaseServices.notif.doc(notifId).set(notif.toJson()),
+        NotificationService().sendNotification(
+          playerIds: subId,
+          title: title,
+          message: desc,
+        ),
+        FirebaseServices.comment.doc(model.id).set(model.toJson()),
+      ]);
+    } catch (e, s) {
+      YoLogger.error('deleteTask error: $e\n$s');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<CommentModel>> getComment(String projectId) async {
+    try {
+      final res = await FirebaseServices.comment
+          .where("projectId", isEqualTo: projectId)
+          .orderBy("createdAt", descending: true)
+          .get();
+
+      return res.docs.map((doc) => CommentModel.fromFirestore(doc)).toList();
+    } catch (e, s) {
+      YoLogger.error('deleteTask error: $e\n$s');
+      return [];
     }
   }
 }

@@ -60,26 +60,24 @@ class BottomNavigationBarView extends GetView<BottomNavigationBarController> {
           ],
         ),
       ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            ConnectivityWidget(),
-            Expanded(
-              child: Obx(
-                () => IndexedStack(
-                  index: controller.currentPage.value,
-                  children: [
-                    HomeView(),
-                    TaskView(),
-                    ScheduleView(),
-                    NotificationsView(),
-                    SettingsView(),
-                  ],
-                ),
+      body: Column(
+        children: [
+          ConnectivityWidget(),
+          Expanded(
+            child: Obx(
+              () => IndexedStack(
+                index: controller.currentPage.value,
+                children: [
+                  HomeView(),
+                  TaskView(),
+                  ScheduleView(),
+                  NotificationsView(),
+                  SettingsView(),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -40,6 +40,8 @@ class NotificationMessage {
         return L10n.t.notif_task_updated(data.taskName ?? "Task");
       case NotificationType.taskDeleted:
         return L10n.t.notif_task_deleted_description(data.taskName ?? "Task");
+        case NotificationType.commentNew:
+        return L10n.t.notif_new_comment_desc(data.userName??"Username" , data.projectName??"", data.description??"");
     }
   }
 
@@ -68,6 +70,8 @@ class NotificationMessage {
 
       case NotificationType.taskDeleted:
         return L10n.t.notif_task_deleted_title;
+        case NotificationType.commentNew:
+        return L10n.t.notif_new_comment_title;
     }
   }
 }

@@ -19,8 +19,14 @@ class TaskCreateNetworkDatasource implements TaskCreateRepository {
     try {
       final idActivity = YoIdGenerator.alphanumericId();
       final scheduleId = YoIdGenerator.alphanumericId();
-      List<String> uidAccess = task.assigns.map((e) => e.uid).toList();
-      List<String> playerAccess = task.assigns.map((e) => e.playerId).toList();
+      List<String> uidAccess = task.assigns
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.uid)
+          .toList();
+      List<String> playerAccess = task.assigns
+          .where((e) => e.uid != user.uid)
+          .map((e) => e.playerId)
+          .toList();
       final notifId = YoIdGenerator.alphanumericId();
 
       final projectSnap = await FirebaseServices.project

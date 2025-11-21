@@ -21,4 +21,5 @@ class FirebaseServices {
   static final category = _fb.collection(collect.category);
   static final projectAssign = _fb.collection(collect.projectAssign);
   static final taskAssign = _fb.collection(collect.taskAssign);
+  static final comment = _fb.collection(collect.comment);
 }

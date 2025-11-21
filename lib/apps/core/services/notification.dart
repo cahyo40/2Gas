@@ -1,13 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:twogass/apps/core/constants/notification.dart';
 import 'package:yo_ui/yo_ui.dart';
-
-class NotificationsConst {
-  // Pastikan ini adalah App ID Anda dari dashboard OneSignal
-  static String appId = "648cb1cb-da83-4ea0-b31f-4cba69f7fc31";
-  // Pastikan ini adalah REST API Key Anda
-  static String restApiKey =
-      "os_v2_app_msglds62qnhkbmy7js5gt574ghumnk6yljuewn5b2d3fxsvohkhurkociss75hj7wnyhyu4lqoiboooouezxkui6uubr4eiescaposq";
-}
 
 class NotificationService {
   final Dio _dio = Dio();

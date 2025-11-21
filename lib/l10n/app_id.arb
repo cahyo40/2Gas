@@ -296,7 +296,7 @@
     "@notif_project_data_updated_title": {
         "placeholders": {}
     },
-    "notif_task_assigned_title": "Tugas Ditugaskan",
+    "notif_task_assigned_title": "Anda Ditugaskan",
     "@notif_task_assigned_title": {
         "placeholders": {}
     },
@@ -711,6 +711,28 @@
     },
     "refresh": "Segarkan",
     "@refresh": {
+        "placeholders": {}
+    },
+    "notif_new_comment_title": "Komentar Baru",
+    "@notif_new_comment_title": {
+        "placeholders": {}
+    },
+    "notif_new_comment_desc": "{userName} mengomentari {projectName}: \"{commentText}\"",
+    "@notif_new_comment_desc": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            },
+            "commentText": {
+                "type": "String"
+            }
+        }
+    },
+    "field_comment_hint": "Tulis komentar…",
+    "@field_comment_hint": {
         "placeholders": {}
     }
 }

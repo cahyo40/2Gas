@@ -723,4 +723,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get refresh => 'Refresh';
+
+  @override
+  String get notif_new_comment_title => 'New Comment';
+
+  @override
+  String notif_new_comment_desc(
+    String userName,
+    String projectName,
+    String commentText,
+  ) {
+    return '$userName commented on $projectName: \"$commentText\"';
+  }
+
+  @override
+  String get field_comment_hint => 'Write a comment…';
 }

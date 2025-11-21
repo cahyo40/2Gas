@@ -454,7 +454,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get notif_project_data_updated_title => 'Proyek Diperbarui';
 
   @override
-  String get notif_task_assigned_title => 'Tugas Ditugaskan';
+  String get notif_task_assigned_title => 'Anda Ditugaskan';
 
   @override
   String get notif_task_user_unassigned_title => 'Tugas Dibatalkan Penugasan';
@@ -722,4 +722,19 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get refresh => 'Segarkan';
+
+  @override
+  String get notif_new_comment_title => 'Komentar Baru';
+
+  @override
+  String notif_new_comment_desc(
+    String userName,
+    String projectName,
+    String commentText,
+  ) {
+    return '$userName mengomentari $projectName: \"$commentText\"';
+  }
+
+  @override
+  String get field_comment_hint => 'Tulis komentar…';
 }

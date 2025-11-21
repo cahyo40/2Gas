@@ -712,5 +712,27 @@
     "refresh": "Refresh",
     "@refresh": {
         "placeholders": {}
+    },
+    "notif_new_comment_title": "New Comment",
+    "@notif_new_comment_title": {
+        "placeholders": {}
+    },
+    "notif_new_comment_desc": "{userName} commented on {projectName}: \"{commentText}\"",
+    "@notif_new_comment_desc": {
+        "placeholders": {
+            "userName": {
+                "type": "String"
+            },
+            "projectName": {
+                "type": "String"
+            },
+            "commentText": {
+                "type": "String"
+            }
+        }
+    },
+    "field_comment_hint": "Write a comment…",
+    "@field_comment_hint": {
+        "placeholders": {}
     }
 }

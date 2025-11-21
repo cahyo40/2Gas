@@ -46,7 +46,7 @@ class TaskModel {
   );
 
   factory TaskModel.fromFirestore(DocumentSnapshot doc) =>
-      TaskModel.fromFirebase(doc.data()! as Map<String, dynamic>);
+      TaskModel.fromJson(doc.data()! as Map<String, dynamic>);
 
   factory TaskModel.fromFirebase(Map<String, dynamic> json) => TaskModel(
     id: json['id'] as String,

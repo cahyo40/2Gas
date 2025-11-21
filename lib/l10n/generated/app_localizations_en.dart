@@ -738,4 +738,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get field_comment_hint => 'Write a comment…';
+
+  @override
+  String get show_comments => 'Show Comments';
 }

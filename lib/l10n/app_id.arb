@@ -734,5 +734,9 @@
     "field_comment_hint": "Tulis komentar…",
     "@field_comment_hint": {
         "placeholders": {}
+    },
+    "show_comments": "Tampilkan Komentar",
+    "@show_comments": {
+        "placeholders": {}
     }
 }

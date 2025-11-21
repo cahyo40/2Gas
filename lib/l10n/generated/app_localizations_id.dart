@@ -737,4 +737,7 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get field_comment_hint => 'Tulis komentar…';
+
+  @override
+  String get show_comments => 'Tampilkan Komentar';
 }

@@ -734,5 +734,9 @@
     "field_comment_hint": "Write a comment…",
     "@field_comment_hint": {
         "placeholders": {}
+    },
+    "show_comments": "Show Comments",
+    "@show_comments": {
+        "placeholders": {}
     }
 }

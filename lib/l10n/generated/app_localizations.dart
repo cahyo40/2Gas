@@ -1369,6 +1369,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Write a comment…'**
   String get field_comment_hint;
+
+  /// No description provided for @show_comments.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Comments'**
+  String get show_comments;
 }
 
 class _AppLocalizationsDelegate

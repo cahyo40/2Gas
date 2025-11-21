@@ -119,7 +119,7 @@ class TaskCreateController extends GetxController {
 
   @override
   void onClose() {
-    Get.find<ProjectController>().initData();
+    Get.find<ProjectController>().initData(useLoading: false);
     super.onClose();
   }
 }

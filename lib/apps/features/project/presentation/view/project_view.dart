@@ -41,12 +41,13 @@ class ProjectView extends GetView<ProjectController> {
                         },
                       );
 
-                      if (result == true && context.mounted) {
+                      if (result == true) {
                         YoSnackBar.show(
                           context: context,
                           message: L10n.t.msg_success_create_task,
                           type: YoSnackBarType.success,
                         );
+                        controller.initData(useLoading: true);
                       }
                     },
                     child: Icon(
@@ -179,7 +180,19 @@ class ProjectView extends GetView<ProjectController> {
                         child: Column(
                           children: [
                             SizedBox(height: YoSpacing.md),
-                            ProjectCommentsScreen(),
+                            YoButton.custom(
+                              backgroundColor: Color(
+                                orgColor ?? context.primaryColor.toARGB32(),
+                              ),
+                              textColor: context.onPrimaryColor,
+                              text: "Show Comments",
+                              expanded: true,
+                              onPressed: () async {
+                                controller.comments.value = await controller
+                                    .fetchComment(controller.id.value);
+                                Get.to(() => ProjectCommentsScreen());
+                              },
+                            ),
                           ],
                         ),
                       ),
